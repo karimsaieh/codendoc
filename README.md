@@ -1,6 +1,10 @@
-# codendoc
-Code'n'doc
+# Codendoc
+Code'n'doc is an open source documentation CMS built with NodeJS and MongoDB
 
-# Contributors
+## Contributors
 
-[<h4>Karim Sayeh</h4>](https://github.com/karimsaieh)<br />
+[<h4>Karim Sayeh</h4>](https://github.com/karimsaieh)
+
+## Sponsors
+
+[<h4>Devrecipe, Ltd.</h4>](https://www.devrecipe.com)
