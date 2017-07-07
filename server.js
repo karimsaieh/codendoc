@@ -8,6 +8,7 @@ var passport = require('passport');
 //config
 const env = require('env2')('./.env');
 var app = express();
+mongoose.Promise = global.Promise;
 var db = mongoose.connection;
 var port = process.env.PORT || 3001;
 

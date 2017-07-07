@@ -9,7 +9,6 @@ var routes = function (User) {
     //routes
     userRouter.route('/')
         .get(userController.detail)
-        .put(userController.update)
         .patch(userController.patch)
         .delete(userController.destroy);
 

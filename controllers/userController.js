@@ -1,22 +1,9 @@
 var userController = function (User) {
 
+    var vmHelper = require('../helpers/ValidationMessagesHelper');
+
     var detail = function (req, res) {
         res.json(req.user);//req.user is set by passport middleware
-    };
-
-    var update = function (req, res) {
-        //mongoose#update doesn't trigger validation
-        for (var attribute in req.user._doc) {
-            if (attribute != '_id' && attribute != '__v')
-                req.user._doc[attribute] = req.body[attribute];
-        }
-        var user = new User(req.user);
-        user.save(function (err) {
-            if (err)
-                res.status(500).send(err);
-            else
-                res.status(201).send(user);
-        });
     };
 
     var patch = function (req, res) {
@@ -24,12 +11,11 @@ var userController = function (User) {
             if (attribute != '_id' && attribute != '__v')
                 req.user._doc[attribute] = req.body[attribute];
         }
-        var user = new User(req.user);
-        user.save(function (err) {
+        User.update({ _id: req.user._id }, req.user, { runValidators: true, context: 'query' }, function (err) {
             if (err)
-                res.status(500).send(err);
+                res.status(500).send(vmHelper.errorHelper(err));
             else
-                res.status(201).send(user);
+                res.status(200).send(req.user);
         });
     };
 
@@ -45,7 +31,6 @@ var userController = function (User) {
 
     return {
         detail: detail,
-        update: update,
         patch: patch,
         destroy: destroy
     };

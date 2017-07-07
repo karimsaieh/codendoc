@@ -13,8 +13,8 @@ var userSchema = new mongoose.Schema({
     },
     password: {
         type: String,
-        trim:true,
-        required: [true, 'password is required'],
+        trim: true,
+        required: true,
         minlength: 4,
         maxlength: 500
     },
@@ -38,11 +38,55 @@ var userSchema = new mongoose.Schema({
         unique: true,
         trim: true,
         required: true,
-        validate: [validator.isEmail, 'invalid email'],
+        //we put validation messages only for 'user defined' errors, cause you know  it's user defined
+        //(mongoose default error messages are personalized in the helper)
+        validate: [{ validator: value => validator.isEmail(value), msg: 'Invalid email.' }],
         minlength: 8,
         maxlength: 300
     }
 });
+
+
+userSchema.path('email').validate(
+    {
+        isAsync: true,
+        validator: function (value, done) {
+            var query ={};
+            if(this.getUpdate)
+            query = { email: value, _id: { $ne: this.getUpdate().$set._id }};
+            else
+            query={ email: value};
+
+            mongoose.model('User', userSchema).findOne(query, function (err, user) {
+                if (!user) {
+                    return done(true);
+                }
+                done(false);
+            });
+        },
+        message: 'Email already exists'
+    }
+);
+
+userSchema.path('userName').validate(
+    {
+        isAsync: true,
+        validator: function (value, done) {
+            var query ={};
+            if(this.getUpdate)
+            query = { userName: value, _id: { $ne: this.getUpdate().$set._id }};
+            else
+            query={ userName: value};
+
+            mongoose.model('User', userSchema).findOne(query, function (err, user) {
+                if (!user) {
+                    return done(true);
+                }
+                done(false);
+            });
+        },
+        message: 'userName already exists'
+    });
 
 userSchema.pre('save', function (next) {
     var user = this;
