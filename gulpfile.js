@@ -9,7 +9,7 @@ gulp.task('default', function(){
         env: {
             PORT:8003
         },
-        ignore: ['./node_modules/**']
+        ignore: ['./node_modules/**','./users/**','./docs/**']
     })
     .on('restart', function(){
         console.log('Restarting');

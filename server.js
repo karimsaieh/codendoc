@@ -12,6 +12,9 @@ mongoose.Promise = global.Promise;
 var db = mongoose.connection;
 var port = process.env.PORT || 3001;
 
+
+
+
 //express middlewares
 app.use(morgan('dev'));
 app.use(bodyParser.json());
@@ -23,6 +26,14 @@ var User = require('./models/userModel');
 
 //securing api routes
 app.use('/api/*',passport.authenticate('jwt', { session: false }));
+
+//static //two ng apps .... ng build prod to deploy
+app.use('/users', express.static(__dirname + '/public/users'));
+app.use('/docs', express.static(__dirname + '/public/docs'));
+app.use('/',function (req,res) {
+    res.redirect('/users'); 
+});
+
 //defining api Routes
 var userRouter = require('./routes/userRoutes')(User);
 var authRouter = require('./routes/authRoutes')(User);
