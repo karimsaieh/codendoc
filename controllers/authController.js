@@ -24,7 +24,7 @@ var authController = function (User) {
             if (err)
                 res.status(500).send(err);
             if (!user) {
-                res.status(404).send('user not found');
+                res.status(404).json({'userName': 'user not found'});
             } else {
                 user.comparePassword(req.body.password, function (err, isMatch) {
                     if (isMatch && !err) {
@@ -34,7 +34,7 @@ var authController = function (User) {
                         });
                         res.json({ user: user, token: 'JWT ' + token });
                     } else {
-                        res.status(401).send('Unauthorized: wrong password');
+                        res.status(401).json({'password':'wrong password'});
                     }
                 });
             }

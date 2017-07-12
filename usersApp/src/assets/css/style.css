@@ -25,3 +25,28 @@
 .divider-color         { border-color: #BDBDBD; } /* grey lighten-1 */
 
 
+
+.inputFieldError {
+    border-bottom: 1px solid #F44336!important;
+    box-shadow: 0 1px 0 0 #F44336 !important;
+    }
+
+.inputFieldErrorMessage {
+    font-size: 0.8rem;
+    position: absolute;
+    color: #F44336;
+    margin-left: 0.75rem;
+    }
+
+.inputErrorRow{
+    margin:0 0 0 0 !important;
+}
+
+.inputFieldWithError{
+    margin-bottom: 0px !important;
+}
+.inputFieldErrorMessageRow{
+    margin-bottom: 19px !important;
+}
+
+

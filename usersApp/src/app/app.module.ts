@@ -12,6 +12,10 @@ import { NotFoundComponent } from './shared/not-found/not-found.component';
 import { WelcomeComponent } from './welcome/welcome/welcome.component';
 import { DashboardComponent } from './dashboard/dashboard/dashboard.component';
 
+import { AuthGuard } from './guards/auth.guard';
+import { WelcomeGuard } from './guards/welcome.guard';
+
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -19,12 +23,18 @@ import { DashboardComponent } from './dashboard/dashboard/dashboard.component';
   imports: [
     BrowserModule, 
     DashboardModule,
+    HttpModule,
     WelcomeModule,
     RouterModule.forRoot([ 
 
-      { path: 'admin', component: DashboardComponent },//protected by a guard
+      { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard] },
+
+      //guard sur le project using the magic express middleware && angular guard
+
+
       {
-        path: 'welcome', component: WelcomeComponent,children: WelcomeRoutingModule
+        path: 'welcome', component: WelcomeComponent,
+        canActivate:[WelcomeGuard], children: WelcomeRoutingModule
       },
       { path: '', redirectTo: 'welcome', pathMatch: 'full' },
       { path: '**', component: NotFoundComponent }
@@ -32,7 +42,7 @@ import { DashboardComponent } from './dashboard/dashboard/dashboard.component';
     ]),
 
   ],
-  providers: [],
+  providers: [AuthGuard,WelcomeGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

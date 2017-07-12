@@ -21,6 +21,26 @@ app.use(bodyParser.json());
 app.use(passport.initialize());
 require('./config/passport')(passport); 
 
+// to remove after building the ng apps 
+app.use(function (req, res, next) {
+
+    // Website you wish to allow to connect
+    res.setHeader('Access-Control-Allow-Origin', 'http://localhost:4001');
+
+    // Request methods you wish to allow
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+
+    // Request headers you wish to allow
+    res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type,Authentification');
+
+    // Set to true if you need the website to include cookies in the requests sent
+    // to the API (e.g. in case you use sessions)
+    //res.setHeader('Access-Control-Allow-Credentials', true);
+
+    // Pass to next layer of middleware
+    next();
+});
+
 //importing models
 var User = require('./models/userModel');
 
@@ -30,15 +50,17 @@ app.use('/api/*',passport.authenticate('jwt', { session: false }));
 //static //two ng apps .... ng build prod to deploy
 app.use('/users', express.static(__dirname + '/public/users'));
 app.use('/docs', express.static(__dirname + '/public/docs'));
-app.use('/',function (req,res) {
-    res.redirect('/users'); 
-});
 
 //defining api Routes
 var userRouter = require('./routes/userRoutes')(User);
 var authRouter = require('./routes/authRoutes')(User);
 app.use('/api/user', userRouter);
 app.use('/auth', authRouter);
+
+//redirecting to the users App
+app.use('/',function (req,res) {
+    res.redirect('/users'); 
+});
 
 //Opening DB connection
 db.openUri(process.env.DB_URI, {
