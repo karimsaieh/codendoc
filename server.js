@@ -17,7 +17,7 @@ var port = process.env.PORT || 3001;
 
 //express middlewares
 app.use(morgan('dev'));
-app.use(bodyParser.json());
+app.use(bodyParser.json({limit: '10mb'}));
 app.use(passport.initialize());
 require('./config/passport')(passport); 
 
@@ -25,27 +25,37 @@ require('./config/passport')(passport);
 app.use(function (req, res, next) {
 
     // Website you wish to allow to connect
-    res.setHeader('Access-Control-Allow-Origin', 'http://localhost:4001');
+    res.setHeader('Access-Control-Allow-Origin', '*');
 
     // Request methods you wish to allow
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
 
     // Request headers you wish to allow
-    res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type,Authentification');
+    res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type,Authorization');
 
     // Set to true if you need the website to include cookies in the requests sent
     // to the API (e.g. in case you use sessions)
     //res.setHeader('Access-Control-Allow-Credentials', true);
 
     // Pass to next layer of middleware
-    next();
+    if ('OPTIONS' == req.method) {
+     res.send(200);
+ } else {
+     next();
+ }
+
 });
 
 //importing models
 var User = require('./models/userModel');
+var Project = require('./models/projectModel');
+
 
 //securing api routes
-app.use('/api/*',passport.authenticate('jwt', { session: false }));
+    app.use('/api/*',passport.authenticate('jwt', { session: false }));
+    
+
+
 
 //static //two ng apps .... ng build prod to deploy
 app.use('/users', express.static(__dirname + '/public/users'));
@@ -54,8 +64,10 @@ app.use('/docs', express.static(__dirname + '/public/docs'));
 //defining api Routes
 var userRouter = require('./routes/userRoutes')(User);
 var authRouter = require('./routes/authRoutes')(User);
+var projectRouter = require('./routes/projectRoutes')(Project);
 app.use('/api/user', userRouter);
 app.use('/auth', authRouter);
+app.use('/api/project', projectRouter);
 
 //redirecting to the users App
 app.use('/',function (req,res) {

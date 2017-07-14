@@ -40,8 +40,7 @@ export class SignUpComponent implements OnInit {
       } else {
         this.authService.register(this.user)
           .subscribe(response => {
-            console.log(response);
-            localStorage.setItem('token', JSON.stringify({ token: response["token"] }));
+            localStorage.setItem('token', response["token"]);
             localStorage.setItem('user', JSON.stringify(response["user"]));
             this.router.navigate(['/dashboard']);
           },

@@ -8,6 +8,8 @@
     });
     $('.parallax').parallax();
     $('.tooltipped').tooltip({ delay: 50 });
+    $('.dropdown-button').dropdown();
+     $('.modal').modal();
 
   }); // end of document ready
 })(jQuery); // end of jQuery name space

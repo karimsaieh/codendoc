@@ -1,6 +1,8 @@
 var mongoose = require('mongoose');
 var bcrypt = require('bcryptjs');
 var validator = require('validator');
+var Schema = mongoose.Schema;
+var Project = require('./projectModel');
 
 var userSchema = new mongoose.Schema({
     userName: {
@@ -43,7 +45,11 @@ var userSchema = new mongoose.Schema({
         validate: [{ validator: value => validator.isEmail(value), msg: 'Invalid email.' }],
         minlength: 8,
         maxlength: 300
-    }
+    },
+    projects:[{
+        type: Schema.Types.ObjectId,
+        ref : 'Project'
+    }]
 });
 
 
@@ -106,6 +112,13 @@ userSchema.pre('save', function (next) {
     } else {
         return next();
     }
+});
+
+userSchema.pre('remove', function(next) {
+    console.log('ffffff');
+    Project.remove({user:this._id}).exec();
+    console.log('ffffff');
+    next();
 });
 
 userSchema.methods.comparePassword = function (pw, cb) {

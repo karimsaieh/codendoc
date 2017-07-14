@@ -15,26 +15,32 @@ import { DashboardComponent } from './dashboard/dashboard/dashboard.component';
 import { AuthGuard } from './guards/auth.guard';
 import { WelcomeGuard } from './guards/welcome.guard';
 
+import { ProjectsListResolve } from './reolvers/projects-list-resolve';
+
+
 
 @NgModule({
   declarations: [
     AppComponent,
   ],
   imports: [
-    BrowserModule, 
+    BrowserModule,
     DashboardModule,
     HttpModule,
     WelcomeModule,
-    RouterModule.forRoot([ 
-
-      { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard] },
-
-      //guard sur le project using the magic express middleware && angular guard
-
+    RouterModule.forRoot([
 
       {
+        path: 'dashboard', component: DashboardComponent,
+        canActivate: [AuthGuard],
+        resolve: {
+          projectList: ProjectsListResolve
+        }
+      },
+      
+      {
         path: 'welcome', component: WelcomeComponent,
-        canActivate:[WelcomeGuard], children: WelcomeRoutingModule
+        canActivate: [WelcomeGuard], children: WelcomeRoutingModule
       },
       { path: '', redirectTo: 'welcome', pathMatch: 'full' },
       { path: '**', component: NotFoundComponent }
@@ -42,7 +48,7 @@ import { WelcomeGuard } from './guards/welcome.guard';
     ]),
 
   ],
-  providers: [AuthGuard,WelcomeGuard],
+  providers: [AuthGuard, WelcomeGuard, ProjectsListResolve],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

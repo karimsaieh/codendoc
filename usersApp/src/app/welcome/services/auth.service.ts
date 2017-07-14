@@ -14,7 +14,6 @@ import { User } from '../../models/user';
 export class AuthService {
   
   constructor(private http: Http) {
-    console.log(myGlobals.url);
   }
 
   authenticate(user: User): Observable<Object> {
@@ -22,10 +21,8 @@ export class AuthService {
     let options = new RequestOptions({ headers: headers });
 
     let body = JSON.stringify(user);
-    console.log(body);
     return this.http.post(myGlobals.url + "auth/authenticate", body, options)
       .map((res: Response) => res.json())
-      .do(data => console.log(JSON.stringify(data)))
       .catch(this.handleError);
   }
 
@@ -35,16 +32,13 @@ export class AuthService {
     let options = new RequestOptions({ headers: headers });
 
     let body = JSON.stringify(user);
-    console.log(body);
     return this.http.post(myGlobals.url + "auth/register", body, options)
       .map((res: Response) => res.json())
-      .do(data => console.log(JSON.stringify(data)))
       .catch(this.handleError);
   }
 
 
   private handleError(error: Response) {
-    console.log(error.status);
     return Observable.throw(error.json() || 'Server error')
   }
   //provide service in module and inject it

@@ -1,3 +1,96 @@
-<p>
-  dashboard works!
-</p>
+<!-- Dropdown Structure -->
+<ul id="dropdown1" class="dropdown-content">
+  <li><a href="#!">Projects</a></li>
+  <li><a href="#!">Profile</a></li>
+  <li class="divider"></li>
+  <li (click)="logout()"><a>Log out</a></li>
+</ul>
+<nav>
+  <div class="nav-wrapper indigo darken-2">
+    <div class="nav-wrapper container">
+      <a href="#!" class="brand-logo">Logo</a>
+      <ul class="right ">
+        <li><a class="dropdown-button" data-activates="dropdown1">{{ firstName }}<i class="material-icons right">arrow_drop_down</i></a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+
+<div class="fixed-action-btn">
+  <a class="btn-floating btn-large waves-effect waves-light pink accent-2" data-target="addProjectModal">
+      <i class="large material-icons">add</i>
+    </a>
+</div>
+
+<form [formGroup]="addProjectForm" (ngSubmit)="onSubmit()">
+
+  <!-- Modal Structure -->
+  <div id="addProjectModal" class="modal ">
+    <div class="modal-content">
+      <h4>Add a new project</h4>
+      <div class="row">
+        <div class="input-field col s12 m11">
+          <input [ngClass]="{'inputFieldError': formErrors.name}" class="inputFieldWithError" id="name" type="text" formControlName="name">
+          <label for="name">Project Name</label>
+        </div>
+        <div class="row inputFieldErrorMessageRow">
+          <div class="col s12 m11">
+            <div class="inputFieldErrorMessage" *ngIf="formErrors.name" style="margin-left: 0px !important">
+              {{ formErrors.name }}
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="row">
+        <div class="file-field input-field col s12 m11">
+          <div class="btn pink accent-2">
+            <span>Logo</span>
+            <i class="material-icons right">file_upload</i>
+            <input type="file" id="fileUpload" accept="image/*" (change)="onChange($event)">
+          </div>
+          <div class="file-path-wrapper">
+            <input class="file-path " id="filePath" type="text">
+          </div>
+        </div>
+      </div>
+
+
+    </div>
+    <div class="modal-footer">
+      <button class="btn waves-effect waves-light pink accent-2" type="submit" name="action">Submit
+    <i class="material-icons right">send</i>
+  </button>
+
+    </div>
+  </div>
+</form>
+
+<div style="background-color : #f2f2f2;    display: flex;
+    min-height: 100vh;
+    flex-direction: column;">
+<div class="container">
+  <h5 class="">Your Projects</h5>
+  <div class="row">
+    <div *ngFor="let item of projectList">
+
+      <div class="col s12 m4">
+        <div class="card hoverable">
+          <div class="card-image">
+            <img alt="Embedded Image" height="250px" src="data:image/png;base64,{{item.img}}" />
+          </div>
+          <div class="card-content">
+            <p>{{item.name}}</p>
+          </div>
+          <div class="card-action">
+            <a href="#">go go go</a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+</div>

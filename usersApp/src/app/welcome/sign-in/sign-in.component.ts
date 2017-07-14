@@ -32,8 +32,7 @@ export class SignInComponent implements OnInit {
     if(this.userSignInForm.valid){
       this.authService.authenticate(this.user)
       .subscribe(response => {
-        console.log(response);
-        localStorage.setItem('token', JSON.stringify({ token: response["token"] }));
+        localStorage.setItem('token', response["token"]);
         localStorage.setItem('user', JSON.stringify(response["user"]));
         this.router.navigate(['/dashboard']);
       },
