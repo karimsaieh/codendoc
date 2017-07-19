@@ -1,5 +1,5 @@
 import { Component, EventEmitter, OnInit } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 import { Project } from '../../models/project';
@@ -28,13 +28,24 @@ export class DashboardComponent implements OnInit {
   constructor(private router: Router,
     private fb: FormBuilder,
     private projectService: ProjectService,
-    private route: ActivatedRoute) { }
+    private route: ActivatedRoute) {
+
+  this.router.events
+      .filter(e => e instanceof NavigationEnd)
+      .pairwise().subscribe((e) => {
+        if (e[0]["url"] == "/welcome/signup") {
+          $('.tap-target').tapTarget('open');
+        }
+      });
+
+
+  }
 
   ngOnInit() {
     $('.dropdown-button').dropdown();
     $('.modal').modal();
     this.projectList = this.route.snapshot.data['projectList'];
-    this.buildForm();
+    this.buildForm();  
   }
 
   onSubmit() {

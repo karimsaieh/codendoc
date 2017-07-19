@@ -17,8 +17,18 @@
 </nav>
 
 
-<div class="fixed-action-btn">
-  <a class="btn-floating btn-large waves-effect waves-light pink accent-2" data-target="addProjectModal">
+<!-- Tap Target Structure -->
+  <div class="tap-target default-primary-color" data-activates="addbtn">
+    <div class="tap-target-content">
+      <h5 class="white-text">Welcome to CodenDoc</h5>
+      <p class="white-text">Try adding your first project</p>
+    </div>
+  </div>
+          
+
+  
+<div  class="fixed-action-btn">
+  <a id="addbtn" class="btn-floating btn-large waves-effect waves-light pink accent-2" data-target="addProjectModal">
       <i class="large material-icons">add</i>
     </a>
 </div>
@@ -85,7 +95,7 @@
             <p>{{item.name}}</p>
           </div>
           <div class="card-action">
-            <a href="#">go go go</a>
+            <a [routerLink] = "['/project',item._id]" >Open</a>
           </div>
         </div>
       </div>

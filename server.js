@@ -49,10 +49,13 @@ app.use(function (req, res, next) {
 //importing models
 var User = require('./models/userModel');
 var Project = require('./models/projectModel');
+var Category = require('./models/CategoryModel');
+var Page = require('./models/pageModel');
+
 
 
 //securing api routes
-    app.use('/api/*',passport.authenticate('jwt', { session: false }));
+app.use('/api/*',passport.authenticate('jwt', { session: false }));
     
 
 
@@ -65,9 +68,13 @@ app.use('/docs', express.static(__dirname + '/public/docs'));
 var userRouter = require('./routes/userRoutes')(User);
 var authRouter = require('./routes/authRoutes')(User);
 var projectRouter = require('./routes/projectRoutes')(Project);
+var categoryRouter = require('./routes/categoryRoutes')(Category);
+var pageRouter = require('./routes/pageRoutes')(Page);
 app.use('/api/user', userRouter);
 app.use('/auth', authRouter);
 app.use('/api/project', projectRouter);
+app.use('/api/category', categoryRouter);
+app.use('/api/page', pageRouter);
 
 //redirecting to the users App
 app.use('/',function (req,res) {

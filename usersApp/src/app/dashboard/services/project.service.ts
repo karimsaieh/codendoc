@@ -44,4 +44,16 @@ export class ProjectService {
     return Observable.empty<Response>();
   }
 
+
+  getProjectById(projectId): Observable<Project> {
+    let headers = new Headers(
+      {
+        'Authorization': localStorage.getItem('token')
+      });
+    let options = new RequestOptions({ headers: headers });
+    return this.http.get(myGlobals.url + "api/project/" + projectId, options)
+      .map((res: Response) => res.json())
+      .catch(this.handleJsonError);
+  }
+
 }

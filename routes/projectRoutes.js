@@ -10,6 +10,10 @@ var routes = function (Project) {
     projectRouter.route('/')
         .get(projectController.list)
         .post(projectController.create);
+        //project patch ,don't allow patching user
+
+    projectRouter.route('/:id')
+        .get(projectController.findById);
 
     return projectRouter;
 };

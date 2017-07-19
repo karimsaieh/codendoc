@@ -1,0 +1,160 @@
+<style>
+  .showme {
+    display: none;
+  }
+
+  .showhim:hover .showme {
+    position: absolute;
+    display: inline-block;
+  }
+
+  .icon:hover {
+    color: red !important;
+  }
+</style>
+
+<ul id="slide-out" class="side-nav fixed " style="height: 100%;  transform: translateX(0%) !important;">
+  <div [sortablejs]="categories" [sortablejsOptions]="optionsCategory" style="margin-top: 20px;">
+    <div *ngFor="let category of categories">
+      <li>
+        <a class="showhim" style="line-height: 35px; height: 35px;">
+          <div class="truncate" style="display:inline-block;width: 200px; cursor: pointer">
+            {{category.name}}
+          </div>
+          <span class="showme">
+            <a (click) = "onClickUpdateCategory(category.order)" style="cursor: pointer; margin-left: 4px;" title="ggTitle" class="icon"> <i class="icon-pencil"></i> </a>
+            <a (click) = "onClickAddPage(category.order,null)" style="cursor: pointer; margin-left: 4px;" title="ggTitle" class="icon"> <i class="icon-plus"></i> </a>
+            <a (click) = "onRemoveCategory(category.order)" style="cursor: pointer; margin-left: 4px;" title="ggTitle" class="icon"> <i class="icon-remove"></i> </a>
+          </span>
+        </a>
+        <ul style="padding-left: 10px">
+          <div [sortablejs]="category.pages" [sortablejsOptions]="optionsPages">
+            <div *ngFor="let page of category.pages">
+              <li>
+                <a class="blue-text showhim" style="line-height: 35px; height: 35px;">
+                  <div class="truncate" style="display:inline-block;width: 190px; cursor: pointer">
+                    {{page.name}}
+                  </div>
+                  <span class="showme">
+                    <a style="cursor: pointer; margin-left: 4px;" title="ggTitle" class="icon" > <i class="icon-pencil"></i> </a>
+                    <a (click) = "onClickAddPage(category.order,page.order)" style="cursor: pointer; margin-left: 4px;" title="ggTitle" class="icon"> <i class="icon-plus"></i> </a>
+                    <a (click) = "onRemovePage(category.order,page.order,null)" style="cursor: pointer;margin-left: 4px;" title="ggTitle" class="icon"> <i class="icon-remove"></i> </a>
+                  </span>
+                </a>
+                <ul style="padding-left: 20px">
+                  <div [sortablejs]="page.subPages" [sortablejsOptions]="optionsPages">
+                    <div *ngFor="let subPage of page.subPages">
+                      <li>
+                        <a class="blue-text showhim" style="line-height: 35px; height: 35px;">
+                          <div class="truncate" style="display:inline-block;width: 170px;cursor: pointer">
+                            {{subPage.name}}
+                          </div>
+                          <span class="showme">
+                            <a style="cursor: pointer; margin-left: 4px;" title="ggTitle" class="icon" > <i class="icon-pencil"></i> </a>
+                            <a style="cursor: pointer; margin-left: 4px;" title="ggTitle" class="icon"> <i class="icon-plus"></i> </a>
+                            <a (click) = "onRemovePage(category.order,subPage.order,page.order)" style="cursor: pointer;margin-left: 4px;" title="ggTitle" class="icon"> <i class="icon-remove"></i> </a>
+                          </span>
+                        </a>
+                      </li>
+                    </div>
+                  </div>
+                </ul>
+              </li>
+            </div>
+          </div>
+        </ul>
+      </li>
+    </div>
+  </div>
+  <button class="waves-effect waves-light pink accent-2 btn" style="margin: auto !important;display: block;margin-top: 30px !important;"
+   name="addCategory"  (click) = "onClickAddCategory()"> add Category </button>
+</ul>
+
+
+<form [formGroup]="addCategoryForm" (ngSubmit)="onAddOrUpdateCategorySubmit()">
+
+  <div id="addOrUpdateCategoryModal" class="modal ">
+    <div class="modal-content">
+      <h4>{{ categoryModalTitle}}</h4>
+      <div class="row">
+        <div class="input-field col s12 m11">
+          <input [ngClass]="{'inputFieldError': formErrors.name}" class="inputFieldWithError" id="categoryName" type="text" formControlName="name">
+          <label for="categoryName">Category Name</label>
+        </div>
+        <div class="row inputFieldErrorMessageRow">
+          <div class="col s12 m11">
+            <div class="inputFieldErrorMessage" *ngIf="formErrors.name" style="margin-left: 0px !important">
+              {{ formErrors.name }}
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <div class="modal-footer">
+      <button class="btn waves-effect waves-light pink accent-2" type="submit" name="action">Submit
+    <i class="material-icons right">send</i>
+  </button>
+
+    </div>
+  </div>
+</form>
+
+
+
+<form [formGroup]="addPageForm" (ngSubmit)="onAddPageSubmit()">
+
+  <div id="addPageModal" class="modal ">
+    <div class="modal-content">
+      <h4> Add a new page</h4>
+      <div class="row">
+        <div class="input-field col s12 m11">
+          <input [ngClass]="{'inputFieldError': pageFormErrors.name}" class="inputFieldWithError" id="pageName" type="text" formControlName="name">
+          <label for="pageName">Page Name</label>
+        </div>
+        <div class="row inputFieldErrorMessageRow">
+          <div class="col s12 m11">
+            <div class="inputFieldErrorMessage" *ngIf="pageFormErrors.name" style="margin-left: 0px !important">
+              {{ pageFormErrors.name }}
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <div class="modal-footer">
+      <button class="btn waves-effect waves-light pink accent-2" type="submit" name="action">Submit
+    <i class="material-icons right">send</i>
+  </button>
+
+    </div>
+  </div>
+</form>
+
+
+
+
+<div style="padding-left: 300px;">
+  <div class="container">
+
+    <h2>Drag / drop the item</h2>
+    {{val}}
+    <input type="text" [(ngModel)]="val">
+
+    <div [sortablejs]="items2" [sortablejsOptions]="{ animation: 150 }">
+      <div *ngFor="let item of items2">
+        <h4 style="cursor: move">{{item}}</h4> <input type="button" name="ggg" value="ggg">
+        <div [sortablejs]="items" [sortablejsOptions]="{ animation: 150 }">
+          <div *ngFor="let itemm of items">
+            <h6>{{itemm}}</h6>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+  </div>
+</div>
+
+
+<hr>
