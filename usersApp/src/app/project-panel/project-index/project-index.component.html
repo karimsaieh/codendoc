@@ -1,58 +1,41 @@
-<style>
-  .showme {
-    display: none;
-  }
-
-  .showhim:hover .showme {
-    position: absolute;
-    display: inline-block;
-  }
-
-  .icon:hover {
-    color: red !important;
-  }
-</style>
-
-<ul id="slide-out" class="side-nav fixed " style="height: 100%;  transform: translateX(0%) !important;">
+<ul id="slide-out" class="side-nav fixed " style="height: 100%;  transform: translateX(0%) !important;margin-top: 65px;">
   <div [sortablejs]="categories" [sortablejsOptions]="optionsCategory" style="margin-top: 20px;">
     <div *ngFor="let category of categories">
       <li>
         <a class="showhim" style="line-height: 35px; height: 35px;">
-          <div class="truncate" style="display:inline-block;width: 200px; cursor: pointer">
+          <div class="truncate" style="display:inline-block;width: 190px;">
             {{category.name}}
           </div>
           <span class="showme">
-            <a (click) = "onClickUpdateCategory(category.order)" style="cursor: pointer; margin-left: 4px;" title="ggTitle" class="icon"> <i class="icon-pencil"></i> </a>
-            <a (click) = "onClickAddPage(category.order,null)" style="cursor: pointer; margin-left: 4px;" title="ggTitle" class="icon"> <i class="icon-plus"></i> </a>
-            <a (click) = "onRemoveCategory(category.order)" style="cursor: pointer; margin-left: 4px;" title="ggTitle" class="icon"> <i class="icon-remove"></i> </a>
+            <a (click) = "onClickUpdateCategory(category.order)" style="cursor: pointer; margin-left: 4px;" title="Update category" class="icon"> <i class="fa fa-pencil-square-o"></i> </a>
+            <a (click) = "onClickAddPage(category.order,null)" style="cursor: pointer; margin-left: 4px;" title="Add Page" class="icon"> <i class="fa fa-plus"></i> </a>
+            <a (click) = "onRemoveCategory(category.order)" style="cursor: pointer; margin-left: 4px;" title="Remove Category" class="icon"> <i class="fa fa-times"></i> </a>
           </span>
         </a>
-        <ul style="padding-left: 10px">
+        <ul >
           <div [sortablejs]="category.pages" [sortablejsOptions]="optionsPages">
             <div *ngFor="let page of category.pages">
               <li>
-                <a class="blue-text showhim" style="line-height: 35px; height: 35px;">
-                  <div class="truncate" style="display:inline-block;width: 190px; cursor: pointer">
+                <a routerLinkActive="myActive" class="blue-text showhim" style="line-height: 35px; height: 35px;">
+                  <div [routerLink]="['page',page._id]" class="truncate" style="padding-left: 10px;display:inline-block;width: 185px; cursor: pointer;outline: none;">
                     {{page.name}}
                   </div>
-                  <span class="showme">
-                    <a style="cursor: pointer; margin-left: 4px;" title="ggTitle" class="icon" > <i class="icon-pencil"></i> </a>
-                    <a (click) = "onClickAddPage(category.order,page.order)" style="cursor: pointer; margin-left: 4px;" title="ggTitle" class="icon"> <i class="icon-plus"></i> </a>
-                    <a (click) = "onRemovePage(category.order,page.order,null)" style="cursor: pointer;margin-left: 4px;" title="ggTitle" class="icon"> <i class="icon-remove"></i> </a>
+                  <span class="showme" style="margin-left: 25px;">
+               
+                    <a (click) = "onClickAddPage(category.order,page.order)" style="cursor: pointer; margin-left: 4px;" title="Add sub page" class="icon"> <i class="fa fa-plus"></i> </a>
+                    <a (click) = "onRemovePage(category.order,page.order,null)" style="cursor: pointer;margin-left: 4px;" title="Remove page" class="icon"> <i class="fa fa-times"></i> </a>
                   </span>
                 </a>
-                <ul style="padding-left: 20px">
+                <ul >
                   <div [sortablejs]="page.subPages" [sortablejsOptions]="optionsPages">
                     <div *ngFor="let subPage of page.subPages">
                       <li>
-                        <a class="blue-text showhim" style="line-height: 35px; height: 35px;">
-                          <div class="truncate" style="display:inline-block;width: 170px;cursor: pointer">
+                        <a routerLinkActive="myActive" class="green-text showhim" style="line-height: 35px; height: 35px;">
+                          <div [routerLink]="['page',subPage._id]" class="truncate" style="padding-left: 20px;display:inline-block;width: 160px;cursor: pointer;outline: none;">
                             {{subPage.name}}
                           </div>
-                          <span class="showme">
-                            <a style="cursor: pointer; margin-left: 4px;" title="ggTitle" class="icon" > <i class="icon-pencil"></i> </a>
-                            <a style="cursor: pointer; margin-left: 4px;" title="ggTitle" class="icon"> <i class="icon-plus"></i> </a>
-                            <a (click) = "onRemovePage(category.order,subPage.order,page.order)" style="cursor: pointer;margin-left: 4px;" title="ggTitle" class="icon"> <i class="icon-remove"></i> </a>
+                          <span class="showme" style="margin-left: 70px;">
+                            <a (click) = "onRemovePage(category.order,subPage.order,page.order)" style="cursor: pointer;margin-left: 4px;" title="Remove page" class="icon"> <i class="fa fa-times"></i> </a>
                           </span>
                         </a>
                       </li>
@@ -66,8 +49,8 @@
       </li>
     </div>
   </div>
-  <button class="waves-effect waves-light pink accent-2 btn" style="margin: auto !important;display: block;margin-top: 30px !important;"
-   name="addCategory"  (click) = "onClickAddCategory()"> add Category </button>
+  <button *ngIf="categories" class="waves-effect waves-light pink accent-2 btn" style="margin: auto !important;display: block;margin-top: 30px !important;margin-bottom: 30px !important;"
+    name="addCategory" (click)="onClickAddCategory()"> add Category </button>
 </ul>
 
 
@@ -133,28 +116,4 @@
 
 
 
-
-<div style="padding-left: 300px;">
-  <div class="container">
-
-    <h2>Drag / drop the item</h2>
-    {{val}}
-    <input type="text" [(ngModel)]="val">
-
-    <div [sortablejs]="items2" [sortablejsOptions]="{ animation: 150 }">
-      <div *ngFor="let item of items2">
-        <h4 style="cursor: move">{{item}}</h4> <input type="button" name="ggg" value="ggg">
-        <div [sortablejs]="items" [sortablejsOptions]="{ animation: 150 }">
-          <div *ngFor="let itemm of items">
-            <h6>{{itemm}}</h6>
-          </div>
-        </div>
-      </div>
-    </div>
-
-
-  </div>
-</div>
-
-
-<hr>
+<router-outlet></router-outlet>

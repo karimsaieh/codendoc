@@ -1,0 +1,28 @@
+<div class="bs-callout "  
+[ngClass]="{'bs-callout-success': type=='success',
+'bs-callout-info': type=='info',
+'bs-callout-warning': type=='warning',
+'bs-callout-danger': type=='danger'}">
+
+  <div style="display: block;margin-bottom: 2px;">
+    <a (click)="type='info'" id="info" title="Info" class="typeIcons">
+      <i class="fa fa-info-circle"></i>
+    </a>
+    <a (click)="type='warning'" id="warning" title="Warning" class="typeIcons">
+      <i class="fa fa-exclamation-circle"></i>
+    </a>
+    <a (click)="type='danger'" id="danger" title="Danger"  class="typeIcons">
+      <i class="fa fa-exclamation-triangle"></i>
+    </a>
+    <a (click)="type='success'" id="success" title="Success"  class="typeIcons">
+      <i class="fa fa-check-square"></i>
+    </a>
+  </div>
+
+  <input  placeholder="Message Title" type="text" [(ngModel)]="title">
+  
+  <textarea placeholder="Message Body" class="materialize-textarea" [(ngModel)]="body"></textarea>
+
+  {{title}}
+{{body}}
+</div>

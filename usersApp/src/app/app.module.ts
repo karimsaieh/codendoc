@@ -2,7 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { RouterModule,ActivatedRouteSnapshot } from '@angular/router';
 import { HttpModule } from '@angular/http';
-
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import { WelcomeModule } from './welcome/welcome.module';
 import { DashboardModule } from './dashboard/dashboard.module';
 import { ProjectPanelModule } from './project-panel/project-panel.module';
@@ -20,6 +20,7 @@ import { AuthGuard } from './guards/auth.guard';
 import { WelcomeGuard } from './guards/welcome.guard';
 import { ProjectGuard } from './guards/project.guard';
 
+
 import { ProjectsListResolve } from './reolvers/projects-list-resolve';
 import { PagesListResolve } from './reolvers/pages-list-resolve';
 
@@ -34,6 +35,7 @@ import { PagesListResolve } from './reolvers/pages-list-resolve';
     DashboardModule,
     ProjectPanelModule,
     HttpModule,
+    BrowserAnimationsModule,
     WelcomeModule,
     RouterModule.forRoot([
 

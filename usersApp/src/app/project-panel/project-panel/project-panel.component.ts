@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+
+declare var $: any;
 
 @Component({
   selector: 'app-project-panel',
@@ -7,9 +10,19 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ProjectPanelComponent implements OnInit {
 
-  constructor() { }
+   firstName = JSON.parse(localStorage.getItem('user'))['firstName'];
+
+  constructor( private router: Router,) { }
 
   ngOnInit() {
+    $('.dropdown-button').dropdown();
+    $('.modal').modal();
+  }
+
+  logout() {
+    localStorage.removeItem('user');
+    localStorage.removeItem('token');
+    this.router.navigate(['/welcome']);
   }
 
 }

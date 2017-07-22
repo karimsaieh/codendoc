@@ -8,12 +8,20 @@
 
 
 
-      
-
-
-
 /***************my style **********************/
 
+/* quill bold correction , problem caused y materialize */
+strong {
+  font-weight: bold;
+}
+
+/* codeMirrorOverriding */
+.CodeMirror {
+  /* Set height, width, borders, and global font properties here */
+  font-family: monospace;
+  height: auto;
+  color: black;
+}
 
 .dark-primary-color    { background: #303F9F; } /* indigo darken-2 */
 .default-primary-color { background: #3F51B5; } /* indigo */
@@ -23,8 +31,6 @@
 .primary-text-color    { color: #212121; } /* grey darken-4*/
 .secondary-text-color  { color: #757575; } /*  grey darken-1 */
 .divider-color         { border-color: #BDBDBD; } /* grey lighten-1 */
-
-
 
 .inputFieldError {
     border-bottom: 1px solid #F44336!important;

@@ -1,12 +1,28 @@
- <nav style="padding-left: 300px">
-    <div class="nav-wrapper">
+<!-- Dropdown Structure -->
+<ul id="dropdown1" class="dropdown-content">
+  <li><a [routerLink]="['/dashboard']">Projects</a></li>
+  <li><a href="#!">Profile</a></li>
+  <li class="divider"></li>
+  <li (click)="logout()"><a>Log out</a></li>
+</ul>
+
+
+  <div class="navbar-fixed">
+<nav>
+    <div class="nav-wrapper container">
       <a href="#" class="brand-logo">Logo</a>
-      <ul id="nav-mobile" class="right hide-on-med-and-down">
-        <li><a href="sass.html">Sass</a></li>
-        <li><a href="badges.html">Components</a></li>
-        <li><a href="collapsible.html">JavaScript</a></li>
+      <ul id="nav-mobile" class="right">
+        <li routerLinkActive="active"><a [routerLink]="['docs']">Documentation</a></li>
+        <li routerLinkActive="active"><a [routerLink]="['config']">Settings</a></li>
+        <li><a class="dropdown-button" data-activates="dropdown1">{{ firstName }}<i class="material-icons right">arrow_drop_down</i></a></li>
       </ul>
-    </div>
-  </nav>
-        
-<router-outlet></router-outlet>
+    </div></nav>
+  </div>
+
+
+  
+<div style="padding-left: 300px;">
+  <div class="container">
+    <router-outlet></router-outlet>
+  </div>
+</div>

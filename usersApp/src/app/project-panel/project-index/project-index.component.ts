@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { SortablejsOptions } from 'angular-sortablejs';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { ActivatedRoute, ActivatedRouteSnapshot } from '@angular/router';
+import { ActivatedRoute, ActivatedRouteSnapshot, Router } from '@angular/router';
 
 import { CategoryService } from '../services/category.service';
 import { PagesService } from '../services/pages.service';
+import { SideNavItemsService} from '../services/side-nav-items.service';
 
 
 
@@ -42,8 +43,10 @@ export class ProjectIndexComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private route: ActivatedRoute,
+    private router: Router,
     private categoryService: CategoryService,
-    private pagesService: PagesService, ) {
+    private pagesService: PagesService,
+  private sideNavItemsService: SideNavItemsService ) {
     this.optionsCategory = {
       animation: 150,
       onUpdate: (event: any) => {
@@ -121,6 +124,8 @@ export class ProjectIndexComponent implements OnInit {
             this.categories[page.category.order].pages[this.parentPageOrder(page.parentPage)].subPages[page.order] = page;
           }
         });
+        //passing data between parent and child route like a legend
+        this.sideNavItemsService.categories = this.categories;
       }
       );
   }
@@ -207,7 +212,7 @@ export class ProjectIndexComponent implements OnInit {
       Materialize.toast('type a page name ', 4000, 'rounded')
     }
     if (this.addPageForm.valid) {
-      if (this.parentPageKeyOfAddedPage ==null) {
+      if (this.parentPageKeyOfAddedPage == null) {
         this.pagesService
           .add(this.addPageForm.value['name'], null, this.categories[this.categoryKeyOfAddedPage]._id)
           .subscribe(
@@ -243,29 +248,36 @@ export class ProjectIndexComponent implements OnInit {
   }
 
   onRemovePage(categoryOrder, pageOrder, parentPageOrder) {
+    let pageId;
     if (parentPageOrder == null) {
-      if (this.categories[categoryOrder].pages[pageOrder].subPages.length != 0) {
+      let pages = this.categories[categoryOrder].pages;
+      if (pages[pageOrder].subPages.length != 0) {
         Materialize.toast('can\'t delete a page that contains sub pages', 4000, 'rounded');
       } else {
+        pageId = pages[pageOrder]._id
         this.pagesService
-          .remove(this.categories[categoryOrder].pages[pageOrder]._id)
+          .remove(pages[pageOrder]._id)
           .subscribe();
-        this.categories[categoryOrder].pages.splice(pageOrder, 1);
+        pages.splice(pageOrder, 1);
 
-        for (var key in this.categories[categoryOrder].pages) {
-          this.categories[categoryOrder].pages[key].order = key;
+        for (var key in pages) {
+          pages[key].order = key;
         }
       }
     } else {
+      let pages = this.categories[categoryOrder].pages[parentPageOrder].subPages;
+      pageId = pages[pageOrder]._id;
       this.pagesService
-        .remove(this.categories[categoryOrder].pages[parentPageOrder].subPages[pageOrder]._id)
+        .remove(pages[pageOrder]._id)
         .subscribe();
-      this.categories[categoryOrder].pages[parentPageOrder].subPages.splice(pageOrder, 1);
-      for (var key in this.categories[categoryOrder].pages[parentPageOrder].subPages) {
-        this.categories[categoryOrder].pages[parentPageOrder].subPages[key].order = key;
+      pages.splice(pageOrder, 1);
+      for (var key in pages) {
+        pages[key].order = key;
       }
-
     }
+
+    if (pageId == this.route.firstChild.snapshot.params['pageId'])
+      this.router.navigate(["../docs"], { relativeTo: this.route });
   }
   //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< Page events <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<//
 
