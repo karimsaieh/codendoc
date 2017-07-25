@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit, ViewChild } from '@angular/core';
+import { Component, OnInit, AfterViewInit, ViewChild, Input, ElementRef } from '@angular/core';
 
 import { CodemirrorComponent } from 'ng2-codemirror';
 
@@ -71,31 +71,40 @@ export class CodeSampleComponent implements OnInit {
   ];
 
   themes = [
-    'default', '3024-day', '3024-night', 'abcdef', 'ambiance', 'base16-dark', 'base16-light', 'bespin', 'blackboard', 'cobalt', 'colorforth', 'dracula', 'duotone-dark', 'duotone-light', 'eclipse', 'elegant', 'erlang-dark', 
-    'hopscotch', 'icecoder', 'isotope', 'lesser-dark', 'liquibyte', 'material', 'mbo', 'mdn-like', 'midnight', 'monokai', 'neat', 'neo', 'night', 'panda-syntax', 'paraiso-dark','paraiso-light', 'pastel-on-dark', 'railscasts',
+    'default', '3024-day', '3024-night', 'abcdef', 'ambiance', 'base16-dark', 'base16-light', 'bespin', 'blackboard', 'cobalt', 'colorforth', 'dracula', 'duotone-dark', 'duotone-light', 'eclipse', 'elegant', 'erlang-dark',
+    'hopscotch', 'icecoder', 'isotope', 'lesser-dark', 'liquibyte', 'material', 'mbo', 'mdn-like', 'midnight', 'monokai', 'neat', 'neo', 'night', 'panda-syntax', 'paraiso-dark', 'paraiso-light', 'pastel-on-dark', 'railscasts',
     'rubyblue', 'seti', 'solarized dark', 'solarized light', 'the-matrix', 'tomorrow-night-bright', 'tomorrow-night-eighties', 'ttcn', 'twilight', 'vibrant-ink', 'xq-dark', 'xq-light', 'yeti', 'zenburn'];
 
-  @ViewChild('myEditor') codemirrorComponent: CodemirrorComponent
-  selectedLanguage = 'text/x-csrc';
-  selectedTheme = 'default';
-  codeToDisplay: string;
-  codeConfig = {
-    lineNumbers: true,
-    theme: this.selectedTheme,
-    viewportMargin: Infinity,
-    mode: this.selectedLanguage,
-    //readOnly: true,
+  @ViewChild('myEditor') codemirrorComponent: CodemirrorComponent;
+
+  _data;
+  @Input()
+  set data(data) {
+    data.theme = data.theme || 'default';
+    data.language =data.language || 'text/x-csrc';
+    this._data=data;
+  }
+  get data() { return this._data; }
+
+  codeConfig;
+
+  constructor() {
   }
 
-  constructor() { }
-
   ngOnInit() {
+    this.codeConfig = {
+      lineNumbers: true,
+      theme: this.data.theme,
+      viewportMargin: Infinity,
+      mode: this.data.language,
+      //readOnly: true,
+    }
   }
 
   onLanguageChange(event) {
-    this.codemirrorComponent.instance.setOption('mode', this.selectedLanguage);
+    this.codemirrorComponent.instance.setOption('mode', this.data.language);
   }
-  onThemeChange(event){
-    this.codemirrorComponent.instance.setOption('theme', this.selectedTheme);
+  onThemeChange(event) {
+    this.codemirrorComponent.instance.setOption('theme', this.data.theme);
   }
 }

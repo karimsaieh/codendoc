@@ -13,8 +13,9 @@ var routes = function (Page) {
         .post(pageController.create);
 
      pageRouter.route('/:pageId')
-     .delete(pageController.remove);
-    //     .patch(pageController.update);
+     .get(pageController.getById)
+     .delete(pageController.remove)
+     .patch(pageController.update);//updating elements
 
     return pageRouter;
 };

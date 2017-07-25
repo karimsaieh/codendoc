@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, ElementRef } from '@angular/core';
 
-declare var Materialize :any;
+declare var Materialize: any;
 
 @Component({
   selector: 'app-callout',
@@ -8,11 +8,13 @@ declare var Materialize :any;
   styleUrls: ['./callout.component.css']
 })
 export class CalloutComponent implements OnInit {
-
-
-  type = "info";
-  title;
-  body;
+  _data;
+  @Input()
+  set data(data) {
+    data.type = data.type || 'info';
+    this._data = data;
+  }
+  get data() { return this._data; }
 
   constructor() { }
 

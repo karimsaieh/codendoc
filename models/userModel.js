@@ -115,9 +115,7 @@ userSchema.pre('save', function (next) {
 });
 
 userSchema.pre('remove', function(next) {
-    console.log('ffffff');
     Project.remove({user:this._id}).exec();
-    console.log('ffffff');
     next();
 });
 

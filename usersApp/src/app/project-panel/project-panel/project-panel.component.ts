@@ -15,7 +15,6 @@ export class ProjectPanelComponent implements OnInit {
   constructor( private router: Router,) { }
 
   ngOnInit() {
-    $('.dropdown-button').dropdown();
     $('.modal').modal();
   }
 

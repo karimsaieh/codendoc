@@ -2,10 +2,10 @@
   <div class="row" style="margin: 0px;">
 
     <div class="input-field col s12" >
-      <input id="header" type="text" class="validate" [(ngModel)]="header">
+      <input #header type="text" class="validate" [(ngModel)]="data.value" >
       <label for="header">Header</label>
     </div>
 
   </div>
-  {{header}}
+  {{data.value}}
 </div>

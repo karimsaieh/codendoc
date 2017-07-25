@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input, ElementRef, ViewChild } from '@angular/core';
 
 @Component({
   selector: 'app-header',
@@ -7,12 +7,13 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HeaderComponent implements OnInit {
 
-  header;
-  
+  @Input() data;
+  @ViewChild("header") headerInput: ElementRef;
+
   constructor() { }
 
   ngOnInit() {
+    this.headerInput.nativeElement.focus();
   }
-  
 
 }

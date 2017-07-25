@@ -12,7 +12,7 @@ var authController = function (User) {
             } else {
                 user.password = null;
                 var token = jwt.sign({ 'user': user }, process.env.secret, {
-                    expiresIn: 10080 // 7 days
+                    expiresIn: 604800 // 7 days
                 });
                 res.status(201).json({ user: user, token: 'JWT ' + token });
             }
@@ -30,7 +30,7 @@ var authController = function (User) {
                     if (isMatch && !err) {
                         user.password = null;
                         var token = jwt.sign({ 'user': user }, process.env.secret, {
-                            expiresIn: 10080 // 7 days
+                            expiresIn: 604800 // 7 days
                         });
                         res.json({ user: user, token: 'JWT ' + token });
                     } else {

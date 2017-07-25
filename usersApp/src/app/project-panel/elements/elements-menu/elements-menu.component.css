@@ -1,0 +1,11 @@
+   .showme {
+   opacity: 0.2;
+   }
+   .showhim:hover .showme {
+   opacity: 1;
+   }
+
+   
+.fixed-action-btn.horizontal ul li{
+  margin: 0px;
+}

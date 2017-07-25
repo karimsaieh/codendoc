@@ -95,7 +95,7 @@ export class ProjectIndexComponent implements OnInit {
   }
 
   ngOnInit() {
-
+    
     $('.button-collapse').sideNav();
     $('.collapsible').collapsible();
     $('.sidebar').css('overflow', 'scroll');

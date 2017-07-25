@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 
 import 'codemirror/mode/htmlmixed/htmlmixed';
 
@@ -9,7 +9,9 @@ import 'codemirror/mode/htmlmixed/htmlmixed';
 })
 export class CustomHtmlComponent implements OnInit {
 
-  htmlCode: string;
+  @Input()
+  data;
+
   codeConfig = {
     lineNumbers: true,
     theme: 'mdn-like',

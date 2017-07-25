@@ -1,0 +1,49 @@
+<div class="row showhim" style="margin: 20px 0;">
+   <div class="fixed-action-btn horizontal" [ngClass]="{'showme':!empty}" style="
+      position: relative;
+      z-index: 400;
+      float: right;
+      right: 0;
+      top: 0;
+      padding: 0;
+      display: block;
+      margin: 0;
+      padding-left: 25px;
+      ">
+      <a  class="btn-floating red" [ngClass]="{'pulse': empty}">
+      <i class="material-icons">menu</i>
+      </a>
+      <ul style="margin: 0px;">
+         <li>
+            <a (click)="itemClicked('customHtml')" class="cli btn-floating pink" mdTooltip="Custom Html" [mdTooltipPosition]="'below'" >
+              <i class="fa fa-file-code-o" aria-hidden="true"></i>
+            </a>
+         </li>
+         <li>
+            <a (click)="itemClicked('table')"  class="btn-floating yellow darken-1" mdTooltip="Table" [mdTooltipPosition]="'above'">
+              <i class="fa fa-table" aria-hidden="true"></i>
+            </a>
+         </li>
+         <li>
+            <a (click)="itemClicked('callout')"  class="btn-floating green" mdTooltip="Callout" [mdTooltipPosition]="'below'">
+              <i class="fa fa-exclamation" aria-hidden="true"></i>
+            </a>
+         </li>
+         <li>
+            <a (click)="itemClicked('codeSample')"  class="btn-floating  deep-orange" mdTooltip="Code Sample" [mdTooltipPosition]="'above'">
+              <i class="fa fa-code" aria-hidden="true"></i>
+            </a>
+         </li>
+         <li>
+            <a (click)="itemClicked('textEditor')"  class="btn-floating purple" mdTooltip="Text Editor" [mdTooltipPosition]="'below'">
+              <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+            </a>
+         </li>
+         <li>
+            <a (click)="itemClicked('header')"  class="btn-floating blue" mdTooltip="Header" [mdTooltipPosition]="'above'">
+              <i class="fa fa-header" aria-hidden="true"></i>
+            </a>
+         </li>
+      </ul>
+   </div>
+</div>

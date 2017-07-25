@@ -1,12 +1,7 @@
 <div style="margin: 20px 0;">
-<p-editor [(ngModel)]="text" [style]="{'height':'auto'}">
+<p-editor [(ngModel)]="data.value" [style]="{'height':'auto'}">
   <p-header>
     <span class="ql-formats">
-      <select class="ql-font">
-         <option selected>Sans Serif</option>
-         <option value="serif">Serif</option>
-         <option value="monospace">Monospace</option>
-      </select>
       <select class="ql-size">
          <option value="small"></option>
          <!-- Note a missing, thus falsy value, is used to reset to default -->
@@ -27,8 +22,6 @@
    <select class="ql-background"></select>
    </span>
     <span class="ql-formats">
-      <button class="ql-list" value="ordered"></button>
-      <button class="ql-list" value="bullet"></button>
       <select class="ql-align">
          <option selected></option>
          <option value="center"></option>
@@ -43,5 +36,6 @@
   </p-header>
 </p-editor>
 
-{{text}}
-</div>
+<div *ngIf="data.value" [innerHtml] = "data.value | safeHtml"></div>
+{{data.value}}
+</div> 

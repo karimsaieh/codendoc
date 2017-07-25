@@ -1,22 +1,27 @@
-<!-- Dropdown Structure -->
-<ul id="dropdown1" class="dropdown-content">
-  <li><a href="#!">Projects</a></li>
-  <li><a href="#!">Profile</a></li>
-  <li class="divider"></li>
-  <li (click)="logout()"><a>Log out</a></li>
-</ul>
+
 <div class="navbar-fixed">
 <nav>
   <div class="nav-wrapper indigo darken-2">
     <div class="nav-wrapper container">
-      <a href="#!" class="brand-logo">Logo</a>
+      <a class="brand-logo">Logo</a>
       <ul class="right ">
-        <li><a class="dropdown-button" data-activates="dropdown1">{{ firstName }}<i class="material-icons right">arrow_drop_down</i></a></li>
+        <li>
+          <a md-icon-button [mdMenuTriggerFor]="appMenu">
+            {{ firstName }}<i class="material-icons right">arrow_drop_down</i>
+          </a>
+        </li>
       </ul>
     </div>
   </div>
 </nav>
 </div>
+
+
+<md-menu #appMenu="mdMenu">
+  <button md-menu-item> Profile </button>
+  <button  (click)="logout()" md-menu-item> Log Out </button>
+</md-menu>
+
 
 
 <!-- Tap Target Structure -->

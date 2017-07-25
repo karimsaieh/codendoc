@@ -51,6 +51,13 @@ var User = require('./models/userModel');
 var Project = require('./models/projectModel');
 var Category = require('./models/CategoryModel');
 var Page = require('./models/pageModel');
+var Header = require('./models/headerElementModel');
+var Callout = require('./models/calloutElementModel');
+var CodeSample = require('./models/codeSampleElementModel');
+var CustomHtml = require('./models/customHtmlElementModel');
+var Table = require('./models/TableElementModel');
+var Cell = require('./models/tableElementCellModel');
+var textEditor = require('./models/textEditorElementModel');
 
 
 

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 
 declare var $: any;
 
@@ -8,46 +8,52 @@ declare var $: any;
   styleUrls: ['./table.component.css']
 })
 export class TableComponent implements OnInit {
-  tableHeaders = [{ value: "" }, { value: "" }, { value: "" }];
-  table = [
-    [{ value: "" }, { value: "" }, { value: "" }],
-    [{ value: "" }, { value: "" }, { value: "" }],
-  ];
-  rowCount: number = 2;
-  colCount: number = 3;
-  constructor() { }
+  tableHeaders = [];
+  table = [];
+  rowCount = 0;
+  colCount = 0;
 
+  @Input()
+  data;
+
+  constructor() { }
   ngOnInit() {
-    //importing data demo 
-  //   var data = [
-  //     { "row": 0, "col": 0, "value": "hhh" },
-  //     { "row": 1, "col": 0, "value": "hhddddddddh" },];
-  //   var cols = 1;
-  //   var rows = 1;
-  //   var ths = [];
-  //   var tds = [];
-  //   for (var i = 0; i < rows; i++) {
-  //     tds[i] = [];
-  //     for (var j = 0; j < cols; j++) {
-  //       tds[i][j] = {};
-  //     }
-  //   }
-  //   for (var i = 0; i < cols; i++) {
-  //     ths[i]={};
-  //   }
-  //   for (var key in data) {
-  //     if (data[key]["row"] == 0) {
-  //       ths[data[key]["col"]]["value"] =
-  //        data[key].value;
-  //     } else {
-  //       tds[data[key]["row"]-1][data[key]["col"]]["value"] = data[key].value; 
-  //     }
-  //   }
-  //   this.tableHeaders = ths;
-  //   this.colCount = cols;
-  //   this.rowCount = rows;
-  //   this.table = tds;
-   }
+    if (this.data.data.length == 0) {
+      this.data.data = [
+        { row: 0, col: 0, value: "" },
+        { row: 0, col: 1, value: "" },
+        { row: 0, col: 2, value: "" },
+
+        { row: 1, col: 0, value: "" },
+        { row: 1, col: 1, value: "" },
+        { row: 1, col: 2, value: "" },
+      ];
+    }
+    this.data.data.forEach(cell => {
+      if (cell.row > this.rowCount)
+        this.rowCount = cell.row;
+      if (cell.col > this.colCount)
+        this.colCount = cell.col;
+    });
+    this.colCount++;
+    for (var i = 0; i < this.rowCount; i++) {
+      this.table[i] = [];
+      for (var j = 0; j < this.colCount; j++) {
+        this.table[i][j] = {};
+      }
+    }
+    for (var i = 0; i < this.colCount; i++) {
+      this.tableHeaders[i] = {};
+    }
+    for (var key in this.data.data) {
+      if (this.data.data[key]["row"] == 0) {
+        this.tableHeaders[this.data.data[key]["col"]]["value"] =
+          this.data.data[key].value;
+      } else {
+        this.table[this.data.data[key]["row"] - 1][this.data.data[key]["col"]]["value"] = this.data.data[key].value;
+      }
+    }
+  }
 
   onRowColChange() {
     let newTableHeader = [];
@@ -74,24 +80,28 @@ export class TableComponent implements OnInit {
     }
     this.table = newTab;
 
-    //exporting data demo
-    // var result = [];
-    // for (var i = 0; i < this.tableHeaders.length; i++) {
-    //   var cell = {};
-    //   cell['row'] = 0;
-    //   cell['col'] = i;
-    //   cell['value'] = this.tableHeaders[i].value;
-    //   result.push(cell);
-    // }
-    // for (var i = 0; i < this.rowCount; i++) {
-    //   for (var j = 0; j < this.colCount; j++) {
-    //     var cell = {};
-    //     cell['row'] = i + 1;
-    //     cell['col'] = j;
-    //     cell['value'] = this.table[i][j].value;
-    //     result.push(cell);
-    //   }
-    // }
-    // console.log(result);
+    this.updateData();
+  }
+  onChange(event) {
+    this.updateData();
+  }
+  updateData() {
+    this.data.data = [];
+    for (var i = 0; i < this.tableHeaders.length; i++) {
+      var cell = {};
+      cell['row'] = 0;
+      cell['col'] = i;
+      cell['value'] = this.tableHeaders[i].value;
+      this.data.data.push(cell);
+    }
+    for (var i = 0; i < this.rowCount; i++) {
+      for (var j = 0; j < this.colCount; j++) {
+        var cell = {};
+        cell['row'] = i + 1;
+        cell['col'] = j;
+        cell['value'] = this.table[i][j].value;
+        this.data.data.push(cell);
+      }
+    }
   }
 }

@@ -42,7 +42,6 @@ export class DashboardComponent implements OnInit {
   }
 
   ngOnInit() {
-    $('.dropdown-button').dropdown();
     $('.modal').modal();
     this.projectList = this.route.snapshot.data['projectList'];
     this.buildForm();  

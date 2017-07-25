@@ -2,14 +2,14 @@
 
   <div class="row" style="margin-bottom: 5px">
     <div class="input-field col s4" style="margin: 0px;">
-      <select class="browser-default" style="height: 30px;" [(ngModel)]="selectedLanguage" (ngModelChange)="onLanguageChange($event)">
+      <select class="browser-default" style="height: 30px;" [(ngModel)]="data.language" (ngModelChange)="onLanguageChange($event)">
         <option *ngFor="let language of languages" [ngValue]="language.mimeType">
           {{language.name}}
         </option>
       </select>
     </div>
       <div class="input-field col s4"  style="margin: 0px;">
-      <select class="browser-default" style="height: 30px;" [(ngModel)]="selectedTheme" (ngModelChange)="onThemeChange($event)">
+      <select class="browser-default" style="height: 30px;" [(ngModel)]="data.theme" (ngModelChange)="onThemeChange($event)">
         <option *ngFor="let theme of themes" [ngValue]="theme">
           {{theme}}
         </option>
@@ -17,6 +17,6 @@
     </div>
   </div>
 
-  <codemirror #myEditor [(ngModel)]="codeToDisplay" [config]="codeConfig"></codemirror>
-{{codeToDisplay}}
+  <codemirror #myEditor [(ngModel)]="data.code" [config]="codeConfig"></codemirror>
+{{data.code}}
 </div>

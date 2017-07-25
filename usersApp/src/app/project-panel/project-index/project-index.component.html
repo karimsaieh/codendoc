@@ -1,4 +1,12 @@
 <ul id="slide-out" class="side-nav fixed " style="height: 100%;  transform: translateX(0%) !important;margin-top: 65px;">
+   <li><div class="user-view">
+      <div class="background">
+        <img src="images/office.jpg">
+      </div>
+      <a href="#!user"><img class="circle" src="images/yuna.jpg"></a>
+      <a href="#!name"><span class="white-text name">John Doe</span></a>
+      <a href="#!email"><span class="white-text email">jdandturk@gmail.com</span></a>
+    </div></li>
   <div [sortablejs]="categories" [sortablejsOptions]="optionsCategory" style="margin-top: 20px;">
     <div *ngFor="let category of categories">
       <li>
@@ -49,8 +57,9 @@
       </li>
     </div>
   </div>
-  <button *ngIf="categories" class="waves-effect waves-light pink accent-2 btn" style="margin: auto !important;display: block;margin-top: 30px !important;margin-bottom: 30px !important;"
-    name="addCategory" (click)="onClickAddCategory()"> add Category </button>
+  <button *ngIf="categories" class="waves-effect waves-light pink accent-2 btn" [ngClass] = "{'pulse':categories.length==0}"
+  style="margin: auto !important;display: block;margin-top: 30px !important;margin-bottom: 30px !important;"
+  name="addCategory" (click)="onClickAddCategory()"> add Category </button>
 </ul>
 
 
@@ -66,7 +75,7 @@
         </div>
         <div class="row inputFieldErrorMessageRow">
           <div class="col s12 m11">
-            <div class="inputFieldErrorMessage" *ngIf="formErrors.name" style="margin-left: 0px !important">
+            <div class="inputFieldErrorMessage" *ngIf="formErrors.name">
               {{ formErrors.name }}
             </div>
           </div>
@@ -97,7 +106,7 @@
         </div>
         <div class="row inputFieldErrorMessageRow">
           <div class="col s12 m11">
-            <div class="inputFieldErrorMessage" *ngIf="pageFormErrors.name" style="margin-left: 0px !important">
+            <div class="inputFieldErrorMessage" *ngIf="pageFormErrors.name" >
               {{ pageFormErrors.name }}
             </div>
           </div>
@@ -113,7 +122,6 @@
     </div>
   </div>
 </form>
-
 
 
 <router-outlet></router-outlet>
