@@ -2,8 +2,7 @@
   <div class="row" style="margin: 0px;">
 
     <div class="input-field col s12" >
-      <input #header type="text" class="validate" [(ngModel)]="data.value" >
-      <label for="header">Header</label>
+      <input type="text" class="validate" [(ngModel)]="data.value" placeholder="Header" (ngModelChange) = "modelChanged($event)">
     </div>
 
   </div>

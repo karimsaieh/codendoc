@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'app-text-editor',
@@ -6,12 +6,19 @@ import { Component, OnInit, Input } from '@angular/core';
   styleUrls: ['./text-editor.component.css']
 })
 export class TextEditorComponent implements OnInit {
-  
-  @Input() data: string;
-        
+
+  i:number=0;
+  @Input() data;
+  @Output() onChanged = new EventEmitter();
+
   constructor() { }
 
   ngOnInit() {
+  }
+  modelChanged($event) {
+    if(this.i!=0)//got to do this, unlike other components, quill triggers ngmodelchange oninit
+    this.onChanged.emit();
+    this.i++;
   }
 
 }

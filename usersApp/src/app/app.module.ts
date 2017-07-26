@@ -61,7 +61,7 @@ import { PagesListResolve } from './reolvers/pages-list-resolve';
     ]),
 
   ],
-  providers: [AuthGuard, WelcomeGuard, ProjectsListResolve,ProjectGuard,PagesListResolve],
+  providers: [AuthGuard, WelcomeGuard, ProjectGuard, ProjectsListResolve,PagesListResolve,],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

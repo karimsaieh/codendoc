@@ -5,7 +5,7 @@ var CodeSample = require('../models/codeSampleElementModel');
 var CustomHtml = require('../models/customHtmlElementModel');
 var Table = require('../models/TableElementModel');
 var Cell = require('../models/tableElementCellModel');
-var textEditor = require('../models/textEditorElementModel');
+var TextEditor = require('../models/textEditorElementModel');
 
 var pageController = function (Page) {
 
@@ -60,92 +60,129 @@ var pageController = function (Page) {
 
     var update = function (req, res) {
         var pageId = req.params.pageId;
-        var elements = req.body;
-        Header.remove({ page: pageId }, function (err) {
-            if (err)
-                throw err;
-        });
-        textEditor.remove({ page: pageId }, function (err) {
-            if (err)
-                throw err;
-        });
-        Table.findOneAndRemove({ page: pageId }, function (err, table) {
-            if (table)
-                table.remove();//to trigger remove hook
-            if (err)
-                throw err;
-        });
-        CodeSample.remove({ page: pageId }, function (err) {
-            if (err)
-                throw err;
-        });
-        Callout.remove({ page: pageId }, function (err) {
-            if (err)
-                throw err;
-        });
-        CustomHtml.remove({ page: pageId }, function (err) {
-            if (err)
-                throw err;
-        });
+        var elements = req.body.elements;
+        var pageName = req.body.page.name;
+        Page.update(
+            { _id: pageId },
+            { $set: { 'name': pageName } },
+            function (err) {
+                if (err)
+                    res.status(500).send(err);
+            });
+        async.waterfall([
+            function (callback) {
+                Header.remove({ page: pageId }, function (err) {
+                    if (err)
+                        throw err;
+                    callback(null, 'done');
+                });
+            },
+            function (arg1, callback) {
+                TextEditor.remove({ page: pageId }, function (err) {
+                    if (err)
+                        throw err;
 
-
-        elements.forEach(function (element) {
-            element.data.page = pageId;
-            switch (element.type) {
-                case 'header':
-                    Header.create(element.data, function (err) {
-                        if (err)
-                            throw err;
+                    callback(null, 'done');
+                });
+            },
+            function (arg1, callback) {
+                Table.find({ page: pageId }, function (err, tables) {
+                    async.forEachOf(tables, function (table, key, feCallback) {
+                        table.remove(function () { //to trigger remove hook
+                            feCallback();
+                        });
+                    }, function () {
+                        callback(null, 'done');
                     });
-                    break;
-                case 'textEditor':
-                    textEditor.create(element.data, function (err) {
-                        if (err)
-                            throw err;
-                    });
-                    break;
-                case 'codeSample':
-                    CodeSample.create(element.data, function (err) {
-                        if (err)
-                            throw err;
-                    });
-                    break;
-                case 'callout':
-                    Callout.create(element.data, function (err) {
-                        if (err)
-                            throw err;
-                    });
-                    break;
-                case 'table':
-                    Table.create({ order: element.data.order, page: pageId }, function (err, table) {
-                        if (err)
-                            throw err;
-                        element.data.data.forEach(function (cell) {
-                            cell.table = table.id;
-                            Cell.create(cell, function (err) {
-                                if (err)
-                                    throw err;
+                });
+            },
+            function (arg1, callback) {
+                CodeSample.remove({ page: pageId }, function (err) {
+                    if (err)
+                        throw err;
+                    callback(null, 'done');
+                });
+            },
+            function (arg1, callback) {
+                Callout.remove({ page: pageId }, function (err) {
+                    if (err)
+                        throw err;
+                    callback(null, 'done');
+                });
+            },
+            function (arg1, callback) {
+                CustomHtml.remove({ page: pageId }, function (err) {
+                    if (err)
+                        throw err;
+                    callback(null, 'done');
+                });
+            }
+        ], function (err, result) {
+            elements.forEach(function (element) {
+                element.data.page = pageId;
+                switch (element.type) {
+                    case 'header':
+                        Header.create(element.data, function (err) {
+                            if (err)
+                                throw err;
+                        });
+                        break;
+                    case 'textEditor':
+                        TextEditor.create(element.data, function (err) {
+                            if (err)
+                                throw err;
+                        });
+                        break;
+                    case 'codeSample':
+                        CodeSample.create(element.data, function (err) {
+                            if (err)
+                                throw err;
+                        });
+                        break;
+                    case 'callout':
+                        Callout.create(element.data, function (err) {
+                            if (err)
+                                throw err;
+                        });
+                        break;
+                    case 'table':
+                        Table.create({ order: element.data.order, page: pageId }, function (err, table) {
+                            if (err)
+                                throw err;
+                            element.data.cells.forEach(function (cell) {
+                                cell.table = table.id;
+                                Cell.create(cell, function (err) {
+                                    if (err)
+                                        throw err;
+                                });
                             });
                         });
-                    });
-                    break;
-                case 'customHtml':
-                    CustomHtml.create(element.data, function (err) {
-                        if (err)
-                            throw err;
-                    });
-                    break;
-                default:
-                    break;
-            }
+                        break;
+                    case 'customHtml':
+                        CustomHtml.create(element.data, function (err) {
+                            if (err)
+                                throw err;
+                        });
+                        break;
+                    default:
+                        break;
+                }
+            });
+            res.send({ msg: 'done' });
         });
-        res.send('done');
     };
-
+    //authorisation needed ...
     var getById = function (req, res) {
         var elements = [];
         var pageId = req.params.pageId;
+        var page = {};
         async.parallel([
+            function (callback) {
+                Page.findById(pageId, function (err, result) {
+                    page = result;
+                    callback(null, 'page');
+                });
+            },
             function (callback) {
                 Header.find({ page: pageId }, function (err, headers) {
                     headers.forEach(function (header) {
@@ -179,7 +216,7 @@ var pageController = function (Page) {
                 });
             },
             function (callback) {
-                textEditor.find({ page: pageId }, function (err, textEditors) {
+                TextEditor.find({ page: pageId }, function (err, textEditors) {
                     textEditors.forEach(function (textEditor) {
                         elements.push({ type: 'textEditor', data: textEditor });
                     });
@@ -188,21 +225,25 @@ var pageController = function (Page) {
             },
             function (callback) {
                 Table.find({ page: pageId }, function (err, tables) {
-                    tables.forEach(function (table) {
-                        Cell.find({ table: table }, function (err, cells) {
-                            var data = [];
-                            cells.forEach(function (cell) {
-                                data.push(cell);
+                    if (tables) {
+                        async.forEachOf(tables, function (table, key, feCallback) {
+                            Cell.find({ table: table }, function (err, cells) {
+                                elements.push({ type: 'table', data: { order: table.order, cells: cells } });
+                                feCallback();
                             });
-                            elements.push({ type: 'table', data: { order: table.order, data: data } });
+                        }, function (err) {
+                            if (err) console.error(err.message);
                             callback(null, 'tables');
                         });
-                    });
+                    }
+                    else {
+                        callback(null, 'tables_Empty');
+                    }
                 });
             }
         ],
             function (err, results) {
-                res.send(elements);
+                res.send({ page: page, elements: elements });
             });
 
     };

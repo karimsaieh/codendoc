@@ -7,8 +7,8 @@
         <table>
             <thead>
                 <tr>
-                    <th *ngFor="let thead of tableHeaders">
-                        <textarea class="materialize-textarea" [(ngModel)]="thead.value" (ngModelChange)="onChange($event)"></textarea>
+                    <th *ngFor="let thead of tableHeaders; let j=index">
+                        <textarea class="materialize-textarea" [(ngModel)]="thead.value" (ngModelChange)="onChange(0,j,thead.value)"></textarea>
                     </th>
 
                 </tr>
@@ -20,7 +20,7 @@
 
                     <td *ngFor="let cell of row; let j=index" style="width: 500px;">
 
-                        <textarea class="materialize-textarea" [(ngModel)]="table[i][j].value" (ngModelChange)="onChange($event)"></textarea>
+                        <textarea class="materialize-textarea" [(ngModel)]="table[i][j].value" (ngModelChange)="onChange(i+1,j,table[i][j].value)"></textarea>
                     </td>
 
                 </tr>

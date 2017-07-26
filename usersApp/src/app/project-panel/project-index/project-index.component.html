@@ -1,12 +1,21 @@
+<style>
+img {
+  display: block;
+  max-width:230px;
+  max-height:112px;
+  width: auto;
+  height: auto;
+}
+</style>
 <ul id="slide-out" class="side-nav fixed " style="height: 100%;  transform: translateX(0%) !important;margin-top: 65px;">
-   <li><div class="user-view">
-      <div class="background">
-        <img src="images/office.jpg">
+  <li>
+    <div class="user-view" style="margin-top: 20px; height: 112px;">
+      <div class="background" style="margin: auto;">
+        <img src="data:image/png;base64,{{project.img}}" style="margin: auto" />
       </div>
-      <a href="#!user"><img class="circle" src="images/yuna.jpg"></a>
-      <a href="#!name"><span class="white-text name">John Doe</span></a>
-      <a href="#!email"><span class="white-text email">jdandturk@gmail.com</span></a>
-    </div></li>
+    </div>
+  </li>
+<div style="margin: auto;text-align: center;font-weight: bold">{{project.name}}</div>
   <div [sortablejs]="categories" [sortablejsOptions]="optionsCategory" style="margin-top: 20px;">
     <div *ngFor="let category of categories">
       <li>
@@ -20,7 +29,7 @@
             <a (click) = "onRemoveCategory(category.order)" style="cursor: pointer; margin-left: 4px;" title="Remove Category" class="icon"> <i class="fa fa-times"></i> </a>
           </span>
         </a>
-        <ul >
+        <ul>
           <div [sortablejs]="category.pages" [sortablejsOptions]="optionsPages">
             <div *ngFor="let page of category.pages">
               <li>
@@ -34,7 +43,7 @@
                     <a (click) = "onRemovePage(category.order,page.order,null)" style="cursor: pointer;margin-left: 4px;" title="Remove page" class="icon"> <i class="fa fa-times"></i> </a>
                   </span>
                 </a>
-                <ul >
+                <ul>
                   <div [sortablejs]="page.subPages" [sortablejsOptions]="optionsPages">
                     <div *ngFor="let subPage of page.subPages">
                       <li>
@@ -57,9 +66,9 @@
       </li>
     </div>
   </div>
-  <button *ngIf="categories" class="waves-effect waves-light pink accent-2 btn" [ngClass] = "{'pulse':categories.length==0}"
-  style="margin: auto !important;display: block;margin-top: 30px !important;margin-bottom: 30px !important;"
-  name="addCategory" (click)="onClickAddCategory()"> add Category </button>
+  <button *ngIf="categories" class="waves-effect waves-light pink accent-2 btn" [ngClass]="{'pulse':categories.length==0}"
+    style="margin: auto !important;display: block;margin-top: 30px !important;margin-bottom: 30px !important;" name="addCategory"
+    (click)="onClickAddCategory()"> add Category </button>
 </ul>
 
 
@@ -106,7 +115,7 @@
         </div>
         <div class="row inputFieldErrorMessageRow">
           <div class="col s12 m11">
-            <div class="inputFieldErrorMessage" *ngIf="pageFormErrors.name" >
+            <div class="inputFieldErrorMessage" *ngIf="pageFormErrors.name">
               {{ pageFormErrors.name }}
             </div>
           </div>

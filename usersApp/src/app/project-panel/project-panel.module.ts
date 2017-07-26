@@ -5,7 +5,6 @@ import { RouterModule } from '@angular/router';
 import { CodemirrorModule } from 'ng2-codemirror';
 import { EditorModule } from 'primeng/primeng';
 import { SortablejsModule } from 'angular-sortablejs';
-import { DndModule } from 'ng2-dnd';
 import {  DragulaModule } from 'ng2-dragula';
 
 
@@ -20,6 +19,7 @@ import { TableComponent } from './elements/table/table.component';
 import { CalloutComponent } from './elements/callout/callout.component';
 import { HeaderComponent } from './elements/header/header.component';
 import { CustomHtmlComponent } from './elements/custom-html/custom-html.component';
+import { ElementsMenuComponent } from './elements/elements-menu/elements-menu.component';
 
 import { SharedModule } from './../shared/shared.module';
 import { DashboardModule } from './../dashboard/dashboard.module';
@@ -28,8 +28,11 @@ import { PagesService } from './services/pages.service';
 import { CategoryService } from './services/category.service';
 import { SideNavItemsService } from './services/side-nav-items.service';
 
+import { PageResolve } from './resolvers/page-resolve';
+
+
 import { SafeHtmlPipe } from './pipes/safe-html.pipe';
-import { ElementsMenuComponent } from './elements/elements-menu/elements-menu.component';
+
 
 @NgModule({
   imports: [
@@ -40,10 +43,9 @@ import { ElementsMenuComponent } from './elements/elements-menu/elements-menu.co
     SortablejsModule,
     CodemirrorModule,
     EditorModule,
-    DndModule.forRoot(),
     DragulaModule,
   ],
   declarations: [ProjectIndexComponent, ProjectPanelComponent, ProjectConfigComponent, PageEditorComponent, EmptyEditorComponent, CodeSampleComponent, TextEditorComponent, TableComponent, CalloutComponent, HeaderComponent, CustomHtmlComponent, SafeHtmlPipe, ElementsMenuComponent],
-  providers: [PagesService, CategoryService, SideNavItemsService]
+  providers: [PagesService, CategoryService, SideNavItemsService,PageResolve]
 })
 export class ProjectPanelModule { }

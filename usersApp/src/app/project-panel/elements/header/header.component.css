@@ -16,7 +16,7 @@ input:not([type]), input[type=text]:not(.browser-default), input[type=password]:
     box-shadow: none;
     box-sizing: content-box;
     transition: all 0.3s;
-    font-size: 30px;
+    font-size: 22px;
 }
 .input-field {
     position: relative;

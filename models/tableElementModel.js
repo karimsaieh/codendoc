@@ -4,7 +4,6 @@ var Cell = require('./tableElementCellModel');
 
 
 var tableSchema = new mongoose.Schema({
-    //cascade delete cells
     order: Number,
 
     page: {

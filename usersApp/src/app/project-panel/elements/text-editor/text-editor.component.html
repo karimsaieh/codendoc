@@ -1,5 +1,5 @@
 <div style="margin: 20px 0;">
-<p-editor [(ngModel)]="data.value" [style]="{'height':'auto'}">
+<p-editor [(ngModel)]="data.value" (ngModelChange)="modelChanged($event)" [style]="{'height':'auto'}">
   <p-header>
     <span class="ql-formats">
       <select class="ql-size">

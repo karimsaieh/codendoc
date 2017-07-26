@@ -1,5 +1,11 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
+var Header = require('./headerElementModel');
+var Callout = require('./calloutElementModel');
+var CodeSample = require('./codeSampleElementModel');
+var CustomHtml = require('./customHtmlElementModel');
+var Table = require('./TableElementModel');
+var TextEditor = require('./textEditorElementModel');
 
 var pageSchema = new mongoose.Schema({
     name: {
@@ -31,7 +37,7 @@ pageSchema.pre('save', function (next) {
     var page = this;
     var query = {};
     if (this.parentPage == undefined)
-        query = { category: page.category,parentPage:undefined };
+        query = { category: page.category, parentPage: undefined };
     else
         query = { parentPage: page.parentPage };
     mongoose.model('Page', pageSchema)
@@ -50,7 +56,7 @@ pageSchema.pre('save', function (next) {
 pageSchema.post('remove', function (doc) {
     if (!doc.parentPage) {
         mongoose.model('Page', pageSchema)
-            .find({ 'order': { $gt: doc.order }, category: doc.category,parentPage:undefined })
+            .find({ 'order': { $gt: doc.order }, category: doc.category, parentPage: undefined })
             .exec(function (err, pages) {
                 pages.forEach(function (currentPage) {
                     mongoose.model('Page', pageSchema).update(
@@ -78,6 +84,33 @@ pageSchema.post('remove', function (doc) {
             });
     }
 
+    var pageId = doc.id;
+    Header.remove({ page: pageId }, function (err) {
+        if (err)
+            throw err;
+    });
+    TextEditor.remove({ page: pageId }, function (err) {
+        if (err)
+            throw err;
+    });
+    Table.find({ page: pageId }, function (err, tables) {
+        tables.forEach(function (table) {
+            table.remove(function () { //to trigger remove hook
+            });
+        });
+    });
+    CodeSample.remove({ page: pageId }, function (err) {
+        if (err)
+            throw err;
+    });
+    Callout.remove({ page: pageId }, function (err) {
+        if (err)
+            throw err;
+    });
+    CustomHtml.remove({ page: pageId }, function (err) {
+        if (err)
+            throw err;
+    });
 });
 
 module.exports = mongoose.model('Page', pageSchema);

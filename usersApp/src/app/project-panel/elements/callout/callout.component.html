@@ -5,23 +5,23 @@
 'bs-callout-danger': _data.type=='danger'}">
 
   <div  style="display: block;margin-bottom: 2px;">
-    <a (click)="_data.type='info'" id="info" title="Info" class="typeIcons">
+    <a (click)="changeType('info')" id="info" title="Info" class="typeIcons">
       <i class="fa fa-info-circle"></i>
     </a>
-    <a (click)="_data.type='warning'" id="warning" title="Warning" class="typeIcons">
+    <a (click)="changeType('warning')" id="warning" title="Warning" class="typeIcons">
       <i class="fa fa-exclamation-circle"></i>
     </a>
-    <a (click)="_data.type='danger'" id="danger" title="Danger"  class="typeIcons">
+    <a (click)="changeType('danger')" id="danger" title="Danger"  class="typeIcons">
       <i class="fa fa-exclamation-triangle"></i>
     </a>
-    <a (click)="_data.type='success'" id="success" title="Success"  class="typeIcons">
+    <a (click)="changeType('success')" id="success" title="Success"  class="typeIcons">
       <i class="fa fa-check-square"></i>
     </a>
   </div>
 
-  <input  placeholder="Message Title" type="text" [(ngModel)]="data.title">
+  <input  placeholder="Message Title" type="text" [(ngModel)]="data.title" (ngModelChange)="modelChanged($event)">
   
-  <textarea placeholder="Message Body" class="materialize-textarea" [(ngModel)]="data.body"></textarea>
+  <textarea placeholder="Message Body" class="materialize-textarea" [(ngModel)]="data.body" (ngModelChange)="modelChanged($event)"></textarea>
 
   {{data.title}}
 {{data.body}}

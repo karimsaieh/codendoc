@@ -7,11 +7,12 @@ import { ProjectConfigComponent } from './project-config/project-config.componen
 import { PageEditorComponent } from './page-editor/page-editor.component';
 import { EmptyEditorComponent } from './empty-editor/empty-editor.component';
 
-
 import { NotFoundComponent } from './../shared/not-found/not-found.component';
 
 import { PagesListResolve } from './../reolvers/pages-list-resolve';
 
+
+import { PageResolve } from './resolvers/page-resolve';
 
 export const ProjectPanelRoutingModule: Routes = [
 
@@ -21,7 +22,9 @@ export const ProjectPanelRoutingModule: Routes = [
       pagesList: PagesListResolve
     },
     children: [
-      { path: 'page/:pageId', component: PageEditorComponent },
+      { path: 'page/:pageId', component: PageEditorComponent, resolve:{
+        page:PageResolve
+      }},
       { path: 'emptyEditor', component: EmptyEditorComponent },
       { path: '', redirectTo: 'emptyEditor', pathMatch: 'full' },
       { path: '**', component: NotFoundComponent }

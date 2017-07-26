@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input,OnChanges,EventEmitter,Output } from '@angular/core';
 
 declare var $: any;
 
@@ -15,11 +15,12 @@ export class TableComponent implements OnInit {
 
   @Input()
   data;
+  @Output() onChanged = new EventEmitter();
 
   constructor() { }
   ngOnInit() {
-    if (this.data.data.length == 0) {
-      this.data.data = [
+    if (this.data.cells.length == 0) {
+      this.data.cells = [
         { row: 0, col: 0, value: "" },
         { row: 0, col: 1, value: "" },
         { row: 0, col: 2, value: "" },
@@ -29,7 +30,7 @@ export class TableComponent implements OnInit {
         { row: 1, col: 2, value: "" },
       ];
     }
-    this.data.data.forEach(cell => {
+    this.data.cells.forEach(cell => {
       if (cell.row > this.rowCount)
         this.rowCount = cell.row;
       if (cell.col > this.colCount)
@@ -45,12 +46,12 @@ export class TableComponent implements OnInit {
     for (var i = 0; i < this.colCount; i++) {
       this.tableHeaders[i] = {};
     }
-    for (var key in this.data.data) {
-      if (this.data.data[key]["row"] == 0) {
-        this.tableHeaders[this.data.data[key]["col"]]["value"] =
-          this.data.data[key].value;
+    for (var key in this.data.cells) {
+      if (this.data.cells[key]["row"] == 0) {
+        this.tableHeaders[this.data.cells[key]["col"]]["value"] =
+          this.data.cells[key].value;
       } else {
-        this.table[this.data.data[key]["row"] - 1][this.data.data[key]["col"]]["value"] = this.data.data[key].value;
+        this.table[this.data.cells[key]["row"] - 1][this.data.cells[key]["col"]]["value"] = this.data.cells[key].value;
       }
     }
   }
@@ -80,19 +81,13 @@ export class TableComponent implements OnInit {
     }
     this.table = newTab;
 
-    this.updateData();
-  }
-  onChange(event) {
-    this.updateData();
-  }
-  updateData() {
-    this.data.data = [];
+    this.data.cells = [];
     for (var i = 0; i < this.tableHeaders.length; i++) {
       var cell = {};
       cell['row'] = 0;
       cell['col'] = i;
       cell['value'] = this.tableHeaders[i].value;
-      this.data.data.push(cell);
+      this.data.cells.push(cell);
     }
     for (var i = 0; i < this.rowCount; i++) {
       for (var j = 0; j < this.colCount; j++) {
@@ -100,8 +95,17 @@ export class TableComponent implements OnInit {
         cell['row'] = i + 1;
         cell['col'] = j;
         cell['value'] = this.table[i][j].value;
-        this.data.data.push(cell);
+        this.data.cells.push(cell);
       }
     }
+    this.onChanged.emit();
   }
+  onChange(row, col, value) {
+    for (var key in this.data.cells) {
+      if(this.data.cells[key].row==row && this.data.cells[key].col==col )
+        this.data.cells[key].value=value;
+    }
+    this.onChanged.emit();
+  }
+
 }

@@ -5,9 +5,9 @@ import { ActivatedRoute, ActivatedRouteSnapshot, Router } from '@angular/router'
 
 import { CategoryService } from '../services/category.service';
 import { PagesService } from '../services/pages.service';
-import { SideNavItemsService} from '../services/side-nav-items.service';
+import { SideNavItemsService } from '../services/side-nav-items.service';
 
-
+import { ProjectSharedService } from '../../shared/services/project-shared.service';
 
 
 declare var $: any;
@@ -20,7 +20,7 @@ declare var Materialize: any;
 })
 export class ProjectIndexComponent implements OnInit {
 
-  items = [1, 2, 3, 4, 5];
+  project;
 
   private sub: any;
   projectId;
@@ -46,7 +46,8 @@ export class ProjectIndexComponent implements OnInit {
     private router: Router,
     private categoryService: CategoryService,
     private pagesService: PagesService,
-  private sideNavItemsService: SideNavItemsService ) {
+    private sideNavItemsService: SideNavItemsService,
+    private projectSharedService: ProjectSharedService) {
     this.optionsCategory = {
       animation: 150,
       onUpdate: (event: any) => {
@@ -93,13 +94,14 @@ export class ProjectIndexComponent implements OnInit {
       }
     }
   }
-
   ngOnInit() {
-    
+
     $('.button-collapse').sideNav();
     $('.collapsible').collapsible();
     $('.sidebar').css('overflow', 'scroll');
     $('.modal').modal();
+
+    this.project = this.projectSharedService.project;
 
     this.buildForm();//categoryForm
     this.buildPageForm();
@@ -221,6 +223,7 @@ export class ProjectIndexComponent implements OnInit {
             Materialize.toast('Page Added succesfully', 4000, 'rounded');
             this.categories[this.categoryKeyOfAddedPage].pages[response.order] = response;
             this.addPageForm.reset();
+            this.router.navigate(['./page', response._id], { relativeTo: this.route });
           },
           error => {
             this.pageFormErrors['name'] = error['name'];
@@ -238,6 +241,7 @@ export class ProjectIndexComponent implements OnInit {
               .pages[this.parentPageKeyOfAddedPage]
               .subPages[response.order] = response;
             this.addPageForm.reset();
+            this.router.navigate(['./page', response._id], { relativeTo: this.route });
           },
           error => {
             this.pageFormErrors['name'] = error['name'];

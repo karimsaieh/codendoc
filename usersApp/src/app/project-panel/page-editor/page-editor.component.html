@@ -1,9 +1,15 @@
 <div style="
    position: fixed;
-   right: 23px;
+   right: 10px;
    z-index: 998;">
     <div style="display: block">
-        <button>Save button</button>
+        <a [ngClass]="{disabled : saved}" (click)="save()" class="waves-effect waves-light btn" style="padding:0px 10px;margin: 10px;">
+            <i *ngIf="!saved && !saving" class="material-icons left">save</i>
+            <i *ngIf="saving" class="material-icons left fa-spin fa-3x">cached</i>
+            <i *ngIf="saved"  class="material-icons left">done</i>
+            Save
+
+        </a>
     </div>
     <div style="display: block">
         <button>previous</button>
@@ -18,7 +24,7 @@
 </div>
 <div class="row">
     <div class="input-field col s12">
-        <input id="pageName" type="text" [(ngModel)]="pageTitle">
+        <input id="pageName" type="text" [(ngModel)]="pageName" (ngModelChange)="onChanged()" style=" font-size: 35px;">
     </div>
 </div>
 
@@ -29,28 +35,28 @@
 <div [dragula]='"elements-bag"' [dragulaModel]='elements'>
     <div *ngFor="let element of elements">
         <div class="showhim">
-            <span  style="display: inline-block;position: absolute;">
+            <span style="display: inline-block;position: absolute;">
                 <i (click)="removeElement(element.data.order)" title="Remove" class="fa fa-times-circle showme"  style="color: red;cursor: pointer" ></i>
                 <i title="Reorder" class="fa fa-arrows showme handle"  style="color: chocolate;margin: 0 10px;cursor: move"></i>
             </span>
             <div style="padding-left: 50px;">
                 <div *ngIf="element.type=='header'">
-                    <app-header [data]="element.data"></app-header>
+                    <app-header [data]="element.data" (onChanged)="onChanged()"></app-header>
                 </div>
                 <div *ngIf="element.type=='textEditor'">
-                    <app-text-editor [data]="element.data"></app-text-editor>
+                    <app-text-editor [data]="element.data" (onChanged)="onChanged()"></app-text-editor>
                 </div>
                 <div *ngIf="element.type=='codeSample'">
-                    <app-code-sample [data]="element.data"></app-code-sample>
+                    <app-code-sample [data]="element.data" (onChanged)="onChanged()"></app-code-sample>
                 </div>
                 <div *ngIf="element.type=='callout'">
-                    <app-callout [data]="element.data"></app-callout>
+                    <app-callout [data]="element.data" (onChanged)="onChanged()"></app-callout>
                 </div>
                 <div *ngIf="element.type=='table'">
-                    <app-table [data]="element.data"></app-table>
+                    <app-table [data]="element.data" (onChanged)="onChanged()"></app-table>
                 </div>
                 <div *ngIf="element.type=='customHtml'">
-                    <app-custom-html [data]="element.data"></app-custom-html>
+                    <app-custom-html [data]="element.data" (onChanged)="onChanged()"></app-custom-html>
                 </div>
             </div>
         </div>

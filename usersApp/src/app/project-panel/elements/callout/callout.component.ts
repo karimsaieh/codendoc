@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, ElementRef, Output, EventEmitter } from '@angular/core';
 
 declare var Materialize: any;
 
@@ -16,9 +16,18 @@ export class CalloutComponent implements OnInit {
   }
   get data() { return this._data; }
 
+  @Output() onChanged = new EventEmitter();
+
   constructor() { }
 
   ngOnInit() {
+  }
+  changeType(type) {
+    this.data.type = type;
+    this.onChanged.emit();
+  }
+  modelChanged(event) {
+    this.onChanged.emit();
   }
 
 }

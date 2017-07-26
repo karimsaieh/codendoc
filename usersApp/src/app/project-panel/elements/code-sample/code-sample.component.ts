@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit, ViewChild, Input, ElementRef } from '@angular/core';
+import { Component, OnInit, AfterViewInit, ViewChild, Input, ElementRef,Output,EventEmitter } from '@angular/core';
 
 import { CodemirrorComponent } from 'ng2-codemirror';
 
@@ -86,6 +86,8 @@ export class CodeSampleComponent implements OnInit {
   }
   get data() { return this._data; }
 
+  @Output() onChanged = new EventEmitter();
+
   codeConfig;
 
   constructor() {
@@ -103,8 +105,13 @@ export class CodeSampleComponent implements OnInit {
 
   onLanguageChange(event) {
     this.codemirrorComponent.instance.setOption('mode', this.data.language);
+    this.onChanged.emit();
   }
   onThemeChange(event) {
     this.codemirrorComponent.instance.setOption('theme', this.data.theme);
+    this.onChanged.emit();
+  }
+  modelChanged(event){
+    this.onChanged.emit();
   }
 }

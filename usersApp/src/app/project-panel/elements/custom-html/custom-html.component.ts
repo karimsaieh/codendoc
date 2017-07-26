@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input,Output,EventEmitter } from '@angular/core';
 
 import 'codemirror/mode/htmlmixed/htmlmixed';
 
@@ -12,6 +12,8 @@ export class CustomHtmlComponent implements OnInit {
   @Input()
   data;
 
+  @Output() onChanged = new EventEmitter();
+
   codeConfig = {
     lineNumbers: true,
     theme: 'mdn-like',
@@ -22,6 +24,10 @@ export class CustomHtmlComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
+  }
+
+  modelChanged(event){
+    this.onChanged.emit();
   }
 
 }

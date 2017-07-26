@@ -17,6 +17,6 @@
     </div>
   </div>
 
-  <codemirror #myEditor [(ngModel)]="data.code" [config]="codeConfig"></codemirror>
+  <codemirror #myEditor [(ngModel)]="data.code" (ngModelChange)="modelChanged($event)" [config]="codeConfig"></codemirror>
 {{data.code}}
 </div>

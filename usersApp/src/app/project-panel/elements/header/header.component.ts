@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ElementRef, ViewChild } from '@angular/core';
+import { Component, OnInit, Input, ElementRef, ViewChild, Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'app-header',
@@ -8,12 +8,16 @@ import { Component, OnInit, Input, ElementRef, ViewChild } from '@angular/core';
 export class HeaderComponent implements OnInit {
 
   @Input() data;
-  @ViewChild("header") headerInput: ElementRef;
+
+  @Output() onChanged = new EventEmitter();
 
   constructor() { }
 
   ngOnInit() {
-    this.headerInput.nativeElement.focus();
+  }
+
+  modelChanged($event){
+    this.onChanged.emit();
   }
 
 }

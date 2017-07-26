@@ -10,6 +10,8 @@ import {MdTooltipModule} from '@angular/material';
 import {MdMenuModule} from '@angular/material';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 
+import {ProjectSharedService} from './services/project-shared.service';
+
 @NgModule({
   imports: [
     CommonModule,
@@ -24,6 +26,7 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
     BrowserAnimationsModule
 
   ],
+  providers:[ProjectSharedService],
   //exports notfoundcomponent to use it as a directiv e?
 })
 export class SharedModule { }
