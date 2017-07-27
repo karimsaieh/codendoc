@@ -1,0 +1,77 @@
+/* Custom Stylesheet */
+/**
+ * Use this file to override Materialize files so you can update
+ * the core Materialize files in the future
+ *
+ * Made By MaterializeCSS.com
+ */
+
+
+
+/***************my style **********************/
+
+/* quill bold correction , problem caused y materialize */
+strong {
+  font-weight: bold;
+}
+
+
+/* codeMirrorOverriding */
+.CodeMirror {
+  /* Set height, width, borders, and global font properties here */
+  font-family: monospace;
+  height: auto;
+  color: black;
+}
+/* quill editor text result needs this  */
+.ql-size-small {
+  font-size: 0.75em;
+}
+.ql-size-large {
+  font-size: 1.5em;
+}
+.ql-size-huge {
+  font-size: 2.5em;
+}
+.ql-align-center {
+  text-align: center;
+}
+.ql-align-justify {
+  text-align: justify;
+}
+.ql-align-right {
+  text-align: right;
+}
+.dark-primary-color    { background: #303F9F; } /* indigo darken-2 */
+.default-primary-color { background: #3F51B5; } /* indigo */
+.light-primary-color   { background: #C5CAE9; } /*  indigo lighten-4 */
+.text-primary-color    { color: #FFFFFF; } /*   white*/
+.accent-color          { background: #FF4081; } /* pink accent-2 */
+.primary-text-color    { color: #212121; } /* grey darken-4*/
+.secondary-text-color  { color: #757575; } /*  grey darken-1 */
+.divider-color         { border-color: #BDBDBD; } /* grey lighten-1 */
+
+.inputFieldError {
+    border-bottom: 1px solid #F44336!important;
+    box-shadow: 0 1px 0 0 #F44336 !important;
+    }
+
+.inputFieldErrorMessage {
+    font-size: 0.8rem;
+    position: absolute;
+    color: #F44336;
+    margin-left: 0.75rem;
+    }
+
+.inputErrorRow{
+    margin:0 0 0 0 !important;
+}
+
+.inputFieldWithError{
+    margin-bottom: 0px !important;
+}
+.inputFieldErrorMessageRow{
+    margin-bottom: 19px !important;
+}
+
+

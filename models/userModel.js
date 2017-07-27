@@ -1,6 +1,8 @@
 var mongoose = require('mongoose');
 var bcrypt = require('bcryptjs');
 var validator = require('validator');
+var Schema = mongoose.Schema;
+var Project = require('./projectModel');
 
 var userSchema = new mongoose.Schema({
     userName: {
@@ -13,8 +15,8 @@ var userSchema = new mongoose.Schema({
     },
     password: {
         type: String,
-        trim:true,
-        required: [true, 'password is required'],
+        trim: true,
+        required: true,
         minlength: 4,
         maxlength: 500
     },
@@ -38,11 +40,59 @@ var userSchema = new mongoose.Schema({
         unique: true,
         trim: true,
         required: true,
-        validate: [validator.isEmail, 'invalid email'],
+        //we put validation messages only for 'user defined' errors, cause you know  it's user defined
+        //(mongoose default error messages are personalized in the helper)
+        validate: [{ validator: value => validator.isEmail(value), msg: 'Invalid email.' }],
         minlength: 8,
         maxlength: 300
-    }
+    },
+    projects: [{
+        type: Schema.Types.ObjectId,
+        ref: 'Project'
+    }]
 });
+
+
+userSchema.path('email').validate(
+    {
+        isAsync: true,
+        validator: function (value, done) {
+            var query = {};
+            if (this.getUpdate)
+                query = { email: value, _id: { $ne: this.getUpdate().$set._id } };
+            else
+                query = { email: value };
+
+            mongoose.model('User', userSchema).findOne(query, function (err, user) {
+                if (!user) {
+                    return done(true);
+                }
+                done(false);
+            });
+        },
+        message: 'Email already exists'
+    }
+);
+
+userSchema.path('userName').validate(
+    {
+        isAsync: true,
+        validator: function (value, done) {
+            var query = {};
+            if (this.getUpdate)
+                query = { userName: value, _id: { $ne: this.getUpdate().$set._id } };
+            else
+                query = { userName: value };
+
+            mongoose.model('User', userSchema).findOne(query, function (err, user) {
+                if (!user) {
+                    return done(true);
+                }
+                done(false);
+            });
+        },
+        message: 'userName already exists'
+    });
 
 userSchema.pre('save', function (next) {
     var user = this;
@@ -62,6 +112,28 @@ userSchema.pre('save', function (next) {
     } else {
         return next();
     }
+});
+
+userSchema.pre('remove', function (next) {
+    Project.remove({ user: this._id }).exec();
+    next();
+});
+
+userSchema.pre('update', function (next) {
+    var user = this.getUpdate();
+    bcrypt.genSalt(10, function (err, salt) {
+        if (err) {
+            return next(err);
+        }
+      
+        bcrypt.hash(user.$set.password, salt, function (err, hash) {
+            if (err) {
+                return next(err);
+            }
+            user.$set.password = hash;
+            next();
+        });
+    });
 });
 
 userSchema.methods.comparePassword = function (pw, cb) {

@@ -1,0 +1,21 @@
+  .showme {
+    display: none;
+  }
+
+  .showhim:hover .showme {
+    position: absolute;
+    display: inline-block;
+  }
+
+  .icon:hover {
+    color: red !important;
+  }
+  /* -----------------------  */
+
+  .myActive {
+    background: pink;
+  }
+
+  .myActive:hover {
+    background: pink;
+  }

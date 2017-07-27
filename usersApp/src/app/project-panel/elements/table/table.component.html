@@ -1,0 +1,32 @@
+<div style="margin: 20px 0px;">
+    <div style="margin: 3px;">
+        <input type="number" onkeydown="return false" min="1" max="99" class="browser-default" [(ngModel)]="rowCount" (ngModelChange)="onRowColChange()" style="width: 45px;">
+        <input type="number" onkeydown="return false" min="1" max="99" class="browser-default" [(ngModel)]="colCount" (ngModelChange)="onRowColChange()" style="width: 45px;">
+    </div>
+    <div style="    overflow-x:scroll">
+        <table>
+            <thead>
+                <tr>
+                    <th *ngFor="let thead of tableHeaders; let j=index">
+                        <textarea class="materialize-textarea" [(ngModel)]="thead.value" (ngModelChange)="onChange(0,j,thead.value)"></textarea>
+                    </th>
+
+                </tr>
+
+            </thead>
+            <tbody>
+
+                <tr *ngFor="let row of table; let i=index">
+
+                    <td *ngFor="let cell of row; let j=index" style="width: 500px;">
+
+                        <textarea class="materialize-textarea" [(ngModel)]="table[i][j].value" (ngModelChange)="onChange(i+1,j,table[i][j].value)"></textarea>
+                    </td>
+
+                </tr>
+
+
+            </tbody>
+        </table>
+    </div>
+</div>

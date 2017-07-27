@@ -1,0 +1,147 @@
+<div class="navbar-fixed">
+  <nav>
+    <div class="nav-wrapper indigo darken-2">
+      <div class="nav-wrapper container">
+        <a class="brand-logo">Logo</a>
+        <ul class="right ">
+          <li>
+            <a md-icon-button [mdMenuTriggerFor]="appMenu">
+            {{ firstName }}<i class="material-icons right">arrow_drop_down</i>
+          </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+</div>
+
+
+<md-menu #appMenu="mdMenu">
+  <button [routerLink]="['/dashboard']" md-menu-item>Projects </button>
+  <button [routerLink]="['/profile']" md-menu-item> Profile </button>
+  <button (click)="logout()" md-menu-item> Log Out </button>
+</md-menu>
+
+
+
+
+<div style="background-color : #f2f2f2;    display: flex;
+    min-height: 100vh;
+    flex-direction: column;">
+  <div class="container">
+    <h5>Your Account</h5>
+    <form [formGroup]="profileForm" (ngSubmit)="onSubmit()">
+
+      <div class="row">
+        <div class="col s12">
+          <div class="card horizontal hoverable">
+            <div class="card-stacked">
+              <div class="card-content">
+
+
+
+                <div class="row">
+                  <div class="input-field col s12 m6">
+                    Fist Name
+                    <input [ngClass]="{'inputFieldError': formErrors.firstName}" class="inputFieldWithError" id="firstName" placeholder="FirstName"
+                      type="text" formControlName="firstName">
+                  </div>
+                  <div class="input-field col s12 m6">
+                    Last Name
+                    <input [ngClass]="{'inputFieldError': formErrors.lastName}" class="inputFieldWithError" id="lastName" placeholder="Last Name"
+                      type="text" formControlName="lastName">
+                  </div>
+
+                  <div class="row inputFieldErrorMessageRow" style="margin-bottom: 18px!important">
+                    <div class="col s12 m6">
+                      <div class="inputFieldErrorMessage" *ngIf="formErrors.firstName">
+                        {{ formErrors.firstName }}
+                      </div>
+                    </div>
+
+                    <div class="col s12 m6">
+                      <div style="margin-left: 3px !important" class="inputFieldErrorMessage" *ngIf="formErrors.lastName">
+                        {{ formErrors.lastName }}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="input-field col s12 m12">
+                    Email
+                    <input [ngClass]="{'inputFieldError': formErrors.email}" class="inputFieldWithError" placeholder="Email" id="email" type="text"
+                      formControlName="email">
+                  </div>
+                  <div class="row inputFieldErrorMessageRow">
+                    <div class="col s12 m12">
+
+                      <div class="inputFieldErrorMessage" *ngIf="formErrors.email">
+                        {{ formErrors.email }}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="input-field col s12 m12">
+                    Login
+                    <input [ngClass]="{'inputFieldError': formErrors.userName}" class="inputFieldWithError" placeholder="userName" id="userName"
+                      placeholder="Login" type="text" formControlName="userName">
+                  </div>
+                  <div class="row inputFieldErrorMessageRow">
+                    <div class="col s12 m12">
+
+                      <div class="inputFieldErrorMessage" *ngIf="formErrors.userName">
+                        {{ formErrors.userName }}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+
+
+                <div class="row">
+                  <div class="input-field col s12 m6">
+                    Password
+                    <input [ngClass]="{'inputFieldError': formErrors.password}" class="inputFieldWithError" id="password" placeholder="Password"
+                      type="password" formControlName="password">
+
+                  </div>
+                  <div class="input-field col s12 m6">
+                    Password Confirmation
+                    <input [ngClass]="{'inputFieldError': formErrors.passwordConfirmation}" class="inputFieldWithError" id="passwordConfirmation"
+                      placeholder="Password Confirmation" type="password" formControlName="passwordConfirmation">
+                  </div>
+
+                  <div class="row inputFieldErrorMessageRow" style="margin-bottom: 18px!important">
+                    <div class="col s12 m6">
+
+                      <div class="inputFieldErrorMessage" *ngIf="formErrors.password">
+                        {{ formErrors.password }}
+                      </div>
+                    </div>
+
+                    <div class="col s12 m6">
+                      <div style="margin-left: 3px !important" class="inputFieldErrorMessage" *ngIf="formErrors.passwordConfirmation">
+                        {{ formErrors.passwordConfirmation }}
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+
+              </div>
+              <div class="card-action">
+                <a href="#"></a>
+                <button class="btn waves-effect waves-light right pink accent-2 " type="submit" name="action">Submit
+                <i class="material-icons right">send</i>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

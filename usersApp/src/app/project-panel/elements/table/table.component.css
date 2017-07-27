@@ -1,0 +1,43 @@
+textarea{
+    background:transparent;
+    border: none !important;
+    outline: none;
+    margin-bottom: 0px;
+}
+
+
+textarea.materialize-textarea {
+  padding: .8rem 0 .6rem 0;
+}
+
+textarea.materialize-textarea:focus:not([readonly]) {
+  border-bottom: 0px solid;
+  box-shadow: 0 0px 0 0;
+}
+
+
+
+table { 
+    border-spacing: 3px;
+    border-collapse: separate;
+      table-layout: fixed;
+}
+
+td { 
+    padding: 3px;
+      border: 1px solid ;
+        border: 1px solid #ccc;
+           width: 100px;
+           vertical-align:top
+  
+    
+}
+    th { 
+    padding: 3px;
+      border: 1px solid ;
+        border: 1px solid #ccc;
+        background-color: #F6F6F6;
+           width: 100px;
+           vertical-align:top
+ 
+}
