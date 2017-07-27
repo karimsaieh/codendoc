@@ -13,7 +13,9 @@ var routes = function (Project) {
         //project patch ,don't allow patching user
 
     projectRouter.route('/:id')
-        .get(projectController.findById);
+        .get(projectController.findById)
+        .put(projectController.update)
+        .delete(projectController.remove);
 
     return projectRouter;
 };

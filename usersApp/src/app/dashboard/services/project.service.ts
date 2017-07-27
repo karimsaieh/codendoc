@@ -21,6 +21,7 @@ export class ProjectService {
         'Authorization': localStorage.getItem('token')
       });
     let options = new RequestOptions({ headers: headers });
+    project['description']='';
     let body = JSON.stringify(project);
     return this.http.post(myGlobals.url + "api/project", body, options)
       .map((res: Response) => res.json())
@@ -56,4 +57,27 @@ export class ProjectService {
       .catch(this.handleJsonError);
   }
 
+  update(project,projectId): Observable<Object> {
+    let headers = new Headers(
+      {
+        'Content-Type': 'application/json',
+        'Authorization': localStorage.getItem('token')
+      });
+    let options = new RequestOptions({ headers: headers });
+    let body = JSON.stringify(project);
+    return this.http.put(myGlobals.url + "api/project/"+projectId, body, options)
+      .map((res: Response) => res.json())
+      .catch(this.handleJsonError);
+  }
+
+  delete(projectId): Observable<Project> {
+    let headers = new Headers(
+      {
+        'Authorization': localStorage.getItem('token')
+      });
+    let options = new RequestOptions({ headers: headers });
+    return this.http.delete(myGlobals.url + "api/project/" + projectId, options)
+      .map((res: Response) => res.json())
+      .catch(this.handleJsonError);
+  }
 }

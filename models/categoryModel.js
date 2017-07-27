@@ -1,5 +1,6 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
+var Page = require('./pageModel');
 
 var categorySchema = new mongoose.Schema({
     name: {
@@ -51,6 +52,13 @@ categorySchema.post('remove', function (doc) {
                     });
             });
         });
+    Page.find({category:doc._id},function (err,pages) {
+        pages.forEach(function(page) {
+            page.remove(function (err) {
+                if(err)throw err;  
+            });
+        }); 
+    });
 });
 
 module.exports = mongoose.model('Category', categorySchema);

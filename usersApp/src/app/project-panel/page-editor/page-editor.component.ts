@@ -8,7 +8,7 @@ import { DragulaService } from 'ng2-dragula';
 import { PagesService } from '../services/pages.service';
 import { SideNavItemsService } from '../services/side-nav-items.service';
 
-
+declare var Materialize:any;
 @Component({
   selector: 'app-page-editor',
   templateUrl: './page-editor.component.html',
@@ -105,7 +105,10 @@ export class PageEditorComponent implements OnInit {
   }
   save() {
     this.saving = true;
-    this.pagesService.updatePage(this.elements, this.pageName, this.pageId).subscribe(
+    if(this.pageName.trim().length==0){
+        Materialize.toast('Name required', 3000, 'rounded')
+    }else{
+      this.pagesService.updatePage(this.elements, this.pageName, this.pageId).subscribe(
       response => {
         this.saved = true;
         this.saving = false;
@@ -127,6 +130,8 @@ export class PageEditorComponent implements OnInit {
         });
       },
     );
+    }
+    
   }
 
 } 

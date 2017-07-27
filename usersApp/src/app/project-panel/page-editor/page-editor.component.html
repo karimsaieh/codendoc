@@ -1,27 +1,30 @@
+
+<div style=" padding-left:250px ">
+  <div class="container">
+
 <div style="
    position: fixed;
    right: 10px;
-   z-index: 998;">
-    <div style="display: block">
-        <a [ngClass]="{disabled : saved}" (click)="save()" class="waves-effect waves-light btn" style="padding:0px 10px;margin: 10px;">
+   z-index: 998;
+   width: 120px;
+   margin: 10px 0px;
+   ">
+    <div style="width: 100px; margin: 5px auto ;">
+        <a [ngClass]="{disabled : saved}" (click)="save()" class="waves-effect waves-light btn" style="padding:0px 10px ;display: block">
             <i *ngIf="!saved && !saving" class="material-icons left">save</i>
             <i *ngIf="saving" class="material-icons left fa-spin fa-3x">cached</i>
             <i *ngIf="saved"  class="material-icons left">done</i>
             Save
-
         </a>
     </div>
-    <div style="display: block">
-        <button>previous</button>
-        <button>next</button>
+
+    <div style="width: 100px; margin: 5px auto ;">
+        Feedback
     </div>
-    <div style="display: block">
-        <button>take a look</button>
-    </div>
-    <div style="display: block">
-        <button>feedback</button>
-    </div>
+
 </div>
+
+
 <div class="row">
     <div class="input-field col s12">
         <input id="pageName" type="text" [(ngModel)]="pageName" (ngModelChange)="onChanged()" style=" font-size: 35px;">
@@ -64,4 +67,6 @@
     </div>
 </div>
 <div style="height: 400px;">
+</div>
+  </div>
 </div>

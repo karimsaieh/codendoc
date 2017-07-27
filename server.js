@@ -39,7 +39,7 @@ app.use(function (req, res, next) {
 
     // Pass to next layer of middleware
     if ('OPTIONS' == req.method) {
-     res.send(200);
+     res.sendStatus(200);
  } else {
      next();
  }

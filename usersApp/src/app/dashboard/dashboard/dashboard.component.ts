@@ -50,7 +50,7 @@ export class DashboardComponent implements OnInit {
   onSubmit() {
     if (this.addProjectForm.valid) {
       if (!this.img) {
-        Materialize.toast('Upload a logo please!', 4000, 'rounded')
+        Materialize.toast('Upload a logo please!', 2000, 'rounded')
       } else {
         this.project = this.addProjectForm.value;
         this.project.img = this.img;
@@ -61,7 +61,7 @@ export class DashboardComponent implements OnInit {
             (<HTMLInputElement>document.getElementById('fileUpload')).value = null;
             this.addProjectForm.reset();
             this.img = null;
-            Materialize.toast('Project added succesfully', 4000, 'rounded');
+            Materialize.toast('Project added succesfully', 2000, 'rounded');
             this.projectList.push(response);
           }, error => {
             this.formErrors['name'] = error['name'];

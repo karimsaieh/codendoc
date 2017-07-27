@@ -1,66 +1,83 @@
 import { Component, OnInit } from '@angular/core';
-
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
-import { User } from '../../models/user';
-
-import { AuthService } from '../services/auth.service';
-
+import { UserService } from "../shared/services/user.service";
 
 declare var Materialize: any;
 
+
 @Component({
-  selector: 'app-sign-up',
-  templateUrl: './sign-up.component.html',
-  styleUrls: ['./sign-up.component.css']
+  selector: 'app-profile',
+  templateUrl: './profile.component.html',
+  styleUrls: ['./profile.component.css']
 })
-export class SignUpComponent implements OnInit {
+export class ProfileComponent implements OnInit {
 
 
-  user = new User();
+  user = JSON.parse(localStorage.getItem('user'))
+  firstName = this.user.firstName;
+
   passwordConfirmation;
-  userSignUpForm: FormGroup;
+  profileForm: FormGroup;
 
-  constructor(private fb: FormBuilder,
-    private router: Router,
-    private authService: AuthService) { }
+  constructor(private router: Router,
+    private fb: FormBuilder,
+    private userService: UserService) { }
+
+  ngOnInit() {
+    this.buildForm();
+
+  }
+
+  logout() {
+    localStorage.removeItem('user');
+    localStorage.removeItem('token');
+    this.router.navigate(['/welcome']);
+  }
 
   onSubmit() {
 
-    this.user = this.userSignUpForm.value;
-    if (this.userSignUpForm.untouched) {
+    this.user = this.profileForm.value;
+    if (this.profileForm.untouched) {
       Materialize.toast('Hmm maybe you need to put your info', 2000, 'rounded');
     }
-    if (this.userSignUpForm.valid) {
-      if (this.userSignUpForm.get('password').value
-        != this.userSignUpForm.get('passwordConfirmation').value) {
+    if (this.profileForm.valid) {
+      if (this.profileForm.get('password').value
+        != this.profileForm.get('passwordConfirmation').value) {
         Materialize.toast('Password missmatch', 2000, 'rounded');
 
       } else {
-        this.authService.register(this.user)
-          .subscribe(response => {
-            localStorage.setItem('token', response["token"]);
-            localStorage.setItem('user', JSON.stringify(response["user"]));
+        this.user._id = JSON.parse(localStorage.getItem('user'))["_id"];
+        this.userService.update(this.user).subscribe(
+          response => {
+            delete this.user['passwordConfirmation'];
+            delete this.user['password'];
+            this.firstName=this.user.firstName;
+            localStorage.setItem('user', JSON.stringify(this.user));
+            Materialize.toast('Success', 2000, 'rounded');
             this.router.navigate(['/dashboard']);
           },
           error => {
             for (var key in error) {
               this.formErrors[key] = error[key];
             }
-            Materialize.toast('Oups something went wrong', 2000, 'rounded');
-          });
+            Materialize.toast('Oups something went wrong', 2000, 'rounded')
+          }
+        );
+
       }
+    }else{
+                  Materialize.toast('Oups something went wrong, will you fill the form ', 2000, 'rounded')
+
     }
 
   }
 
-  ngOnInit() {
-    this.buildForm();
-  }
 
   buildForm(): void {
-    this.userSignUpForm = this.fb.group({
+    console.log(this.user);
+    this.profileForm = this.fb.group({
       'userName': [this.user.userName, [
         Validators.required,
         Validators.minLength(2),
@@ -93,18 +110,14 @@ export class SignUpComponent implements OnInit {
         Validators.email]
       ]
     });
-
-
-
-    this.userSignUpForm.valueChanges
+    this.profileForm.valueChanges
       .subscribe(data => this.onValueChanged(data));
     this.onValueChanged();
   }
-
   onValueChanged(data?: any) {
 
-    if (!this.userSignUpForm) { return; }
-    const form = this.userSignUpForm;
+    if (!this.profileForm) { return; }
+    const form = this.profileForm;
 
     for (const field in this.formErrors) {
       this.formErrors[field] = '';
@@ -118,7 +131,6 @@ export class SignUpComponent implements OnInit {
       }
     }
   }
-
   formErrors = {
     'userName': '',
     'password': '',
@@ -127,7 +139,6 @@ export class SignUpComponent implements OnInit {
     'email': '',
     'passwordConfirmation': '',
   };
-
 
   validationMessages = {
     'userName': {

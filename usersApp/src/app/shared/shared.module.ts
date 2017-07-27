@@ -11,6 +11,7 @@ import {MdMenuModule} from '@angular/material';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 
 import {ProjectSharedService} from './services/project-shared.service';
+import { UserService } from "./services/user.service";
 
 @NgModule({
   imports: [
@@ -26,7 +27,7 @@ import {ProjectSharedService} from './services/project-shared.service';
     BrowserAnimationsModule
 
   ],
-  providers:[ProjectSharedService],
+  providers:[ProjectSharedService,UserService],
   //exports notfoundcomponent to use it as a directiv e?
 })
 export class SharedModule { }

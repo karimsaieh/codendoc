@@ -44,10 +44,36 @@ var projectController = function (Project) {
         });
     };
 
+    var update = function (req, res) {
+        var projectToUpdate = req.body;
+        var projectId = req.params.id;
+        Project.update(
+            { _id: projectId },
+            { $set: projectToUpdate },
+            function (err) {
+                if (err)
+                    res.status(500).send(err);
+                res.status(200).send({ msg: 'project updated' });
+            });
+    };
+    var remove = function (req, res) {
+        var projectId = req.params.id;
+        Project.findById(projectId, function (err,project) {
+            if (err)
+                res.status(500).send(err);
+            project.remove(function (err) {
+                if (err) throw err;
+            });
+            res.status(200).send({ msg: 'project deleted' });
+        });
+    };
+
     return {
         create: create,
         list: list,
-        findById: findById
+        findById: findById,
+        update: update,
+        remove:remove
     };
 };
 

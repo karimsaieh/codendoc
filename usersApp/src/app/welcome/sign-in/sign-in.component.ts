@@ -27,7 +27,7 @@ export class SignInComponent implements OnInit {
   onSubmit() {
     this.user = this.userSignInForm.value;
     if(this.userSignInForm.untouched){
-      Materialize.toast('Hmm maybe you need to put your info', 4000,'rounded');
+      Materialize.toast('Hmm maybe you need to put your info', 2000,'rounded');
     }
     if(this.userSignInForm.valid){
       this.authService.authenticate(this.user)
@@ -40,7 +40,7 @@ export class SignInComponent implements OnInit {
         for (var key in error) {
           this.formErrors[key] = error[key];
         }
-        Materialize.toast('Oups something went wrong', 4000,'rounded');
+        Materialize.toast('Oups something went wrong', 2000,'rounded');
       });
     }
   }

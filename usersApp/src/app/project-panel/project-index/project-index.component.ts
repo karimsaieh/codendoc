@@ -140,7 +140,7 @@ export class ProjectIndexComponent implements OnInit {
   //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Category events >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>//
   onRemoveCategory(categoryOrder) {
     if (this.categories[categoryOrder].pages.length != 0)
-      Materialize.toast('can\'t delete a category that contains pages', 4000, 'rounded');
+      Materialize.toast('can\'t delete a category that contains pages', 2000, 'rounded');
     else {
       this.categoryService.remove(this.categories[categoryOrder]._id).subscribe();
       this.categories.splice(categoryOrder, 1);
@@ -151,7 +151,7 @@ export class ProjectIndexComponent implements OnInit {
   }
   onAddOrUpdateCategorySubmit() {
     if (this.addCategoryForm.untouched) {
-      Materialize.toast('type a  category name ', 4000, 'rounded')
+      Materialize.toast('type a  category name ', 2000, 'rounded')
     }
     if (this.addCategoryForm.valid) {
       if (this.isEditForm) {
@@ -160,7 +160,7 @@ export class ProjectIndexComponent implements OnInit {
           .subscribe(
           response => {
             $('#addOrUpdateCategoryModal').modal('close');
-            Materialize.toast('Category Updated succesfully', 4000, 'rounded');
+            Materialize.toast('Category Updated succesfully', 2000, 'rounded');
             this.categories[this.categoryKeyToUpdate].name = this.addCategoryForm.value['name'];
             this.addCategoryForm.reset();
           },
@@ -172,7 +172,7 @@ export class ProjectIndexComponent implements OnInit {
         this.categoryService.add(this.addCategoryForm.value['name'], this.projectId).subscribe(
           response => {
             $('#addOrUpdateCategoryModal').modal('close');
-            Materialize.toast('Category added succesfully', 4000, 'rounded');
+            Materialize.toast('Category added succesfully', 2000, 'rounded');
             this.categories[response.order] = response;
             this.addCategoryForm.reset();
           },
@@ -211,7 +211,7 @@ export class ProjectIndexComponent implements OnInit {
   }
   onAddPageSubmit() {
     if (this.addPageForm.untouched) {
-      Materialize.toast('type a page name ', 4000, 'rounded')
+      Materialize.toast('type a page name ', 2000, 'rounded')
     }
     if (this.addPageForm.valid) {
       if (this.parentPageKeyOfAddedPage == null) {
@@ -220,7 +220,7 @@ export class ProjectIndexComponent implements OnInit {
           .subscribe(
           response => {
             $('#addPageModal').modal('close');
-            Materialize.toast('Page Added succesfully', 4000, 'rounded');
+            Materialize.toast('Page Added succesfully', 2000, 'rounded');
             this.categories[this.categoryKeyOfAddedPage].pages[response.order] = response;
             this.addPageForm.reset();
             this.router.navigate(['./page', response._id], { relativeTo: this.route });
@@ -236,7 +236,7 @@ export class ProjectIndexComponent implements OnInit {
           .subscribe(
           response => {
             $('#addPageModal').modal('close');
-            Materialize.toast('Page Added succesfully', 4000, 'rounded');
+            Materialize.toast('Page Added succesfully', 2000, 'rounded');
             this.categories[this.categoryKeyOfAddedPage]
               .pages[this.parentPageKeyOfAddedPage]
               .subPages[response.order] = response;
@@ -256,7 +256,7 @@ export class ProjectIndexComponent implements OnInit {
     if (parentPageOrder == null) {
       let pages = this.categories[categoryOrder].pages;
       if (pages[pageOrder].subPages.length != 0) {
-        Materialize.toast('can\'t delete a page that contains sub pages', 4000, 'rounded');
+        Materialize.toast('can\'t delete a page that contains sub pages', 2000, 'rounded');
       } else {
         pageId = pages[pageOrder]._id
         this.pagesService

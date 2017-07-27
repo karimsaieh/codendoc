@@ -11,11 +11,11 @@ var userController = function (User) {
             if (attribute != '_id' && attribute != '__v')
                 req.user._doc[attribute] = req.body[attribute];
         }
-        User.update({ _id: req.user._id }, req.user, { runValidators: true, context: 'query' }, function (err) {
+        User.update({ _id: req.user._id }, req.user, { runValidators: true, context: 'query' }, function (err,result) {
             if (err)
                 res.status(500).send(vmHelper.errorHelper(err));
             else
-                res.status(200).send(req.user);
+                res.status(200).send(result);
         });
     };
 

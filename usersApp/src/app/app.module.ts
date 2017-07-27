@@ -7,6 +7,7 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import { WelcomeModule } from './welcome/welcome.module';
 import { DashboardModule } from './dashboard/dashboard.module';
 import { ProjectPanelModule } from './project-panel/project-panel.module';
+import { SharedModule } from './shared/shared.module';
 
 import { WelcomeRoutingModule } from './welcome/welcome-routing.module';
 import { ProjectPanelRoutingModule } from './project-panel/project-panel-routing.module';
@@ -22,12 +23,14 @@ import { WelcomeGuard } from './guards/welcome.guard';
 import { ProjectGuard } from './guards/project.guard';
 import { ProjectsListResolve } from './reolvers/projects-list-resolve';
 import { PagesListResolve } from './reolvers/pages-list-resolve';
+import { ProfileComponent } from './profile/profile.component';
 
 
 
 @NgModule({
   declarations: [
     AppComponent,
+    ProfileComponent,
   ],
   imports: [
     BrowserModule,
@@ -36,6 +39,7 @@ import { PagesListResolve } from './reolvers/pages-list-resolve';
     HttpModule,
     BrowserAnimationsModule,
     WelcomeModule,
+    SharedModule,
     RouterModule.forRoot([
 
       {
@@ -53,6 +57,10 @@ import { PagesListResolve } from './reolvers/pages-list-resolve';
       {
         path: 'welcome', component: WelcomeComponent,
         canActivate: [WelcomeGuard], children: WelcomeRoutingModule
+      },     
+      {
+        path: 'profile', component:  ProfileComponent,
+        canActivate: [AuthGuard]
       },
 
       { path: '', redirectTo: 'welcome', pathMatch: 'full' },

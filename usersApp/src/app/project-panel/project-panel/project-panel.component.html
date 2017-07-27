@@ -1,7 +1,7 @@
 
 <md-menu #appMenu="mdMenu">
   <button  [routerLink]="['/dashboard']" md-menu-item>Projects </button>
-  <button md-menu-item> Profile </button>
+  <button  [routerLink]="['/profile']" md-menu-item> Profile </button>
   <button  (click)="logout()" md-menu-item> Log Out </button>
 </md-menu>
 
@@ -22,9 +22,5 @@
 
 
   
-<div style=" padding-left:250px ">
-  <div class="container">
 
     <router-outlet></router-outlet>
-  </div>
-</div>

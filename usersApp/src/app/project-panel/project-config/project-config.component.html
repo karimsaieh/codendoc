@@ -1,3 +1,63 @@
-<p>
-  project-config works!
-</p>
+<style>
+  img {
+    display: block;
+    max-width: 100%;
+    max-height: 100%;
+    width: auto;
+    height: auto;
+  }
+</style>
+
+<div class="container">
+  <div class="card">
+    <div class="card-content">
+      <div class="row">
+        <div class="col s7">
+          <h4>Project Name</h4>
+          <div class="input-field">
+            <input id="projectName" type="text" [(ngModel)]="projectName">
+            {{projectName}}
+          </div>
+        </div>
+        <div class="col s5">
+
+          <img style="margin: auto;" src="data:image/png;base64,{{projectImage}}" />
+
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col s9">
+          <div class="file-field input-field">
+            <div class="btn">
+               <span>Logo</span>
+            <i class="material-icons right">file_upload</i>
+             <input type="file" id="fileUpload" accept="image/*" (change)="onImgUpload($event)">
+
+            </div>
+            <div class="file-path-wrapper">
+              <input class="file-path validate" type="text">
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <h4>Description</h4>
+      <app-text-editor [data]="projectDescription"></app-text-editor>
+      <div class="card-action">
+        <a></a>
+        <a (click)="update()" class="btn waves-effect waves-light right yellow">Save
+                <i class="material-icons right">save</i>
+                </a>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-content">
+      <h4>Delete Project</h4>
+      <a (click)="delete()" class="waves-effect waves-light btn red"><i class="material-icons left">cloud</i>Delete</a>
+    </div>
+  </div>
+</div>

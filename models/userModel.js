@@ -46,9 +46,9 @@ var userSchema = new mongoose.Schema({
         minlength: 8,
         maxlength: 300
     },
-    projects:[{
+    projects: [{
         type: Schema.Types.ObjectId,
-        ref : 'Project'
+        ref: 'Project'
     }]
 });
 
@@ -57,11 +57,11 @@ userSchema.path('email').validate(
     {
         isAsync: true,
         validator: function (value, done) {
-            var query ={};
-            if(this.getUpdate)
-            query = { email: value, _id: { $ne: this.getUpdate().$set._id }};
+            var query = {};
+            if (this.getUpdate)
+                query = { email: value, _id: { $ne: this.getUpdate().$set._id } };
             else
-            query={ email: value};
+                query = { email: value };
 
             mongoose.model('User', userSchema).findOne(query, function (err, user) {
                 if (!user) {
@@ -78,11 +78,11 @@ userSchema.path('userName').validate(
     {
         isAsync: true,
         validator: function (value, done) {
-            var query ={};
-            if(this.getUpdate)
-            query = { userName: value, _id: { $ne: this.getUpdate().$set._id }};
+            var query = {};
+            if (this.getUpdate)
+                query = { userName: value, _id: { $ne: this.getUpdate().$set._id } };
             else
-            query={ userName: value};
+                query = { userName: value };
 
             mongoose.model('User', userSchema).findOne(query, function (err, user) {
                 if (!user) {
@@ -114,9 +114,26 @@ userSchema.pre('save', function (next) {
     }
 });
 
-userSchema.pre('remove', function(next) {
-    Project.remove({user:this._id}).exec();
+userSchema.pre('remove', function (next) {
+    Project.remove({ user: this._id }).exec();
     next();
+});
+
+userSchema.pre('update', function (next) {
+    var user = this.getUpdate();
+    bcrypt.genSalt(10, function (err, salt) {
+        if (err) {
+            return next(err);
+        }
+      
+        bcrypt.hash(user.$set.password, salt, function (err, hash) {
+            if (err) {
+                return next(err);
+            }
+            user.$set.password = hash;
+            next();
+        });
+    });
 });
 
 userSchema.methods.comparePassword = function (pw, cb) {
