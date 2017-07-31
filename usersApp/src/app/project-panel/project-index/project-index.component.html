@@ -39,10 +39,8 @@
           <div [sortablejs]="category.pages" [sortablejsOptions]="optionsPages">
             <div *ngFor="let page of category.pages">
               <li>
-                <!-- routerLinkActive="myActive" -->
-                <a  [ngClass]="{'myActive':page._id==projectSharedService.currentPageId}" class="blue-text showhim" style="line-height: 35px; height: 35px;">
-                  <!-- [routerLink]="['page',page._id]" -->
-                  <div (click)="navigateToPage(page._id)" class="truncate" style="padding-left: 10px;display:inline-block;width: 197px; cursor: pointer;outline: none;">
+                <a routerLinkActive="myActive" class="blue-text showhim" style="line-height: 35px; height: 35px;">
+                  <div [routerLink]="['page',page._id]" class="truncate" style="padding-left: 10px;display:inline-block;width: 197px; cursor: pointer;outline: none;">
                     {{page.name}}
                   </div>
                   <span class="showme" style="margin-left: 5px;">
@@ -55,10 +53,8 @@
                   <div [sortablejs]="page.subPages" [sortablejsOptions]="optionsPages">
                     <div *ngFor="let subPage of page.subPages">
                       <li>
-                         <!-- routerLinkActive="myActive"  -->
-                        <a [ngClass]="{'myActive':subPage._id==projectSharedService.currentPageId}" class="green-text showhim" style="line-height: 35px; height: 35px;">
-                          <!-- [routerLink]="['page',subPage._id]"  -->
-                          <div (click)="navigateToPage(subPage._id)" class="truncate" style="padding-left: 20px;display:inline-block;width: 215px;cursor: pointer;outline: none;">
+                        <a routerLinkActive="myActive" class="green-text showhim" style="line-height: 35px; height: 35px;">
+                          <div [routerLink]="['page',subPage._id]" class="truncate" style="padding-left: 20px;display:inline-block;width: 215px;cursor: pointer;outline: none;">
                             {{subPage.name}}
                           </div>
                           <span class="showme" style="margin-left: 5px;">
@@ -141,30 +137,5 @@
     </div>
   </div>
 </form>
-
-
-<div id="NavigationModal" class="modal">
-  <div class="modal-content">
-    <h4>Unsaved Changes</h4>
-    <p>Are you sure you want to leave and discard the changes ?</p>
-  </div>
-  <div class="modal-footer">
-    <a (click)="cancelNavigation()" class="waves-effect waves-red btn-flat" >Cancel</a>
-    <a (click)="confirmNavigation()" class="waves-effect waves-green btn-flat">Yes</a>
-  </div>
-</div>
-
-
-<div id="RemoveModal" class="modal">
-  <div class="modal-content">
-    <h4>Remove Page</h4>
-    <p>Are you sure ?</p>
-  </div>
-  <div class="modal-footer">
-    <a (click)="onCancelRemovePage()" class="waves-effect waves-red btn-flat" >Cancel</a>
-    <a (click)=" onConfirmRemovePage()" class="waves-effect waves-green btn-flat">Yes</a>
-  </div>
-</div>
-
 
 <router-outlet></router-outlet>

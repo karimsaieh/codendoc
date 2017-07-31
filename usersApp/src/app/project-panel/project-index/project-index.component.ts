@@ -22,7 +22,6 @@ export class ProjectIndexComponent implements OnInit {
 
   project;
   projectName;
-  pageIdToNavigateTo;
   private sub: any;
   projectId;
   pagesList = this.route.snapshot.data['pagesList'];
@@ -40,9 +39,6 @@ export class ProjectIndexComponent implements OnInit {
   pageName;
   categoryKeyOfAddedPage;
   parentPageKeyOfAddedPage;
-  removePageParam_categoryOrder;
-  removePageParam_pageOrder;
-  removePageParam_parentPageOrder;
 
   constructor(
     private fb: FormBuilder,
@@ -109,7 +105,6 @@ export class ProjectIndexComponent implements OnInit {
     this.project = this.projectSharedService.project;
     this.projectId = this.project._id;
     this.projectName = encodeURIComponent(this.project.name);
-    this.pageIdToNavigateTo = undefined;
     this.buildForm();//categoryForm
     this.buildPageForm();
 
@@ -208,20 +203,6 @@ export class ProjectIndexComponent implements OnInit {
   //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< Category events <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<//
 
   //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Page events >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>//
-  navigateToPage(pageId) {
-    this.pageIdToNavigateTo = pageId;
-    if (this.projectSharedService.saved == false && this.projectSharedService.currentPageId != pageId)
-      $('#NavigationModal').modal('open');
-    else
-      this.router.navigate(['page', pageId], { relativeTo: this.route });
-  }
-  cancelNavigation() {
-    $('#NavigationModal').modal('close');
-  }
-  confirmNavigation() {
-    $('#NavigationModal').modal('close');
-    this.router.navigate(['page', this.pageIdToNavigateTo], { relativeTo: this.route });
-  }
   onClickAddPage(categoryOrder, parentPageOrder) {
     $('#addPageModal').modal('open');
     (<HTMLInputElement>document.getElementById('pageName')).focus();
@@ -242,7 +223,13 @@ export class ProjectIndexComponent implements OnInit {
             // Materialize.toast('Page Added succesfully', 2000, 'rounded');
             this.categories[this.categoryKeyOfAddedPage].pages[response.order] = response;
             this.addPageForm.reset();
-            // this.router.navigate(['./page', response._id], { relativeTo: this.route });
+            if (this.projectSharedService.saved == false) {
+              var res = confirm('Unsaved changes, do you want to navigate to the new page ?')
+              if (res)
+                this.router.navigate(['./page', response._id], { relativeTo: this.route });
+            } else {
+              this.router.navigate(['./page', response._id], { relativeTo: this.route });
+            }
           },
           error => {
             this.pageFormErrors['name'] = error['name'];
@@ -260,7 +247,13 @@ export class ProjectIndexComponent implements OnInit {
               .pages[this.parentPageKeyOfAddedPage]
               .subPages[response.order] = response;
             this.addPageForm.reset();
-            // this.router.navigate(['./page', response._id], { relativeTo: this.route });
+            if (this.projectSharedService.saved == false) {
+              var res = confirm('Unsaved changes, do you want to navigate to the new page ?')
+              if (res)
+                this.router.navigate(['./page', response._id], { relativeTo: this.route });
+            } else {
+              this.router.navigate(['./page', response._id], { relativeTo: this.route });
+            }
           },
           error => {
             this.pageFormErrors['name'] = error['name'];
@@ -271,54 +264,39 @@ export class ProjectIndexComponent implements OnInit {
   }
 
   onRemovePage(categoryOrder, pageOrder, parentPageOrder) {
-
-    this.removePageParam_categoryOrder = categoryOrder;
-    this.removePageParam_pageOrder = pageOrder;
-    this.removePageParam_parentPageOrder = parentPageOrder;
-
     let pageId;
     if (parentPageOrder == null) {
       let pages = this.categories[categoryOrder].pages;
       if (pages[pageOrder].subPages.length != 0) {
         Materialize.toast('can\'t delete a page that contains sub pages', 2000, 'rounded');
       } else {
-        $('#RemoveModal').modal('open');
+        let res = confirm('Remove the page ?')
+        if (res) {
+          pageId = pages[pageOrder]._id
+          this.pagesService
+            .remove(pages[pageOrder]._id)
+            .subscribe();
+          pages.splice(pageOrder, 1);
+
+          for (var key in pages) {
+            pages[key].order = key;
+          }
+        }
       }
     } else {
-      $('#RemoveModal').modal('open');
-    }
-  }
-  onCancelRemovePage() {
-    $('#RemoveModal').modal('close');
-  }
-  onConfirmRemovePage() {
-    var categoryOrder = this.removePageParam_categoryOrder;
-    var pageOrder = this.removePageParam_pageOrder;
-    var parentPageOrder = this.removePageParam_parentPageOrder;
-    let pageId;
-    if (parentPageOrder == null) {
-      let pages = this.categories[categoryOrder].pages;
-      $('#RemoveModal').modal('open');
-      pageId = pages[pageOrder]._id
-      this.pagesService
-        .remove(pages[pageOrder]._id)
-        .subscribe();
-      pages.splice(pageOrder, 1);
-      for (var key in pages) {
-        pages[key].order = key;
-      }
-    } else {
-      let pages = this.categories[categoryOrder].pages[parentPageOrder].subPages;
-      pageId = pages[pageOrder]._id;
-      this.pagesService
-        .remove(pages[pageOrder]._id)
-        .subscribe();
-      pages.splice(pageOrder, 1);
-      for (var key in pages) {
-        pages[key].order = key;
+      let res = confirm('Remove the page ?')
+      if (res) {
+        let pages = this.categories[categoryOrder].pages[parentPageOrder].subPages;
+        pageId = pages[pageOrder]._id;
+        this.pagesService
+          .remove(pages[pageOrder]._id)
+          .subscribe();
+        pages.splice(pageOrder, 1);
+        for (var key in pages) {
+          pages[key].order = key;
+        }
       }
     }
-    $('#RemoveModal').modal('close');
     if (pageId == this.route.firstChild.snapshot.params['pageId'])
       this.router.navigate(["../docs"], { relativeTo: this.route });
   }

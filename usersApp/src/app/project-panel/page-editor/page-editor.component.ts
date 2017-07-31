@@ -22,7 +22,6 @@ export class PageEditorComponent implements OnInit {
   pageId;
   pageName;
   elements = [];
-  // saved = true;
   saving = false;
 
   constructor(private componentFactoryResolver: ComponentFactoryResolver,
@@ -43,13 +42,11 @@ export class PageEditorComponent implements OnInit {
       }
     });
     dragulaService.dropModel.subscribe((value) => {
-      //console.log(`drop: ${value[0]}`);
       this.orderElements(value.slice(1));
     });
   }
   ngOnDestroy() {
     this.dragulaService.destroy('elements-bag');
-     this.projectSharedService.currentPageId=undefined;
   }
   ngOnInit() {
   }
@@ -58,12 +55,21 @@ export class PageEditorComponent implements OnInit {
     this.document.body.scrollTop = 0;
     this.elements = this.route.snapshot.data['page'].elements.sort(function (a, b) { return a.data.order - b.data.order });
     this.pageName = this.route.snapshot.data['page'].page.name;
-    this.projectSharedService.currentPageId = pageId;
+
     this.projectSharedService.saved = true;
-    // this.saved = true;
     this.saving = false;
   }
-
+  canDeactivate() {
+    if (this.projectSharedService.saved == true) {
+      return true;
+    }
+    else {
+      let res = confirm('Unsaved changes, are you sure you want to leave ?')
+      if (res)
+        this.projectSharedService.saved = true;//logout uses it
+      return res;
+    }
+  }
   onElementsMenuClicked(event) {
     var element;
     switch (event.element) {
@@ -80,7 +86,7 @@ export class PageEditorComponent implements OnInit {
         element = { type: 'callout', data: { order: event.order, type: '', title: '', body: '' } };
         break;
       case "table":
-        var tabData = [];//from DB
+        var tabData = [];
         element = { type: 'table', data: { order: event.order, cells: tabData } };
         break;
       case "customHtml":
@@ -92,7 +98,6 @@ export class PageEditorComponent implements OnInit {
     }
     this.elements.splice(event.order, 0, element);
     this.projectSharedService.saved = false;
-    // this.saved = false;
   }
 
   orderElements(args) {
@@ -101,7 +106,6 @@ export class PageEditorComponent implements OnInit {
       this.elements[i]['data']['order'] = i;
     }
     this.projectSharedService.saved = false;
-    // this.saved = false;
   }
   removeElement(order) {
     this.elements.splice(order, 1);
@@ -109,11 +113,9 @@ export class PageEditorComponent implements OnInit {
       this.elements[i]['data']['order']--;
     }
     this.projectSharedService.saved = false;
-    // this.saved = false
   }
   onChanged() {
     this.projectSharedService.saved = false;
-    // this.saved = false;
   }
   save() {
     this.saving = true;
@@ -123,7 +125,6 @@ export class PageEditorComponent implements OnInit {
       this.pagesService.updatePage(this.elements, this.pageName, this.pageId).subscribe(
         response => {
           this.projectSharedService.saved = true;
-          // this.saved = true;
           this.saving = false;
           this.sideNavItemsService.categories.forEach(category => {
             if (category.pages != []) {
