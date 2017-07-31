@@ -1,0 +1,21 @@
+<div class="bs-callout " [ngClass]="{'bs-callout-success': data.type=='success',
+'bs-callout-info': data.type=='info',
+'bs-callout-warning': data.type=='warning',
+'bs-callout-danger': data.type=='danger'}">
+
+  <div style="display: block;">
+    <a id="{{data.type}}" title="{{data.type}}" class="typeIcons">
+      <i   *ngIf="data.type=='info'" class="fa fa-info-circle"></i>
+      <i  *ngIf="data.type=='warning'" class="fa fa-exclamation-circle"></i>
+      <i *ngIf="data.type=='danger'" class="fa fa-exclamation-triangle"></i>
+      <i *ngIf="data.type=='success'" class="fa fa-check-square"></i>
+    </a>
+  </div>
+
+  <h5 style="margin-top: 10px;" *ngIf="data.title">
+    {{data.title}}
+  </h5>
+  <div style="margin-top: 10px;">
+    {{data.body}}
+  </div>
+</div>

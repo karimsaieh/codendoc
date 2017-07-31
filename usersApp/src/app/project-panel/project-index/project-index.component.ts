@@ -21,7 +21,8 @@ declare var Materialize: any;
 export class ProjectIndexComponent implements OnInit {
 
   project;
-
+  projectName;
+  pageIdToNavigateTo;
   private sub: any;
   projectId;
   pagesList = this.route.snapshot.data['pagesList'];
@@ -39,6 +40,9 @@ export class ProjectIndexComponent implements OnInit {
   pageName;
   categoryKeyOfAddedPage;
   parentPageKeyOfAddedPage;
+  removePageParam_categoryOrder;
+  removePageParam_pageOrder;
+  removePageParam_parentPageOrder;
 
   constructor(
     private fb: FormBuilder,
@@ -101,14 +105,15 @@ export class ProjectIndexComponent implements OnInit {
     $('.sidebar').css('overflow', 'scroll');
     $('.modal').modal();
 
+    this.projectSharedService.saved = true;
     this.project = this.projectSharedService.project;
-
+    this.projectId = this.project._id;
+    this.projectName = encodeURIComponent(this.project.name);
+    this.pageIdToNavigateTo = undefined;
     this.buildForm();//categoryForm
     this.buildPageForm();
 
-    this.sub = this.route.parent.params.subscribe(params => {
-      this.projectId = params["id"];
-    });
+
     this.categoryService.getCategories(this.projectId)
       .subscribe(
       response => {
@@ -172,7 +177,7 @@ export class ProjectIndexComponent implements OnInit {
         this.categoryService.add(this.addCategoryForm.value['name'], this.projectId).subscribe(
           response => {
             $('#addOrUpdateCategoryModal').modal('close');
-            Materialize.toast('Category added succesfully', 2000, 'rounded');
+            //   Materialize.toast('Category added succesfully', 2000, 'rounded');
             this.categories[response.order] = response;
             this.addCategoryForm.reset();
           },
@@ -203,6 +208,20 @@ export class ProjectIndexComponent implements OnInit {
   //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< Category events <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<//
 
   //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Page events >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>//
+  navigateToPage(pageId) {
+    this.pageIdToNavigateTo = pageId;
+    if (this.projectSharedService.saved == false && this.projectSharedService.currentPageId != pageId)
+      $('#NavigationModal').modal('open');
+    else
+      this.router.navigate(['page', pageId], { relativeTo: this.route });
+  }
+  cancelNavigation() {
+    $('#NavigationModal').modal('close');
+  }
+  confirmNavigation() {
+    $('#NavigationModal').modal('close');
+    this.router.navigate(['page', this.pageIdToNavigateTo], { relativeTo: this.route });
+  }
   onClickAddPage(categoryOrder, parentPageOrder) {
     $('#addPageModal').modal('open');
     (<HTMLInputElement>document.getElementById('pageName')).focus();
@@ -220,10 +239,10 @@ export class ProjectIndexComponent implements OnInit {
           .subscribe(
           response => {
             $('#addPageModal').modal('close');
-            Materialize.toast('Page Added succesfully', 2000, 'rounded');
+            // Materialize.toast('Page Added succesfully', 2000, 'rounded');
             this.categories[this.categoryKeyOfAddedPage].pages[response.order] = response;
             this.addPageForm.reset();
-            this.router.navigate(['./page', response._id], { relativeTo: this.route });
+            // this.router.navigate(['./page', response._id], { relativeTo: this.route });
           },
           error => {
             this.pageFormErrors['name'] = error['name'];
@@ -236,12 +255,12 @@ export class ProjectIndexComponent implements OnInit {
           .subscribe(
           response => {
             $('#addPageModal').modal('close');
-            Materialize.toast('Page Added succesfully', 2000, 'rounded');
+            // Materialize.toast('Page Added succesfully', 2000, 'rounded');
             this.categories[this.categoryKeyOfAddedPage]
               .pages[this.parentPageKeyOfAddedPage]
               .subPages[response.order] = response;
             this.addPageForm.reset();
-            this.router.navigate(['./page', response._id], { relativeTo: this.route });
+            // this.router.navigate(['./page', response._id], { relativeTo: this.route });
           },
           error => {
             this.pageFormErrors['name'] = error['name'];
@@ -252,21 +271,41 @@ export class ProjectIndexComponent implements OnInit {
   }
 
   onRemovePage(categoryOrder, pageOrder, parentPageOrder) {
+
+    this.removePageParam_categoryOrder = categoryOrder;
+    this.removePageParam_pageOrder = pageOrder;
+    this.removePageParam_parentPageOrder = parentPageOrder;
+
     let pageId;
     if (parentPageOrder == null) {
       let pages = this.categories[categoryOrder].pages;
       if (pages[pageOrder].subPages.length != 0) {
         Materialize.toast('can\'t delete a page that contains sub pages', 2000, 'rounded');
       } else {
-        pageId = pages[pageOrder]._id
-        this.pagesService
-          .remove(pages[pageOrder]._id)
-          .subscribe();
-        pages.splice(pageOrder, 1);
-
-        for (var key in pages) {
-          pages[key].order = key;
-        }
+        $('#RemoveModal').modal('open');
+      }
+    } else {
+      $('#RemoveModal').modal('open');
+    }
+  }
+  onCancelRemovePage() {
+    $('#RemoveModal').modal('close');
+  }
+  onConfirmRemovePage() {
+    var categoryOrder = this.removePageParam_categoryOrder;
+    var pageOrder = this.removePageParam_pageOrder;
+    var parentPageOrder = this.removePageParam_parentPageOrder;
+    let pageId;
+    if (parentPageOrder == null) {
+      let pages = this.categories[categoryOrder].pages;
+      $('#RemoveModal').modal('open');
+      pageId = pages[pageOrder]._id
+      this.pagesService
+        .remove(pages[pageOrder]._id)
+        .subscribe();
+      pages.splice(pageOrder, 1);
+      for (var key in pages) {
+        pages[key].order = key;
       }
     } else {
       let pages = this.categories[categoryOrder].pages[parentPageOrder].subPages;
@@ -279,7 +318,7 @@ export class ProjectIndexComponent implements OnInit {
         pages[key].order = key;
       }
     }
-
+    $('#RemoveModal').modal('close');
     if (pageId == this.route.firstChild.snapshot.params['pageId'])
       this.router.navigate(["../docs"], { relativeTo: this.route });
   }

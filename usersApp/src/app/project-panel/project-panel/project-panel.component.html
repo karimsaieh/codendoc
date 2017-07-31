@@ -1,8 +1,8 @@
 
 <md-menu #appMenu="mdMenu">
-  <button  [routerLink]="['/dashboard']" md-menu-item>Projects </button>
-  <button  [routerLink]="['/profile']" md-menu-item> Profile </button>
-  <button  (click)="logout()" md-menu-item> Log Out </button>
+  <button  (click)="navigateToPage('dashboard')" md-menu-item>Projects </button>
+  <button  (click)="navigateToPage('profile')" md-menu-item> Profile </button>
+  <button  (click)="navigateToPage('logOut')" md-menu-item> Log Out </button>
 </md-menu>
 
   <div class="navbar-fixed">
@@ -10,8 +10,8 @@
     <div class="nav-wrapper container">
       <a  class="brand-logo">Logo</a>
       <ul id="nav-mobile" class="right">
-        <li routerLinkActive="active"><a [routerLink]="['docs']">Documentation</a></li>
-        <li routerLinkActive="active"><a [routerLink]="['config']">Settings</a></li>
+        <li [ngClass]="{'active':activeRoute=='docs'}"><a (click)="navigateToPage('docs')">Documentation</a></li>
+        <li  [ngClass]="{'active':activeRoute=='config'}"><a (click)="navigateToPage('config')">Settings</a></li>
         <li> <a md-icon-button [mdMenuTriggerFor]="appMenu">
             {{ firstName }}<i class="material-icons right">arrow_drop_down</i>
           </a>
@@ -21,6 +21,15 @@
   </div>
 
 
-  
+  <div id="NavModal" class="modal">
+  <div class="modal-content">
+    <h4>Unsaved Changes</h4>
+    <p>Are you sure you want to leave and discard the changes ?</p>
+  </div>
+  <div class="modal-footer">
+    <a (click)="cancelNavigation()" class="waves-effect waves-red btn-flat" >Cancel</a>
+    <a (click)="confirmNavigation()" class="waves-effect waves-green btn-flat">Yes</a>
+  </div>
+</div>
 
     <router-outlet></router-outlet>

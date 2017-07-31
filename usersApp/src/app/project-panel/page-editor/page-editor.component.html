@@ -10,10 +10,10 @@
    margin: 10px 0px;
    ">
     <div style="width: 100px; margin: 5px auto ;">
-        <a [ngClass]="{disabled : saved}" (click)="save()" class="waves-effect waves-light btn" style="padding:0px 10px ;display: block">
-            <i *ngIf="!saved && !saving" class="material-icons left">save</i>
+        <a [ngClass]="{disabled : projectSharedService.saved}" (click)="save()" class="waves-effect waves-light btn" style="padding:0px 10px ;display: block">
+            <i *ngIf="!projectSharedService.saved && !saving" class="material-icons left">save</i>
             <i *ngIf="saving" class="material-icons left fa-spin fa-3x">cached</i>
-            <i *ngIf="saved"  class="material-icons left">done</i>
+            <i *ngIf="projectSharedService.saved"  class="material-icons left">done</i>
             Save
         </a>
     </div>

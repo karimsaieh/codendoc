@@ -65,8 +65,6 @@ var textEditor = require('./models/textEditorElementModel');
 app.use('/api/*',passport.authenticate('jwt', { session: false }));
     
 
-
-
 //static //two ng apps .... ng build prod to deploy
 app.use('/users', express.static(__dirname + '/public/users'));
 app.use('/docs', express.static(__dirname + '/public/docs'));
@@ -82,6 +80,13 @@ app.use('/auth', authRouter);
 app.use('/api/project', projectRouter);
 app.use('/api/category', categoryRouter);
 app.use('/api/page', pageRouter);
+//public
+var pageDocsRouter = require('./routes/docs/pageRoutes')(Page);
+var projectDocsRouter = require('./routes/docs/projectRoutes')(Project);
+
+app.use('/docs/page', pageDocsRouter);
+app.use('/docs/project', projectDocsRouter);
+
 
 //redirecting to the users App
 app.use('/',function (req,res) {

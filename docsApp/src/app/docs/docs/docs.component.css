@@ -1,0 +1,7 @@
+ .myActive {
+    background: pink;
+  }
+
+  .myActive:hover {
+    background: pink;
+  }
