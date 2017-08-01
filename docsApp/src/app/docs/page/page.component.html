@@ -1,104 +1,83 @@
-
 <div style=" padding-left:180px ;margin-top: 58px;margin-bottom: 80px;">
   <div class="container" style="width: 60%">
-<!-- <p>
-  page works!
-</p>
-<app-callout [data]="{type:'warning',title:'kkkk',body:'kkkkkkkk'}"></app-callout>
-<app-code-sample [data]="{code:'$gg = g
-kljpd
-',theme:'blackboard',language:'text/x-php'}"></app-code-sample>
-<app-custom-html [data]="{code:customHtmlTest}"></app-custom-html>
-<app-header [data]="{value:'Im a header'}"></app-header>
-<app-table [data]="tableTest" ></app-table>
-<app-text-editor [data]='{value:textEditorTest}'></app-text-editor> -->
- 
-<div *ngFor="let section of sections; let i =index;" >
-  <div id="{{section[0].data._id}}" class="scrollspy">
 
-<div *ngFor="let element of section" class="row" >
-  <div class="col s12">
+    <div *ngFor="let section of sections; let i =index;">
+      <div id="{{section[0].data._id}}" class="scrollspy">
 
-  <div *ngIf="element.type=='header'"  >
-    <app-header [data]="element.data"></app-header>
-  </div>
-  <div *ngIf="element.type=='textEditor'" >
-    <app-text-editor [data]="element.data"></app-text-editor>
-  </div>
-  <div *ngIf="element.type=='codeSample'">
-    <app-code-sample [data]="element.data"></app-code-sample>
-  </div>
-  <div *ngIf="element.type=='callout'">
-    <app-callout [data]="element.data"></app-callout>
-  </div>
-  <div *ngIf="element.type=='table'">
-    <app-table [data]="element.data"></app-table>
-  </div>
-  <div *ngIf="element.type=='customHtml'">
-    <app-custom-html [data]="element.data"></app-custom-html>
-  </div>
-</div>  
-</div>
-</div>
-</div>
-<!--   
-<div *ngFor="let element of elements" class="row">
-  <div class="col s12">
+        <div *ngFor="let element of section" class="row">
+          <div class="col s12">
 
-  <div *ngIf="element.type=='header'"  >
-    <app-header [data]="element.data"></app-header>
-  </div>
-  <div *ngIf="element.type=='textEditor'" id="{{element.data._id}}" class="scrollspy">
-    <app-text-editor [data]="element.data"></app-text-editor>
-  </div>
-  <div *ngIf="element.type=='codeSample'">
-    <app-code-sample [data]="element.data"></app-code-sample>
-  </div>
-  <div *ngIf="element.type=='callout'">
-    <app-callout [data]="element.data"></app-callout>
-  </div>
-  <div *ngIf="element.type=='table'">
-    <app-table [data]="element.data"></app-table>
-  </div>
-  <div *ngIf="element.type=='customHtml'">
-    <app-custom-html [data]="element.data"></app-custom-html>
-  </div>
-</div>  
-</div> -->
-
-
-<div style="top:100px; right:30px;position: fixed;max-width: 180px;" class="hide-on-med-and-down">
-  <ul class="section table-of-contents">
-    <div *ngFor="let element of elements;let i=index">
-      <div *ngIf="element.type=='header'">
-        <li><a  href="#{{element.data._id}}">{{element.data.value}}</a></li>
+            <div *ngIf="element.type=='header'">
+              <app-header [data]="element.data"></app-header>
+            </div>
+            <div *ngIf="element.type=='textEditor'">
+              <app-text-editor [data]="element.data"></app-text-editor>
+            </div>
+            <div *ngIf="element.type=='codeSample'">
+              <app-code-sample [data]="element.data"></app-code-sample>
+            </div>
+            <div *ngIf="element.type=='callout'">
+              <app-callout [data]="element.data"></app-callout>
+            </div>
+            <div *ngIf="element.type=='table'">
+              <app-table [data]="element.data"></app-table>
+            </div>
+            <div *ngIf="element.type=='customHtml'">
+              <app-custom-html [data]="element.data"></app-custom-html>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
 
-  </ul>
-</div>
+    <div style="top:100px; right:30px;position: fixed;max-width: 180px;" class="hide-on-med-and-down">
+      <ul class="section table-of-contents">
+        <div *ngFor="let element of elements;let i=index">
+          <div *ngIf="element.type=='header'">
+            <li><a href="#{{element.data._id}}">{{element.data.value}}</a></li>
+          </div>
+        </div>
 
+      </ul>
+    </div>
 
-<div class="row">
-  <div class="col s12">
-    <div *ngIf="previousPage" class="left">
-      previous
-      <a (click)='goToPreviousPage()' style="cursor: pointer">
+    <div class="row">
+      <div class="col s12">
+        <div *ngIf="previousPage" class="left">
+          previous
+          <a (click)='goToPreviousPage()' style="cursor: pointer">
                     <span style="max-width: 300px; " class="truncate">
             {{previousPage.name}}
          </span>  
         </a>
-    </div>
+        </div>
 
-    <div *ngIf="nextPage" class="right">
-      next
-      <a (click)='goToNextPage()' style="cursor: pointer">
+        <div *ngIf="nextPage" class="right">
+          next
+          <a (click)='goToNextPage()' style="cursor: pointer">
           <span style="max-width: 300px; " class="truncate"> {{nextPage.name}} </span>
     </a>
+        </div>
+
+      </div>
     </div>
+
+
+      <div   >
+        <span style="margin-right: 20px;">Was this helpful ?</span>
+        <a *ngIf="feedbackValue!='Up'" (click)="sendFeedback('Down')" 
+        [ngClass]="{'animated tada':feedbackValue=='Down','disabled':feedbackValue}" 
+        class=" waves-effect waves-red btn-flat" style="padding: 0 10px;">
+          <i class="fa fa-meh-o left" style="color: red;" aria-hidden="true"></i>
+          No
+        </a>
+        <a *ngIf="feedbackValue!='Down'" (click)="sendFeedback('Up')" 
+        [ngClass]="{'animated tada':feedbackValue=='Up','disabled':feedbackValue}" 
+         class=" waves-effect waves-green btn-flat" style="padding: 0 10px;">
+          <i class="fa fa-smile-o left" style="color: green" aria-hidden="true"></i>
+          Yes
+        </a>
+      </div>
+
   </div>
-</div>
-
-
-</div>
 </div>

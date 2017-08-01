@@ -42,12 +42,12 @@
 
                 <div class="row">
                   <div class="input-field col s12 m6">
-                    Fist Name
+                   <label> Fist Name</label>
                     <input [ngClass]="{'inputFieldError': formErrors.firstName}" class="inputFieldWithError" id="firstName" placeholder="FirstName"
                       type="text" formControlName="firstName">
                   </div>
                   <div class="input-field col s12 m6">
-                    Last Name
+                   <label> Last Name </label>
                     <input [ngClass]="{'inputFieldError': formErrors.lastName}" class="inputFieldWithError" id="lastName" placeholder="Last Name"
                       type="text" formControlName="lastName">
                   </div>
@@ -69,7 +69,7 @@
 
                 <div class="row">
                   <div class="input-field col s12 m12">
-                    Email
+               <label>     Email </label>
                     <input [ngClass]="{'inputFieldError': formErrors.email}" class="inputFieldWithError" placeholder="Email" id="email" type="text"
                       formControlName="email">
                   </div>
@@ -85,7 +85,7 @@
 
                 <div class="row">
                   <div class="input-field col s12 m12">
-                    Login
+               <label>     Login </label>
                     <input [ngClass]="{'inputFieldError': formErrors.userName}" class="inputFieldWithError" placeholder="userName" id="userName"
                       placeholder="Login" type="text" formControlName="userName">
                   </div>
@@ -103,13 +103,13 @@
 
                 <div class="row">
                   <div class="input-field col s12 m6">
-                    Password
+               <label>    Password </label>
                     <input [ngClass]="{'inputFieldError': formErrors.password}" class="inputFieldWithError" id="password" placeholder="Password"
                       type="password" formControlName="password">
 
                   </div>
                   <div class="input-field col s12 m6">
-                    Password Confirmation
+               <label>     Password Confirmation </label>
                     <input [ngClass]="{'inputFieldError': formErrors.passwordConfirmation}" class="inputFieldWithError" id="passwordConfirmation"
                       placeholder="Password Confirmation" type="password" formControlName="passwordConfirmation">
                   </div>

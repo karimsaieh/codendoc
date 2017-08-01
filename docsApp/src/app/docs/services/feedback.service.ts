@@ -5,13 +5,19 @@ import { Observable } from 'rxjs/Rx';
 import * as myGlobals from '../../shared/my-globals';
 
 @Injectable()
-export class PageService {
+export class FeedbackService {
 
   constructor(private http: Http) {
   }
 
-  getById(pageId): Observable<any> {
-    return this.http.get(myGlobals.url + "docs/page/" + pageId)
+  submit(feedback): Observable<any> {
+    let headers = new Headers(
+      {
+          'Content-Type': 'application/json'
+      });
+        let body = JSON.stringify(feedback);
+    let options = new RequestOptions({ headers: headers });
+    return this.http.post(myGlobals.url + "docs/feedback/", feedback, options)
       .map((res: Response) => res.json())
       .catch(this.handleError);
   }

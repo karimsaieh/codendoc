@@ -57,7 +57,8 @@ var CodeSample = require('./models/codeSampleElementModel');
 var CustomHtml = require('./models/customHtmlElementModel');
 var Table = require('./models/TableElementModel');
 var Cell = require('./models/tableElementCellModel');
-var textEditor = require('./models/textEditorElementModel');
+var TextEditor = require('./models/textEditorElementModel');
+var Feedback = require('./models/feedbackModel');
 
 
 
@@ -75,17 +76,21 @@ var authRouter = require('./routes/authRoutes')(User);
 var projectRouter = require('./routes/projectRoutes')(Project);
 var categoryRouter = require('./routes/categoryRoutes')(Category);
 var pageRouter = require('./routes/pageRoutes')(Page);
+var feedbackRouter = require('./routes/feedbackRoutes')(Feedback);
 app.use('/api/user', userRouter);
 app.use('/auth', authRouter);
 app.use('/api/project', projectRouter);
 app.use('/api/category', categoryRouter);
 app.use('/api/page', pageRouter);
+app.use('/api/feedback', feedbackRouter);
 //public
 var pageDocsRouter = require('./routes/docs/pageRoutes')(Page);
 var projectDocsRouter = require('./routes/docs/projectRoutes')(Project);
+var feedbackDocsRouter = require('./routes/docs/feedbackRoutes')(Feedback);
 
 app.use('/docs/page', pageDocsRouter);
 app.use('/docs/project', projectDocsRouter);
+app.use('/docs/feedback', feedbackDocsRouter);
 
 
 //redirecting to the users App

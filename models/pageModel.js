@@ -6,6 +6,7 @@ var CodeSample = require('./codeSampleElementModel');
 var CustomHtml = require('./customHtmlElementModel');
 var Table = require('./TableElementModel');
 var TextEditor = require('./textEditorElementModel');
+var Feedback = require('./feedbackModel');
 
 var pageSchema = new mongoose.Schema({
     name: {
@@ -108,6 +109,11 @@ pageSchema.post('remove', function (doc) {
             throw err;
     });
     CustomHtml.remove({ page: pageId }, function (err) {
+        if (err)
+            throw err;
+    });
+    
+    Feedback.remove({ page: pageId }, function (err) {
         if (err)
             throw err;
     });

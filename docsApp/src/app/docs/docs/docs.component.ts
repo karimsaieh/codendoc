@@ -56,7 +56,5 @@ export class DocsComponent implements OnInit {
     }
   }
 
-  collapseMe(i, j) {
-    $('.collapsible').collapsible();//hhhhhhh
-  }
+
 }

@@ -9,13 +9,8 @@ export class ProjectService {
   constructor(private http: Http) {
   }
 
-    getProjectByName(projectName): Observable<any> {
-    let headers = new Headers(
-      {
-        'Authorization': localStorage.getItem('token')
-      });
-    let options = new RequestOptions({ headers: headers });
-    return this.http.get(myGlobals.url + "docs/project/" + projectName, options)
+  getProjectByName(projectName): Observable<any> {
+    return this.http.get(myGlobals.url + "docs/project/" + projectName)
       .map((res: Response) => res.json())
       .catch(this.handleError);
   }

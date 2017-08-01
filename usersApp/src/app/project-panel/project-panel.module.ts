@@ -26,12 +26,14 @@ import { DashboardModule } from './../dashboard/dashboard.module';
 
 import { PagesService } from './services/pages.service';
 import { CategoryService } from './services/category.service';
+import { FeedbackService } from './services/feedback.service';
 import { SideNavItemsService } from './services/side-nav-items.service';
 
 import { PageResolve } from './resolvers/page-resolve';
 
 
 import { SafeHtmlPipe } from './pipes/safe-html.pipe';
+import { LargeNumbersPipe } from './pipes/large-numbers.pipe';
 
 
 @NgModule({
@@ -45,7 +47,7 @@ import { SafeHtmlPipe } from './pipes/safe-html.pipe';
     EditorModule,
     DragulaModule,
   ],
-  declarations: [ProjectIndexComponent, ProjectPanelComponent, ProjectConfigComponent, PageEditorComponent, EmptyEditorComponent, CodeSampleComponent, TextEditorComponent, TableComponent, CalloutComponent, HeaderComponent, CustomHtmlComponent, SafeHtmlPipe, ElementsMenuComponent],
-  providers: [PagesService, CategoryService, SideNavItemsService,PageResolve]
+  declarations: [ProjectIndexComponent, ProjectPanelComponent, ProjectConfigComponent, PageEditorComponent, EmptyEditorComponent, CodeSampleComponent, TextEditorComponent, TableComponent, CalloutComponent, HeaderComponent, CustomHtmlComponent, SafeHtmlPipe, ElementsMenuComponent, LargeNumbersPipe],
+  providers: [PagesService, CategoryService,FeedbackService, SideNavItemsService,PageResolve]
 })
 export class ProjectPanelModule { }

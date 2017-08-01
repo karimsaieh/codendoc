@@ -6,6 +6,7 @@ import { HeaderComponent } from '../elements/header/header.component';
 import { DragulaService } from 'ng2-dragula';
 
 import { PagesService } from '../services/pages.service';
+import { FeedbackService } from '../services/feedback.service';
 import { SideNavItemsService } from '../services/side-nav-items.service';
 import { ProjectSharedService } from '../../shared/services/project-shared.service';
 
@@ -14,6 +15,7 @@ declare var Materialize: any;
 
 @Component({
   selector: 'app-page-editor',
+  host: { '(window:keydown)': 'hotkeys($event)' },
   templateUrl: './page-editor.component.html',
   styleUrls: ['./page-editor.component.css']
 })
@@ -23,6 +25,8 @@ export class PageEditorComponent implements OnInit {
   pageName;
   elements = [];
   saving = false;
+  Ups;//feedback
+  Downs;//feedback
 
   constructor(private componentFactoryResolver: ComponentFactoryResolver,
     private viewContainerRef: ViewContainerRef,
@@ -31,7 +35,8 @@ export class PageEditorComponent implements OnInit {
     private pagesService: PagesService,
     private sideNavItemsService: SideNavItemsService,
     private projectSharedService: ProjectSharedService,
-    @Inject(DOCUMENT) private document: Document) {
+    @Inject(DOCUMENT) private document: Document,
+    private feedbackService: FeedbackService) {
     route.params.forEach(params => {
       this.pageId = params['pageId'];
       this.initPage(this.pageId);
@@ -51,6 +56,14 @@ export class PageEditorComponent implements OnInit {
   ngOnInit() {
   }
 
+  hotkeys(event) {
+    if (event.keyCode == 83 && event.ctrlKey) {
+      event.preventDefault();
+      if (this.projectSharedService.saved == false)
+        this.save();
+    }
+  }
+
   initPage(pageId) {
     this.document.body.scrollTop = 0;
     this.elements = this.route.snapshot.data['page'].elements.sort(function (a, b) { return a.data.order - b.data.order });
@@ -58,6 +71,12 @@ export class PageEditorComponent implements OnInit {
 
     this.projectSharedService.saved = true;
     this.saving = false;
+    this.feedbackService.getFeedbacks(pageId).subscribe(
+      response => {
+        this.Ups = response.Ups;
+        this.Downs = response.Downs;
+      }
+    );
   }
   canDeactivate() {
     if (this.projectSharedService.saved == true) {

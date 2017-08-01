@@ -3,6 +3,8 @@ import { ActivatedRoute, Router } from "@angular/router";
 import { DOCUMENT } from '@angular/platform-browser';
 
 import { SharedProjectService } from "../services/shared-project.service";
+import { FeedbackService } from "../services/feedback.service";
+
 
 declare var $: any;
 @Component({
@@ -15,86 +17,18 @@ export class PageComponent implements OnInit, AfterViewChecked {
   categories;
   nextPage;
   previousPage;
-  customHtmlTest = '<style>.go{color:red}</style><span class="go">i am custom html</span>';
-  tableTest = {
-    "order": 2,
-    "cells": [
-      {
-        "_id": "597d2625d8af952c840448bb",
-        "row": 0,
-        "col": 0,
-        "value": "dfsfsd",
-        "table": "597d2625d8af952c840448b7",
-        "__v": 0
-      },
-      {
-        "_id": "597d2625d8af952c840448bc",
-        "row": 0,
-        "col": 1,
-        "value": "",
-        "table": "597d2625d8af952c840448b7",
-        "__v": 0
-      },
-      {
-        "_id": "597d2625d8af952c840448be",
-        "row": 1,
-        "col": 0,
-        "value": "",
-        "table": "597d2625d8af952c840448b7",
-        "__v": 0
-      },
-      {
-        "_id": "597d2625d8af952c840448bf",
-        "row": 1,
-        "col": 1,
-        "value": "",
-        "table": "597d2625d8af952c840448b7",
-        "__v": 0
-      },
-      {
-        "_id": "597d2625d8af952c840448c0",
-        "row": 1,
-        "col": 2,
-        "value": "",
-        "table": "597d2625d8af952c840448b7",
-        "__v": 0
-      },
-      {
-        "_id": "597d2625d8af952c840448bd",
-        "row": 0,
-        "col": 2,
-        "value": "",
-        "table": "597d2625d8af952c840448b7",
-        "__v": 0
-      }
-
-      ,
-
-      {
-        "_id": "597d2625d8af952c840448bd",
-        "row": 0,
-        "col": 3,
-        "value": "",
-        "table": "597d2625d8af952c840448b7",
-        "__v": 0
-      }, {
-        "_id": "597d2625d8af952c840448bd",
-        "row": 1,
-        "col": 3,
-        "value": "h u yu yiy ui yui yiy ui yui yiy ui yui yiy ui yui yiy ui yui yiy ui yui yiy ui yui yiy ui yui yiy ui yui yiy ui yui yiy ui yui yiy ui yui yiy ui yui yiy ui yui yiy ui yui yiy ui yui yiy ui yui yiy ui yui yiy ui yui yiy ui yui yiy ui yui ",
-        "table": "597d2625d8af952c840448b7",
-        "__v": 0
-      }
-    ]
-  }
-  ;
-  textEditorTest = '<p class="ql-align-center"><strong class="ql-size-large" style="color: rgb(102, 185, 102);">Approachable</strong></p><p class="ql-align-center">Already know HTML, CSS and JavaScript? Read the guide and start building things in no time!</p><p class="ql-align-center"><br></p><p class="ql-align-center"><strong class="ql-size-large" style="color: rgb(102, 185, 102);">Versatile</strong></p><p class="ql-align-center">Simple, minimal core with an incrementally adoptable stack that can handle apps of any scale.</p><p class="ql-align-center"><br></p><p class="ql-align-center"><strong class="ql-size-large" style="color: rgb(102, 185, 102);">Performant</strong></p><p class="ql-align-center">20kb min+gzip Runtime</p><p class="ql-align-center">Blazing Fast Virtual DOM</p><p class="ql-align-center">Minimal Optimization Efforts</p>';
+  sections;
+  feedbackValue;
+  feedbackSent;
+  pageId;
 
   elements = [];
   constructor(private activatedRoute: ActivatedRoute,
     private router: Router,
     private sharedProjectService: SharedProjectService,
-    @Inject(DOCUMENT) private document: Document) {
+    @Inject(DOCUMENT) private document: Document,
+    private feedbackService: FeedbackService,
+  ) {
 
   }
   //and the code below is the reason why we should never use jquery + angular
@@ -110,16 +44,20 @@ export class PageComponent implements OnInit, AfterViewChecked {
 
     this.categories = this.sharedProjectService.categories;
     this.activatedRoute.params.subscribe(params => {
+
       this.elements = this.activatedRoute.snapshot.data['page'].elements.sort(function (a, b) { return a.data.order - b.data.order });
       this.initPreviousNextPages(params['pageId']);
       this.initScrollSpySections();
       this.document.body.scrollTop = 0;
       $('.scrollspy').scrollSpy();
       this.x = 0;//scrollspyFix:  ngAfterViewChecked()
+      this.feedbackValue=undefined;
+      this.feedbackSent=false;
+      this.pageId=params['pageId'];
 
     });
   }
-  sections;//empty and content+noheader ?
+
   initScrollSpySections() {
     this.sections = [];
     var i = 0;
@@ -162,7 +100,7 @@ export class PageComponent implements OnInit, AfterViewChecked {
           }
           if (this.categories[i].pages[j].subPages[k]._id == currentPageId) {
             nextIsAhead = true;
-            this.previousPage = currentPreviousPage;//clone object
+            this.previousPage = currentPreviousPage;
           }
           var currentPreviousPage = this.categories[i].pages[j].subPages[k];
         }
@@ -175,5 +113,11 @@ export class PageComponent implements OnInit, AfterViewChecked {
 
   goToPreviousPage() {
     this.router.navigate(['../../page', this.previousPage._id], { relativeTo: this.activatedRoute })
+  }
+
+  sendFeedback(value){
+    this.feedbackValue=value;
+    this.feedbackSent=true,
+    this.feedbackService.submit({page:this.pageId,value}).subscribe();
   }
 }
