@@ -3,9 +3,9 @@
     <thead>
       <tr>
         <th *ngFor="let thead of tableHeaders; let j=index">
-            <div style="min-height: 72px; padding: 10px;">
-         {{thead.value}}
-          </div>
+            <div  [innerHtml]="thead.value" style="min-height: 72px; padding: 0 10px;">
+
+            </div>
         </th>
 
       </tr>
@@ -16,8 +16,7 @@
       <tr *ngFor="let row of table; let i=index" >
 
         <td *ngFor="let cell of row; let j=index" >
-            <div style="min-height: 72px; padding: 10px;">
-            {{table[i][j].value}}
+            <div [innerHtml]="table[i][j].value" style="min-height: 72px; padding: 10px;">
          </div>
         </td>
 

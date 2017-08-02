@@ -1,5 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 
+declare var showdown: any;
 @Component({
   selector: 'app-table',
   templateUrl: './table.component.html',
@@ -15,6 +16,7 @@ export class TableComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
+    var converter = new showdown.Converter();
     this.data.cells.forEach(cell => {
       if (cell.row > this.rowCount)
         this.rowCount = cell.row;
@@ -32,11 +34,11 @@ export class TableComponent implements OnInit {
       this.tableHeaders[i] = {};
     }
     for (var key in this.data.cells) {
+       var html = converter.makeHtml(this.data.cells[key].value).replace(/<ul>/g, '<ul class="browser-default">');
       if (this.data.cells[key]["row"] == 0) {
-        this.tableHeaders[this.data.cells[key]["col"]]["value"] =
-          this.data.cells[key].value;
+        this.tableHeaders[this.data.cells[key]["col"]]["value"] =html;
       } else {
-        this.table[this.data.cells[key]["row"] - 1][this.data.cells[key]["col"]]["value"] = this.data.cells[key].value;
+        this.table[this.data.cells[key]["row"] - 1][this.data.cells[key]["col"]]["value"] = html;
       }
     }
   }

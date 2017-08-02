@@ -15,7 +15,6 @@
   <h5 style="margin-top: 10px;" *ngIf="data.title">
     {{data.title}}
   </h5>
-  <div style="margin-top: 10px;">
-    {{data.body}}
+  <div [innerHtml]="data.body" style="margin-top: 10px; word-break: break-all;">
   </div>
 </div>
