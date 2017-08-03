@@ -1,0 +1,50 @@
+/* Custom Stylesheet */
+/**
+ * Use this file to override Materialize files so you can update
+ * the core Materialize files in the future
+ *
+ * Made By MaterializeCSS.com
+ */
+
+
+
+/***************my style **********************/
+
+/* quill bold correction , problem caused y materialize */
+strong {
+  font-weight: bold;
+}
+
+
+/* codeMirrorOverriding */
+.CodeMirror {
+  /* Set height, width, borders, and global font properties here */
+  font-family: monospace;
+  height: auto;
+  color: black;
+}
+
+.inputFieldError {
+    border-bottom: 1px solid #F44336!important;
+    box-shadow: 0 1px 0 0 #F44336 !important;
+    }
+
+.inputFieldErrorMessage {
+    font-size: 0.8rem;
+    position: absolute;
+    color: #F44336;
+    margin-left: 0.75rem;
+    }
+
+.inputErrorRow{
+    margin:0 0 0 0 !important;
+}
+
+.inputFieldWithError{
+    margin-bottom: 0px !important;
+}
+.inputFieldErrorMessageRow{
+    margin-bottom: 19px !important;
+}
+
+
