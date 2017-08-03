@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from "@angular/router";
 
 import { SharedProjectService } from "../services/shared-project.service";
-declare var $: any;
 @Component({
   selector: 'app-docs',
   templateUrl: './docs.component.html',
@@ -20,7 +19,6 @@ export class DocsComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    $('.collapsible').collapsible();
     this.activatedRoute.params.subscribe(params => {
       this.initPage();
     }

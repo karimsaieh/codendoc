@@ -4,7 +4,7 @@ var Header = require('./headerElementModel');
 var Callout = require('./calloutElementModel');
 var CodeSample = require('./codeSampleElementModel');
 var CustomHtml = require('./customHtmlElementModel');
-var Table = require('./TableElementModel');
+var Table = require('./tableElementModel');
 var TextEditor = require('./textEditorElementModel');
 var Feedback = require('./feedbackModel');
 

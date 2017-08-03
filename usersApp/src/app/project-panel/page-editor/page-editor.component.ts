@@ -34,7 +34,7 @@ export class PageEditorComponent implements OnInit {
     private dragulaService: DragulaService,
     private pagesService: PagesService,
     private sideNavItemsService: SideNavItemsService,
-    private projectSharedService: ProjectSharedService,
+    public projectSharedService: ProjectSharedService,
     @Inject(DOCUMENT) private document: Document,
     private feedbackService: FeedbackService) {
     route.params.forEach(params => {

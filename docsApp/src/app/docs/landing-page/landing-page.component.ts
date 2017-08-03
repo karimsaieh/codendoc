@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from "@angular/router";
 import { SharedProjectService } from "../services/shared-project.service";
 
-declare var $: any;
 @Component({
   selector: 'app-landing-page',
   templateUrl: './landing-page.component.html',
@@ -18,7 +17,6 @@ export class LandingPageComponent implements OnInit {
       private sharedProjectService:SharedProjectService) { }
 
   ngOnInit() {
-    $('.collapsible').collapsible();
       this.categories=this.sharedProjectService.categories;
       this.project =this.sharedProjectService.project;
   }

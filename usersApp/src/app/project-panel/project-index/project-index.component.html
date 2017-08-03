@@ -26,7 +26,7 @@
     <div *ngFor="let category of categories">
       <li>
         <a class="showhim" style="line-height: 35px; height: 35px;">
-          <div class="truncate" style="display:inline-block;width: 176px;font-size: 20px;color: #808080">
+          <div class="truncate" style="display:inline-block;width: 176px;font-size: 18px;color: #808080">
             {{category.name}}
           </div>
           <span class="showme" style="margin-left: 5px;">
@@ -40,7 +40,7 @@
             <div *ngFor="let page of category.pages">
               <li>
                 <a routerLinkActive="myActive" class="showhim" style="line-height: 35px; height: 35px;">
-                  <div [routerLink]="['page',page._id]" class="truncate" style="padding-left: 10px;display:inline-block;width: 197px; cursor: pointer;outline: none;font-size: 17px;">
+                  <div [routerLink]="['page',page._id]" class="truncate" style="padding-left: 10px;display:inline-block;width: 197px; cursor: pointer;outline: none;font-size: 15px;">
                     {{page.name}}
                   </div>
                   <span class="showme" style="margin-left: 5px;">
@@ -54,7 +54,7 @@
                     <div *ngFor="let subPage of page.subPages">
                       <li>
                         <a routerLinkActive="myActive" class="showhim" style="line-height: 35px; height: 35px;">
-                          <div [routerLink]="['page',subPage._id]" class="truncate" style="padding-left: 20px;display:inline-block;width: 215px;cursor: pointer;outline: none;font-size: 14px;">
+                          <div [routerLink]="['page',subPage._id]" class="truncate" style="padding-left: 20px;display:inline-block;width: 215px;cursor: pointer;outline: none;font-size: 12px;">
                             {{subPage.name}}
                           </div>
                           <span class="showme" style="margin-left: 5px;">

@@ -24,7 +24,6 @@ import { ProjectResolve } from "./docs/resolvers/project-resolve";
   imports: [
     BrowserModule,
     HttpModule,
-    RouterModule,
     DocsModule,
     SharedModule,
     RouterModule.forRoot([
