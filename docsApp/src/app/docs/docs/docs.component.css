@@ -1,7 +1,7 @@
- .myActive {
-    background: pink;
+  .myActive {
+    background: rgba(0, 0, 0, 0.1);
   }
 
   .myActive:hover {
-    background: pink;
+    background: rgba(0, 0, 0, 0.1);
   }

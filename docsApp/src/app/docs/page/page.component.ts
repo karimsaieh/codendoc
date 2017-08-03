@@ -21,6 +21,7 @@ export class PageComponent implements OnInit, AfterViewChecked {
   feedbackValue;
   feedbackSent;
   pageId;
+  pageName;
 
   elements = [];
   constructor(private activatedRoute: ActivatedRoute,
@@ -91,6 +92,7 @@ export class PageComponent implements OnInit, AfterViewChecked {
         if (this.categories[i].pages[j]._id == currentPageId) {
           nextIsAhead = true;
           this.previousPage = currentPreviousPage;
+          this.pageName=this.categories[i].pages[j].name;
         }
         var currentPreviousPage = this.categories[i].pages[j];
         for (var k in this.categories[i].pages[j].subPages) {
@@ -101,6 +103,7 @@ export class PageComponent implements OnInit, AfterViewChecked {
           if (this.categories[i].pages[j].subPages[k]._id == currentPageId) {
             nextIsAhead = true;
             this.previousPage = currentPreviousPage;
+            this.pageName=this.categories[i].pages[j].subPages[k].name;
           }
           var currentPreviousPage = this.categories[i].pages[j].subPages[k];
         }

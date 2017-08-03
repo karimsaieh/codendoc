@@ -223,13 +223,7 @@ export class ProjectIndexComponent implements OnInit {
             // Materialize.toast('Page Added succesfully', 2000, 'rounded');
             this.categories[this.categoryKeyOfAddedPage].pages[response.order] = response;
             this.addPageForm.reset();
-            if (this.projectSharedService.saved == false) {
-              var res = confirm('Unsaved changes, do you want to navigate to the new page ?')
-              if (res)
-                this.router.navigate(['./page', response._id], { relativeTo: this.route });
-            } else {
-              this.router.navigate(['./page', response._id], { relativeTo: this.route });
-            }
+            this.router.navigate(['./page', response._id], { relativeTo: this.route });
           },
           error => {
             this.pageFormErrors['name'] = error['name'];
@@ -247,13 +241,7 @@ export class ProjectIndexComponent implements OnInit {
               .pages[this.parentPageKeyOfAddedPage]
               .subPages[response.order] = response;
             this.addPageForm.reset();
-            if (this.projectSharedService.saved == false) {
-              var res = confirm('Unsaved changes, do you want to navigate to the new page ?')
-              if (res)
-                this.router.navigate(['./page', response._id], { relativeTo: this.route });
-            } else {
-              this.router.navigate(['./page', response._id], { relativeTo: this.route });
-            }
+            this.router.navigate(['./page', response._id], { relativeTo: this.route });
           },
           error => {
             this.pageFormErrors['name'] = error['name'];

@@ -23,18 +23,18 @@
       <ul>
         <li style="background: transparent">
           <div style="padding-left: 20px;line-height: 35px; height: 35px;font-weight: bold" >
-               <span class="truncate">{{category.name}}</span>
+               <span class="truncate" style="font-size: 20px;color: #808080">{{category.name}}</span>
                </div>
    
             <ul>
               <li *ngFor="let page of category.pages; let j=index">
-                <a routerLinkActive="myActive" [routerLink]="['page',page._id]" class="blue-text" style="padding-left: 30px;line-height: 35px; height: 35px;">
-                              <span class="truncate">{{page.name}}</span>
+                <a routerLinkActive="myActive" [routerLink]="['page',page._id]"  style="padding-left: 30px;line-height: 35px; height: 35px;">
+                              <span style="font-size: 17px" class="truncate">{{page.name}}</span>
                               </a>
                 <ul>
                   <li *ngFor="let subPage of page.subPages">
-                    <a routerLinkActive="myActive" [routerLink]="['page',subPage._id]" class="green-text " style="padding-left: 40px;line-height: 35px; height: 35px;">
-                                       <span class="truncate">{{subPage.name}}</span>
+                    <a routerLinkActive="myActive" [routerLink]="['page',subPage._id]"  style="padding-left: 40px;line-height: 35px; height: 35px;">
+                                       <span style="font-size: 14px"  class="truncate">{{subPage.name}}</span>
                                        </a>
                   </li>
                 </ul>
