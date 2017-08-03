@@ -1,0 +1,28 @@
+<div style="    overflow-x:scroll">
+  <table>
+    <thead>
+      <tr>
+        <th *ngFor="let thead of tableHeaders; let j=index">
+            <div  [innerHtml]="thead.value" style="min-height: 72px; padding: 0 10px;">
+
+            </div>
+        </th>
+
+      </tr>
+
+    </thead>
+    <tbody>
+
+      <tr *ngFor="let row of table; let i=index" >
+
+        <td *ngFor="let cell of row; let j=index" >
+            <div [innerHtml]="table[i][j].value" style="min-height: 72px; padding: 10px;">
+         </div>
+        </td>
+
+      </tr>
+
+
+    </tbody>
+  </table>
+</div>

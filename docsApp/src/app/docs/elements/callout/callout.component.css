@@ -1,0 +1,68 @@
+
+
+/* ------------------------------------------------------------------------------  */
+.typeIcons{
+    margin-right: 10px;
+    cursor: pointer;
+    color: #d1c8c8
+}
+/* ------------------------------------------------------------------------------  */
+.bs-callout {
+    padding: 10px 20px 10px 20px ;
+    border: 1px solid #eee;
+    border-left-width: 5px;
+    border-radius: 3px;
+}
+.bs-callout h5 {
+    margin-top: 0;
+    margin-bottom: 5px;
+}
+.bs-callout p:last-child {
+    margin-bottom: 0;
+}
+.bs-callout code {
+    border-radius: 3px;
+}
+.bs-callout+.bs-callout {
+    margin-top: -5px;
+}
+.bs-callout-success {
+    border-left-color: #5cb85c;
+    background-color: #f3f8f3;
+}
+.bs-callout-success h5 {
+    color: #5cb85c;
+}
+.bs-callout-success #success {
+    color: #5cb85c;
+}
+.bs-callout-danger {
+    border-left-color: #d9534f;
+    background-color: #fdf7f7;
+}
+.bs-callout-danger h5 {
+    color: #d9534f;
+}
+.bs-callout-danger #danger {
+    color: #d9534f;
+}
+.bs-callout-warning {
+    border-left-color: #f0ad4e;
+      background-color: #fcf8f2;
+}
+.bs-callout-warning h5 {
+    color: #f0ad4e;
+}
+.bs-callout-warning #warning {
+    color: #f0ad4e;
+}
+.bs-callout-info {
+    border-left-color: #5bc0de;
+      background-color: #f4f8fa;
+}
+.bs-callout-info h5 {
+    color: #5bc0de;
+}
+.bs-callout-info #info {
+    color: #5bc0de;
+}

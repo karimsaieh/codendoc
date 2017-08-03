@@ -4,6 +4,7 @@ import { Injectable } from '@angular/core';
 export class ProjectSharedService {
 
   project;
+  saved;//whether the changes on the page are saved or not 
   constructor() { }
 
 }

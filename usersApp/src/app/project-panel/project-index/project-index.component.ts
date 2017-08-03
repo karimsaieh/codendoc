@@ -21,7 +21,7 @@ declare var Materialize: any;
 export class ProjectIndexComponent implements OnInit {
 
   project;
-
+  projectName;
   private sub: any;
   projectId;
   pagesList = this.route.snapshot.data['pagesList'];
@@ -101,14 +101,14 @@ export class ProjectIndexComponent implements OnInit {
     $('.sidebar').css('overflow', 'scroll');
     $('.modal').modal();
 
+    this.projectSharedService.saved = true;
     this.project = this.projectSharedService.project;
-
+    this.projectId = this.project._id;
+    this.projectName = encodeURIComponent(this.project.name);
     this.buildForm();//categoryForm
     this.buildPageForm();
 
-    this.sub = this.route.parent.params.subscribe(params => {
-      this.projectId = params["id"];
-    });
+
     this.categoryService.getCategories(this.projectId)
       .subscribe(
       response => {
@@ -172,7 +172,7 @@ export class ProjectIndexComponent implements OnInit {
         this.categoryService.add(this.addCategoryForm.value['name'], this.projectId).subscribe(
           response => {
             $('#addOrUpdateCategoryModal').modal('close');
-            Materialize.toast('Category added succesfully', 2000, 'rounded');
+            //   Materialize.toast('Category added succesfully', 2000, 'rounded');
             this.categories[response.order] = response;
             this.addCategoryForm.reset();
           },
@@ -220,7 +220,7 @@ export class ProjectIndexComponent implements OnInit {
           .subscribe(
           response => {
             $('#addPageModal').modal('close');
-            Materialize.toast('Page Added succesfully', 2000, 'rounded');
+            // Materialize.toast('Page Added succesfully', 2000, 'rounded');
             this.categories[this.categoryKeyOfAddedPage].pages[response.order] = response;
             this.addPageForm.reset();
             this.router.navigate(['./page', response._id], { relativeTo: this.route });
@@ -236,7 +236,7 @@ export class ProjectIndexComponent implements OnInit {
           .subscribe(
           response => {
             $('#addPageModal').modal('close');
-            Materialize.toast('Page Added succesfully', 2000, 'rounded');
+            // Materialize.toast('Page Added succesfully', 2000, 'rounded');
             this.categories[this.categoryKeyOfAddedPage]
               .pages[this.parentPageKeyOfAddedPage]
               .subPages[response.order] = response;
@@ -258,28 +258,33 @@ export class ProjectIndexComponent implements OnInit {
       if (pages[pageOrder].subPages.length != 0) {
         Materialize.toast('can\'t delete a page that contains sub pages', 2000, 'rounded');
       } else {
-        pageId = pages[pageOrder]._id
+        let res = confirm('Remove the page ?')
+        if (res) {
+          pageId = pages[pageOrder]._id
+          this.pagesService
+            .remove(pages[pageOrder]._id)
+            .subscribe();
+          pages.splice(pageOrder, 1);
+
+          for (var key in pages) {
+            pages[key].order = key;
+          }
+        }
+      }
+    } else {
+      let res = confirm('Remove the page ?')
+      if (res) {
+        let pages = this.categories[categoryOrder].pages[parentPageOrder].subPages;
+        pageId = pages[pageOrder]._id;
         this.pagesService
           .remove(pages[pageOrder]._id)
           .subscribe();
         pages.splice(pageOrder, 1);
-
         for (var key in pages) {
           pages[key].order = key;
         }
       }
-    } else {
-      let pages = this.categories[categoryOrder].pages[parentPageOrder].subPages;
-      pageId = pages[pageOrder]._id;
-      this.pagesService
-        .remove(pages[pageOrder]._id)
-        .subscribe();
-      pages.splice(pageOrder, 1);
-      for (var key in pages) {
-        pages[key].order = key;
-      }
     }
-
     if (pageId == this.route.firstChild.snapshot.params['pageId'])
       this.router.navigate(["../docs"], { relativeTo: this.route });
   }

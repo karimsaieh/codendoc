@@ -3,7 +3,8 @@ var express = require('express');
 var morgan = require('morgan');
 var mongoose = require('mongoose');
 var bodyParser = require('body-parser');
-var passport = require('passport');    
+var passport = require('passport');
+const path = require('path');    
 
 //config
 const env = require('env2')('./.env');
@@ -49,15 +50,9 @@ app.use(function (req, res, next) {
 //importing models
 var User = require('./models/userModel');
 var Project = require('./models/projectModel');
-var Category = require('./models/CategoryModel');
+var Category = require('./models/categoryModel');
 var Page = require('./models/pageModel');
-var Header = require('./models/headerElementModel');
-var Callout = require('./models/calloutElementModel');
-var CodeSample = require('./models/codeSampleElementModel');
-var CustomHtml = require('./models/customHtmlElementModel');
-var Table = require('./models/TableElementModel');
-var Cell = require('./models/tableElementCellModel');
-var textEditor = require('./models/textEditorElementModel');
+var Feedback = require('./models/feedbackModel');
 
 
 
@@ -65,23 +60,38 @@ var textEditor = require('./models/textEditorElementModel');
 app.use('/api/*',passport.authenticate('jwt', { session: false }));
     
 
-
-
-//static //two ng apps .... ng build prod to deploy
+//static //two ng apps .... ng build prod to deploy  
 app.use('/users', express.static(__dirname + '/public/users'));
-app.use('/docs', express.static(__dirname + '/public/docs'));
-
+app.use('/docsApp', express.static(__dirname + '/public/docsApp'));
+app.use('/users', (req, res) => {
+    res.sendFile(path.join(__dirname, '/public/users/index.html'));
+});
+app.use('/docsApp', (req, res) => {
+    res.sendFile(path.join(__dirname, '/public/docsApp/index.html'));
+});
+	
 //defining api Routes
 var userRouter = require('./routes/userRoutes')(User);
 var authRouter = require('./routes/authRoutes')(User);
 var projectRouter = require('./routes/projectRoutes')(Project);
 var categoryRouter = require('./routes/categoryRoutes')(Category);
 var pageRouter = require('./routes/pageRoutes')(Page);
+var feedbackRouter = require('./routes/feedbackRoutes')(Feedback);
 app.use('/api/user', userRouter);
 app.use('/auth', authRouter);
 app.use('/api/project', projectRouter);
 app.use('/api/category', categoryRouter);
 app.use('/api/page', pageRouter);
+app.use('/api/feedback', feedbackRouter);
+//public
+var pageDocsRouter = require('./routes/docs/pageRoutes')(Page);
+var projectDocsRouter = require('./routes/docs/projectRoutes')(Project);
+var feedbackDocsRouter = require('./routes/docs/feedbackRoutes')(Feedback);
+
+app.use('/docs/page', pageDocsRouter);
+app.use('/docs/project', projectDocsRouter);
+app.use('/docs/feedback', feedbackDocsRouter);
+
 
 //redirecting to the users App
 app.use('/',function (req,res) {

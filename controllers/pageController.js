@@ -3,7 +3,7 @@ var Header = require('../models/headerElementModel');
 var Callout = require('../models/calloutElementModel');
 var CodeSample = require('../models/codeSampleElementModel');
 var CustomHtml = require('../models/customHtmlElementModel');
-var Table = require('../models/TableElementModel');
+var Table = require('../models/tableElementModel');
 var Cell = require('../models/tableElementCellModel');
 var TextEditor = require('../models/textEditorElementModel');
 

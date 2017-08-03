@@ -1,0 +1,51 @@
+
+<style>
+  img {
+    display: block;
+    max-width: 230px;
+    max-height: 112px;
+    width: auto;
+    height: auto;
+  }
+</style>
+<ul id="slide-out" class="side-nav fixed " style="height: 100%;  transform: translateX(0%) !important;">
+  <li>
+    <div class="user-view" style="margin-top: 20px; height: 112px;">
+      <div class="background" style="margin: auto;z-index: 1">
+        <a [routerLink]="['landingPage']" style="cursor: pointer;display: block"><img  src="data:image/png;base64,{{project.img}}" style="margin: auto" /></a>
+      </div>
+    </div>
+  </li>
+  <div style="margin: auto;text-align: center;font-weight: bold">{{project.name}}</div>
+  <div style="margin-top: 20px;">
+    <!--  -->
+    <li *ngFor="let category of categories; let i=index">
+      <ul>
+        <li style="background: transparent">
+          <div style="padding-left: 20px;line-height: 35px; height: 35px;font-weight: bold" >
+               <span class="truncate" style="font-size: 18px;color: #808080">{{category.name}}</span>
+               </div>
+   
+            <ul>
+              <li *ngFor="let page of category.pages; let j=index">
+                <a routerLinkActive="myActive" [routerLink]="['page',page._id]"  style="padding-left: 30px;line-height: 35px; height: 35px;">
+                              <span style="font-size: 15px" class="truncate">{{page.name}}</span>
+                              </a>
+                <ul>
+                  <li *ngFor="let subPage of page.subPages">
+                    <a routerLinkActive="myActive" [routerLink]="['page',subPage._id]"  style="padding-left: 40px;line-height: 35px; height: 35px;">
+                                       <span style="font-size: 12px"  class="truncate">{{subPage.name}}</span>
+                                       </a>
+                  </li>
+                </ul>
+              </li>
+            </ul>
+       
+        </li>
+      </ul>
+    </li>
+  </div>
+</ul>
+
+    <router-outlet></router-outlet>
+  

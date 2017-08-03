@@ -1,0 +1,25 @@
+table { 
+    border-spacing: 3px;
+    border-collapse: separate;
+      table-layout: fixed;
+}
+
+td { 
+    padding: 0;
+      border: 1px solid ;
+        border: 1px solid #ccc;
+           width: 200px;
+           vertical-align:top;
+            word-break: break-all;
+      
+}
+    th { 
+    padding: 0;
+      border: 1px solid ;
+        border: 1px solid #ccc;
+        background-color: #F6F6F6;
+           width: 200px;
+           vertical-align:top;
+            word-break: break-all;
+ 
+}

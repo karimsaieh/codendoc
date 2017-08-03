@@ -23,6 +23,9 @@ import { WelcomeGuard } from './guards/welcome.guard';
 import { ProjectGuard } from './guards/project.guard';
 import { ProjectsListResolve } from './reolvers/projects-list-resolve';
 import { PagesListResolve } from './reolvers/pages-list-resolve';
+import { PageCanDeactivate } from './guards/pageCanDeactivate';
+
+
 import { ProfileComponent } from './profile/profile.component';
 
 
@@ -69,7 +72,7 @@ import { ProfileComponent } from './profile/profile.component';
     ]),
 
   ],
-  providers: [AuthGuard, WelcomeGuard, ProjectGuard, ProjectsListResolve,PagesListResolve,],
+  providers: [AuthGuard, WelcomeGuard, ProjectGuard, ProjectsListResolve,PagesListResolve,PageCanDeactivate],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

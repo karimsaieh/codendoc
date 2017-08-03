@@ -1,72 +1,82 @@
-
 <div style=" padding-left:250px ">
-  <div class="container">
-
-<div style="
-   position: fixed;
-   right: 10px;
-   z-index: 998;
-   width: 120px;
-   margin: 10px 0px;
-   ">
-    <div style="width: 100px; margin: 5px auto ;">
-        <a [ngClass]="{disabled : saved}" (click)="save()" class="waves-effect waves-light btn" style="padding:0px 10px ;display: block">
-            <i *ngIf="!saved && !saving" class="material-icons left">save</i>
+   <div class="container">
+      <div style="
+         position: fixed;
+         right: 10px;
+         z-index: 998;
+         width: 120px;
+         margin: 10px 0px;
+         ">
+         <div style="width: 100px; margin: 5px auto ;">
+            <a [ngClass]="{disabled : projectSharedService.saved}" (click)="save()" title="ctrl+s" class="waves-effect waves-light btn"
+            style="padding:0px 10px ;display: block">
+            <i *ngIf="!projectSharedService.saved && !saving" class="material-icons left">save</i>
             <i *ngIf="saving" class="material-icons left fa-spin fa-3x">cached</i>
-            <i *ngIf="saved"  class="material-icons left">done</i>
+            <i *ngIf="projectSharedService.saved"  class="material-icons left">done</i>
             Save
-        </a>
-    </div>
+            </a>
+         </div>
+      </div>
+      <div style="
+         position: fixed;
+         right: 10px;
+         bottom: 10px;
+         width: 80px;
+         z-index: 997;
+         ">
 
-    <div style="width: 100px; margin: 5px auto ;">
-        Feedback
-    </div>
+         <div *ngIf="Ups"> <i class="fa fa-smile-o  fa-lg" style="color: green;" aria-hidden="true"></i>   
+         {{Ups | largeNumbers}} 
+         </div>
 
-</div>
+         <div *ngIf="Downs">
+         <i class="fa fa-meh-o fa-lg" style="color: red;" aria-hidden="true"></i>   
+         {{Downs | largeNumbers}}
+         </div>
 
-
-<div class="row">
-    <div class="input-field col s12">
-        <input id="pageName" type="text" [(ngModel)]="pageName" (ngModelChange)="onChanged()" style=" font-size: 35px;">
-    </div>
-</div>
+      </div>
 
 
-
-
-<app-elements-menu (onClicked)="onElementsMenuClicked($event)" [empty]="elements.length==0" [order]="0"></app-elements-menu>
-<div [dragula]='"elements-bag"' [dragulaModel]='elements'>
-    <div *ngFor="let element of elements">
-        <div class="showhim">
+      <div class="row">
+         <div class="input-field col s12">
+            <input id="pageName" type="text" [(ngModel)]="pageName" (ngModelChange)="onChanged()" style=" font-size: 35px;">
+         </div>
+      </div>
+      
+      
+      <app-elements-menu (onClicked)="onElementsMenuClicked($event)" [empty]="elements.length==0" [order]="0"></app-elements-menu>
+      <div [dragula]='"elements-bag"' [dragulaModel]='elements'>
+      <div *ngFor="let element of elements">
+         <div class="showhim">
             <span style="display: inline-block;position: absolute;">
-                <i (click)="removeElement(element.data.order)" title="Remove" class="fa fa-times-circle showme"  style="color: red;cursor: pointer" ></i>
-                <i title="Reorder" class="fa fa-arrows showme handle"  style="color: chocolate;margin: 0 10px;cursor: move"></i>
+            <i (click)="removeElement(element.data.order)" title="Remove" class="fa fa-times-circle showme"  style="color: red;cursor: pointer" ></i>
+            <i title="Reorder" class="fa fa-arrows showme handle"  style="color: chocolate;margin: 0 10px;cursor: move"></i>
             </span>
-            <div style="padding-left: 50px;">
-                <div *ngIf="element.type=='header'">
-                    <app-header [data]="element.data" (onChanged)="onChanged()"></app-header>
-                </div>
-                <div *ngIf="element.type=='textEditor'">
-                    <app-text-editor [data]="element.data" (onChanged)="onChanged()"></app-text-editor>
-                </div>
-                <div *ngIf="element.type=='codeSample'">
-                    <app-code-sample [data]="element.data" (onChanged)="onChanged()"></app-code-sample>
-                </div>
-                <div *ngIf="element.type=='callout'">
-                    <app-callout [data]="element.data" (onChanged)="onChanged()"></app-callout>
-                </div>
-                <div *ngIf="element.type=='table'">
-                    <app-table [data]="element.data" (onChanged)="onChanged()"></app-table>
-                </div>
-                <div *ngIf="element.type=='customHtml'">
-                    <app-custom-html [data]="element.data" (onChanged)="onChanged()"></app-custom-html>
-                </div>
+            <div style="padding-left: 50px;margin-top: 15px; margin-bottom: 15px;">
+               <div *ngIf="element.type=='header'">
+                  <app-header [data]="element.data" (onChanged)="onChanged()"></app-header>
+               </div>
+               <div *ngIf="element.type=='textEditor'">
+                  <app-text-editor [data]="element.data" (onChanged)="onChanged()"></app-text-editor>
+               </div>
+               <div *ngIf="element.type=='codeSample'">
+                  <app-code-sample [data]="element.data" (onChanged)="onChanged()"></app-code-sample>
+               </div>
+               <div *ngIf="element.type=='callout'">
+                  <app-callout [data]="element.data" (onChanged)="onChanged()"></app-callout>
+               </div>
+               <div *ngIf="element.type=='table'">
+                  <app-table [data]="element.data" (onChanged)="onChanged()"></app-table>
+               </div>
+               <div *ngIf="element.type=='customHtml'">
+                  <app-custom-html [data]="element.data" (onChanged)="onChanged()"></app-custom-html>
+               </div>
             </div>
-        </div>
-        <app-elements-menu (onClicked)="onElementsMenuClicked($event)" [order]="element.data.order + 1"></app-elements-menu>
-    </div>
+         </div>
+         <app-elements-menu (onClicked)="onElementsMenuClicked($event)" [order]="element.data.order + 1"></app-elements-menu>
+      </div>
+   </div>
+   <div style="height: 400px;">
+   </div>
 </div>
-<div style="height: 400px;">
-</div>
-  </div>
 </div>

@@ -10,9 +10,8 @@ import { EmptyEditorComponent } from './empty-editor/empty-editor.component';
 import { NotFoundComponent } from './../shared/not-found/not-found.component';
 
 import { PagesListResolve } from './../reolvers/pages-list-resolve';
-
-
 import { PageResolve } from './resolvers/page-resolve';
+import { PageCanDeactivate } from './../guards/pageCanDeactivate';
 
 export const ProjectPanelRoutingModule: Routes = [
 
@@ -22,7 +21,7 @@ export const ProjectPanelRoutingModule: Routes = [
       pagesList: PagesListResolve
     },
     children: [
-      { path: 'page/:pageId', component: PageEditorComponent, resolve:{
+      { path: 'page/:pageId', component: PageEditorComponent,canDeactivate:[PageCanDeactivate], resolve:{
         page:PageResolve
       }},
       { path: 'emptyEditor', component: EmptyEditorComponent },

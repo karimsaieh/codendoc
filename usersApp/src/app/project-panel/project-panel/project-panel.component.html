@@ -1,14 +1,13 @@
-
 <md-menu #appMenu="mdMenu">
-  <button  [routerLink]="['/dashboard']" md-menu-item>Projects </button>
-  <button  [routerLink]="['/profile']" md-menu-item> Profile </button>
-  <button  (click)="logout()" md-menu-item> Log Out </button>
+  <button [routerLink]="['/dashboard']" md-menu-item>Projects </button>
+  <button [routerLink]="['/profile']" md-menu-item> Profile </button>
+  <button (click)="logout()" md-menu-item> Log Out </button>
 </md-menu>
 
-  <div class="navbar-fixed">
-<nav>
+<div class="navbar-fixed">
+  <nav>
     <div class="nav-wrapper container">
-      <a  class="brand-logo">Logo</a>
+      <a class="brand-logo">Code'n'doc</a>
       <ul id="nav-mobile" class="right">
         <li routerLinkActive="active"><a [routerLink]="['docs']">Documentation</a></li>
         <li routerLinkActive="active"><a [routerLink]="['config']">Settings</a></li>
@@ -17,10 +16,9 @@
           </a>
         </li>
       </ul>
-    </div></nav>
-  </div>
+    </div>
+  </nav>
+</div>
 
 
-  
-
-    <router-outlet></router-outlet>
+<router-outlet></router-outlet>
