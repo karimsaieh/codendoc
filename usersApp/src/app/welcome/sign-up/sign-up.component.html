@@ -1,16 +1,15 @@
-<div style="background-color:  #f2f2f2;">
-  <br><br>
+<div style="margin-top: 4%">
   <div class="container ">
     <form [formGroup]="userSignUpForm" (ngSubmit)="onSubmit()">
 
     <div class="row">
       <div class="col s12">
-        <div class="card horizontal hoverable">
+        <div class="card horizontal">
           <div class="card-image">
-            <img src="https://friendsofpeabody.files.wordpress.com/2015/08/sign-up.png?w=240">
+            <img src="assets/img/signup.png">
           </div>
           <div class="card-stacked">
-            <div class="card-content">
+            <div class="card-content z-depth-1">
 
 
 
@@ -101,8 +100,8 @@
 
             </div>
             <div class="card-action">
-              <a href="#">Already have an account ?</a>
-              <button class="btn waves-effect waves-light right pink accent-2 " type="submit" name="action">Submit
+              <a [routerLink]="['../signin']">Already have an account ?</a>
+              <button class="btn waves-effect waves-light right" type="submit" name="action">Submit
                 <i class="material-icons right">send</i>
                 </button>
             </div>
@@ -112,5 +111,4 @@
     </div>
     </form>
   </div>
-  <br><br>
 </div>

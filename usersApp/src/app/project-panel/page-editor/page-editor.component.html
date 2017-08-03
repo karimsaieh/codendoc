@@ -52,7 +52,7 @@
             <i (click)="removeElement(element.data.order)" title="Remove" class="fa fa-times-circle showme"  style="color: red;cursor: pointer" ></i>
             <i title="Reorder" class="fa fa-arrows showme handle"  style="color: chocolate;margin: 0 10px;cursor: move"></i>
             </span>
-            <div style="padding-left: 50px;">
+            <div style="padding-left: 50px;margin-top: 15px; margin-bottom: 15px;">
                <div *ngIf="element.type=='header'">
                   <app-header [data]="element.data" (onChanged)="onChanged()"></app-header>
                </div>

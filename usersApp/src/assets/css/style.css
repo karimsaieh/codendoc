@@ -24,15 +24,6 @@ strong {
   color: black;
 }
 
-.dark-primary-color    { background: #303F9F; } /* indigo darken-2 */
-.default-primary-color { background: #3F51B5; } /* indigo */
-.light-primary-color   { background: #C5CAE9; } /*  indigo lighten-4 */
-.text-primary-color    { color: #FFFFFF; } /*   white*/
-.accent-color          { background: #FF4081; } /* pink accent-2 */
-.primary-text-color    { color: #212121; } /* grey darken-4*/
-.secondary-text-color  { color: #757575; } /*  grey darken-1 */
-.divider-color         { border-color: #BDBDBD; } /* grey lighten-1 */
-
 .inputFieldError {
     border-bottom: 1px solid #F44336!important;
     box-shadow: 0 1px 0 0 #F44336 !important;

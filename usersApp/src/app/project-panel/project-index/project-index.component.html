@@ -26,39 +26,39 @@
     <div *ngFor="let category of categories">
       <li>
         <a class="showhim" style="line-height: 35px; height: 35px;">
-          <div class="truncate" style="display:inline-block;width: 176px;">
+          <div class="truncate" style="display:inline-block;width: 176px;font-size: 20px;color: #808080">
             {{category.name}}
           </div>
           <span class="showme" style="margin-left: 5px;">
             <a (click) = "onClickUpdateCategory(category.order)" style="cursor: pointer; margin-left: 4px;" title="Update category" class="icon"> <i class="fa fa-pencil-square-o"></i> </a>
             <a (click) = "onClickAddPage(category.order,null)" style="cursor: pointer; margin-left: 4px;" title="Add Page" class="icon"> <i class="fa fa-plus"></i> </a>
-            <a (click) = "onRemoveCategory(category.order)" style="cursor: pointer; margin-left: 4px;" title="Remove Category" class="icon"> <i class="fa fa-times"></i> </a>
+            <a (click) = "onRemoveCategory(category.order)" style="cursor: pointer; margin-left: 4px;color: red" title="Remove Category" class="icon"> <i class="fa fa-times"></i> </a>
           </span>
         </a>
         <ul>
           <div [sortablejs]="category.pages" [sortablejsOptions]="optionsPages">
             <div *ngFor="let page of category.pages">
               <li>
-                <a routerLinkActive="myActive" class="blue-text showhim" style="line-height: 35px; height: 35px;">
-                  <div [routerLink]="['page',page._id]" class="truncate" style="padding-left: 10px;display:inline-block;width: 197px; cursor: pointer;outline: none;">
+                <a routerLinkActive="myActive" class="showhim" style="line-height: 35px; height: 35px;">
+                  <div [routerLink]="['page',page._id]" class="truncate" style="padding-left: 10px;display:inline-block;width: 197px; cursor: pointer;outline: none;font-size: 17px;">
                     {{page.name}}
                   </div>
                   <span class="showme" style="margin-left: 5px;">
                
                     <a (click) = "onClickAddPage(category.order,page.order)" style="cursor: pointer; margin-left: 4px;" title="Add sub page" class="icon"> <i class="fa fa-plus"></i> </a>
-                    <a (click) = "onRemovePage(category.order,page.order,null)" style="cursor: pointer;margin-left: 4px;" title="Remove page" class="icon"> <i class="fa fa-times"></i> </a>
+                    <a (click) = "onRemovePage(category.order,page.order,null)" style="cursor: pointer;margin-left: 4px;color: red" title="Remove page" class="icon"> <i class="fa fa-times"></i> </a>
                   </span>
                 </a>
                 <ul>
                   <div [sortablejs]="page.subPages" [sortablejsOptions]="optionsPages">
                     <div *ngFor="let subPage of page.subPages">
                       <li>
-                        <a routerLinkActive="myActive" class="green-text showhim" style="line-height: 35px; height: 35px;">
-                          <div [routerLink]="['page',subPage._id]" class="truncate" style="padding-left: 20px;display:inline-block;width: 215px;cursor: pointer;outline: none;">
+                        <a routerLinkActive="myActive" class="showhim" style="line-height: 35px; height: 35px;">
+                          <div [routerLink]="['page',subPage._id]" class="truncate" style="padding-left: 20px;display:inline-block;width: 215px;cursor: pointer;outline: none;font-size: 14px;">
                             {{subPage.name}}
                           </div>
                           <span class="showme" style="margin-left: 5px;">
-                            <a (click) = "onRemovePage(category.order,subPage.order,page.order)" style="cursor: pointer;margin-left: 4px;" title="Remove page" class="icon"> <i class="fa fa-times"></i> </a>
+                            <a (click) = "onRemovePage(category.order,subPage.order,page.order)" style="cursor: pointer;margin-left: 4px; color: red" title="Remove page" class="icon"> <i class="fa fa-times"></i> </a>
                           </span>
                         </a>
                       </li>
@@ -72,7 +72,7 @@
       </li>
     </div>
   </div>
-  <button *ngIf="categories" class="waves-effect waves-light pink accent-2 btn" [ngClass]="{'pulse':categories.length==0}"
+  <button *ngIf="categories" class="waves-effect waves-light btn" [ngClass]="{'pulse':categories.length==0}"
     style="margin: auto !important;display: block;margin-top: 30px !important;margin-bottom: 30px !important;" name="addCategory"
     (click)="onClickAddCategory()"> add Category </button>
 </ul>
@@ -99,7 +99,7 @@
 
     </div>
     <div class="modal-footer">
-      <button class="btn waves-effect waves-light pink accent-2" type="submit" name="action">Submit
+      <button class="btn waves-effect waves-light" type="submit" name="action">Submit
     <i class="material-icons right">send</i>
   </button>
 
@@ -130,7 +130,7 @@
 
     </div>
     <div class="modal-footer">
-      <button class="btn waves-effect waves-light pink accent-2" type="submit" name="action">Submit
+      <button class="btn waves-effect waves-light" type="submit" name="action">Submit
     <i class="material-icons right">send</i>
   </button>
 
